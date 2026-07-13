@@ -47,6 +47,10 @@ body:
       label: Wikitext
       description: Put the wikitext for your edit here. Preferrably, include the entire source of the page.
       placeholder: Lorem ipsum dolor sit amet
+      value: |
+        ```
+        wikitext goes here
+        ```
     validations:
       required: true
   - type: markdown
