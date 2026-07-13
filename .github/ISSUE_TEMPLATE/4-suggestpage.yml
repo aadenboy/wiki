@@ -4,7 +4,6 @@ title: "[Creation]: "
 labels: ["new page"]
 assignees:
   - aadenboy
-type: bug
 body:
   - type: markdown
     attributes:
