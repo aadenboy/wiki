@@ -1,0 +1,46 @@
+name: Edit description
+description: Suggest an edit to a page.
+title: "[Edit]: "
+labels: ["edit", "minor"]
+assignees:
+  - aadenboy
+type: enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This is used to edit a page by providing a description of what should be changed or can be improved.
+        You may want to use the "Edit wikitext" template instead if you wish to edit the page directly.
+  - type: input
+    id: page
+    attributes:
+      label: Page to edit
+      description: Which page are you editing?
+      placeholder: ex. Main Page
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Descrpition
+      description: Give a description or a brief summary of what you want changed.
+      placeholder: Lorem ipsum dolor sit amet
+    validations:
+      required: true
+  - type: dropdown
+    id: edittype
+    attributes:
+      label: Edit type
+      description: How is your edit going to be implemented?
+      options:
+        - Add new content
+        - Modify existing content
+        - Remove existing content
+        - Replace existing content
+        - Replace entire page
+      default: 0
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: Note that anything you contribute to the Aadenboy Wiki is to be licensed under CC BY-SA 4.0.

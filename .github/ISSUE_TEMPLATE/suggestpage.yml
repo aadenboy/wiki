@@ -1,0 +1,39 @@
+name: Suggest new page
+description: Suggest a page to be added.
+title: "[Creation]: "
+labels: ["new page"]
+assignees:
+  - aadenboy
+type: enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This is used to suggest a page to be added.
+        You may want to use the "Create page" template instead if you wish to create the page's source directly.
+  - type: input
+    id: page
+    attributes:
+      label: Page to create
+      description: What will be the name of the page?
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Descrpition
+      description: Give a description of what the page will be and why it should be added.
+      placeholder: Lorem ipsum dolor sit amet
+    validations:
+      required: true
+  - type: textarea
+    id: wikitext
+    attributes:
+      label: Wikitext
+      description: Give a description or format for what the page should contain.
+      placeholder: Lorem ipsum dolor sit amet
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: Note that anything you contribute to the Aadenboy Wiki is to be licensed under CC BY-SA 4.0.
