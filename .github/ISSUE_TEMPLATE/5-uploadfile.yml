@@ -1,0 +1,96 @@
+name: Upload file
+description: Add additional files to the wiki
+title: "[Upload]: "
+labels: ["new page"]
+assignees:
+  - aadenboy
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This is used to upload files to the wiki.
+        **Note that only files with content created by Aaden can be added to the wiki, and anything else is out of the scope of the wiki.** This may be subject to change in the future.
+  - type: input
+    id: page
+    attributes:
+      label: File to create
+      description: What will be the name of the file? Use TitleCase for the file.
+    validations:
+      required: true
+  - type: upload
+    id: file
+    attributes:
+      label: File
+      description: What is the file you're uploading?
+    validations:
+      required: true
+      accept: 'png', 'gif', 'jpg', 'jpeg', 'ttf'
+  - type: textarea
+    id: description
+    attributes:
+      label: Descrpition
+      description: Give a description of what the file is and why it should be added. Also note where you got the image from.
+      placeholder: Lorem ipsum dolor sit amet
+    validations:
+      required: true
+  - type: input
+    id: title
+    attributes:
+      label: Title
+      description: What is the title for the file, if there is one? This is used for artwork.
+    validations:
+      required: false
+  - type: input
+    id: date
+    attributes:
+      label: Date
+      description: When was the file uploaded or taken?
+      placeholder: 1 January 1970
+    validations:
+      required: true
+  - type: input
+    id: license
+    attributes:
+      label: License
+      description: What is the license of the file?
+      placeholder: CC BY-SA 4.0
+    validations:
+      required: true
+  - type: input
+    id: lore
+    attributes:
+      label: Lore
+      description: The page title of the lore this is relevant to, if any.
+    validations:
+      required: false
+  - type: textarea
+    id: involved
+    attributes:
+      label: Involved
+      description: Who is seen in the image, and what is happening to them/what are they doing?
+      value: |
+        ```
+        Character name: Description
+        Character name: Description
+        ...
+        ```
+    validations:
+      required: false
+  - type: textarea
+    id: transcription
+    attributes:
+      label: transcription
+      description: A brief textual transcription of the image. Leave this blank if you are unsure.
+      value: |
+        ```
+        wikitext goes here
+        ```
+    validations:
+      required: false
+  - type: input
+    id: explanation
+    attributes:
+      label: Explanation
+      description: A page explaining the contents of the file. You may also want to submit a page creation request if no page exists.
+    validations:
+      required: false
