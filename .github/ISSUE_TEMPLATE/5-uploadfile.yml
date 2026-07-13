@@ -24,7 +24,6 @@ body:
       description: What is the file you're uploading?
     validations:
       required: true
-      accept: ['png', 'gif', 'jpg', 'jpeg', 'ttf']
   - type: textarea
     id: description
     attributes:
