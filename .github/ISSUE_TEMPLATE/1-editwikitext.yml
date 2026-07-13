@@ -4,7 +4,7 @@ title: "[Edit]: "
 labels: ["edit", "wikitext"]
 assignees:
   - aadenboy
-type: enhancement
+type: bug
 body:
   - type: markdown
     attributes:
