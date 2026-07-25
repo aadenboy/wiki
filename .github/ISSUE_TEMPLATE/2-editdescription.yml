@@ -1,7 +1,7 @@
 name: Edit description
 description: Suggest an edit to a page.
 title: "[Edit]: "
-labels: ["edit", "minor"]
+labels: ["edit"]
 assignees:
   - aadenboy
 body:
