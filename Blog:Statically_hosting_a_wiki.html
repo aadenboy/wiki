@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html class="client-nojs" lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<title>Blog:Statically hosting a wiki - aadenboy wiki</title>
+<script>(function(){var className="client-js";var cookie=document.cookie.match(/(?:^|; )my_wikimwclientpreferences=([^;]+)/);if(cookie){cookie[1].split('%2C').forEach(function(pref){className=className.replace(new RegExp('(^| )'+pref.replace(/-clientpref-\w+$|[^\w-]+/g,'')+'-clientpref-\\w+( |$)'),'$1'+pref+'$2');});}document.documentElement.className=className;}());RLCONF={"wgBreakFrames":false,"wgSeparatorTransformTable":["",""],"wgDigitTransformTable":["",""],"wgDefaultDateFormat":"dmy","wgMonthNames":["","January","February","March","April","May","June","July","August","September","October","November","December"],"wgRequestId":"66b76d26fe8c88c06c80857a","wgCanonicalNamespace":"Blog","wgCanonicalSpecialPageName":false,"wgNamespaceNumber":3500,"wgPageName":"Blog:Statically_hosting_a_wiki","wgTitle":"Statically hosting a wiki","wgCurRevisionId":672,"wgRevisionId":672,"wgArticleId":263,"wgIsArticle":true,"wgIsRedirect":false,"wgAction":"view","wgUserName":null,"wgUserGroups":["*"],
+"wgCategories":[],"wgPageViewLanguage":"en","wgPageContentLanguage":"en","wgPageContentModel":"wikitext","wgRelevantPageName":"Blog:Statically_hosting_a_wiki","wgRelevantArticleId":263,"wgIsProbablyEditable":false,"wgRelevantPageIsProbablyEditable":false,"wgRestrictionEdit":[],"wgRestrictionMove":[],"simpleBatchUploadMaxFilesPerBatch":{"*":1000},"wgCiteReferencePreviewsActive":true};RLSTATE={"site.styles":"ready","user.styles":"ready","user":"ready","user.options":"loading","ext.slideshow.css":"ready","ext.cite.styles":"ready","ext.pygments":"ready","skins.vector.styles.legacy":"ready"};RLPAGEMODULES=["ext.slideshow.main","ext.cite.ux-enhancements","ext.pygments.view","site","mediawiki.page.ready","mediawiki.toc","skins.vector.legacy.js","ext.purge"];</script>
+<script>(RLQ=window.RLQ||[]).push(function(){mw.loader.impl(function(){return["user.options@12s5i",function($,jQuery,require,module){mw.user.tokens.set({"patrolToken":"+\\","watchToken":"+\\","csrfToken":"+\\"});
+}];});});</script>
+<link rel="stylesheet" href="/wiki/load.php%3Flang=en&amp;modules=ext.cite.styles|ext.pygments|ext.slideshow.css|skins.vector.styles.legacy&amp;only=styles&amp;skin=vector.css">
+<script async="" src="/wiki/load.php%3Flang=en&amp;modules=startup&amp;only=scripts&amp;raw=1&amp;skin=vector"></script>
+<meta name="ResourceLoaderDynamicStyles" content="">
+<link rel="stylesheet" href="/wiki/load.php%3Flang=en&amp;modules=site.styles&amp;only=styles&amp;skin=vector.css">
+<meta name="generator" content="MediaWiki 1.43.0">
+<meta name="robots" content="max-image-preview:standard">
+<meta name="format-detection" content="telephone=no">
+<meta name="viewport" content="width=1120">
+<link rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/">
+</head>
+<body class="skin-vector-legacy mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-3500 ns-subject page-Blog_Statically_hosting_a_wiki rootpage-Blog_Statically_hosting_a_wiki skin-vector action-view"><div id="mw-page-base" class="noprint"></div>
+<div id="mw-head-base" class="noprint"></div>
+<div id="content" class="mw-body" role="main">
+	<a id="top"></a>
+	<div id="siteNotice"><div id="localNotice" data-nosnippet=""><div class="sitenotice" lang="en" dir="ltr"><div class="cdx-message cdx-message--block cdx-message--warning"><span class="cdx-message&#95;_icon"></span><div class="cdx-message&#95;_content"><div><b>This wiki is in a testing phase!</b> I'm currently rolling out the wiki in an early state to see if the software works statically. If you want to make changes or something has gone wrong, <a rel="nofollow" class="external text" href="https://github.com/aadenboy/wiki/issues/">please post an issue on the GitHub repository</a>.</div></div></div></div></div></div>
+	<div class="mw-indicators">
+	</div>
+	<h1 id="firstHeading" class="firstHeading mw-first-heading"><span class="mw-page-title-namespace">Blog</span><span class="mw-page-title-separator">:</span><span class="mw-page-title-main">Statically hosting a wiki</span></h1>
+	<div id="bodyContent" class="vector-body">
+		<div id="siteSub" class="noprint">From the Aadenboy Wiki</div>
+		<div id="contentSub"><div id="mw-content-subtitle"></div></div>
+		<div id="contentSub2"></div>
+		
+		<div id="jump-to-nav"></div>
+		<a class="mw-jump-link" href="#mw-head">Jump to navigation</a>
+		<div id="mw-content-text" class="mw-body-content"><div class="mw-content-ltr mw-parser-output" lang="en" dir="ltr"><p>There's a lot of ways you can choose to present your information online, and I think wikis generally have the upper hand on a lot of fronts. I won't go into the benefits—that's what the (currently nonexistent) page <a href="/wiki/Blog:Why_use_a_wiki%3F" class="new" title="Blog:Why use a wiki? (page does not exist)">Blog:Why use a wiki?</a> is for—but there's definitely downsides towards trying to use a wiki, majorly with hosting. Given your scope, you could make use out of an existing wikifarm, but generally the more broader it gets (say, with an entire wiki dedicated to any and all of your work) the farms willing to host dwindles down and you could get stuck relying on something like Fandom. You could also choose not to want a wikifarm because you don't expect/want collaborators and wish to keep your content protected, but then you need to deal with hosting the website yourself. In any case, MediaWiki is a dynamic software and unfortunately is extremely expensive, <a rel="nofollow" class="external text" href="https://weirdgloop.org/blog/clankers">and the majority of internet traffic being greedy scrapers definitely doesn't help</a>.<sup id="cite_ref-1" class="reference"><a href="#cite_note-1"><span class="cite-bracket">&#91;</span>note 1<span class="cite-bracket">&#93;</span></a></sup> Oh, also websites cost money, believe it or not? That's probably why you are reading this.
+</p><p>In contrast to all of this, static websites are very easy to host and set up at a cheap price, and there are already many static website hosts like GitHub Pages and Neocities. The obvious solution would be to take a MediaWiki site and turn it into a static snapshot that the service can easily host. This process is actually really easy, but it does have a few drawbacks.
+</p><p>This guide is based on my own experience using a 2018 Mac mini on Sonoma 14.8.7, though I think this should generally be applicable to the common operating systems. Sorry if you are a mobile user...! This blog page won't be static and I'll likely regularly go back and update it; my <a rel="nofollow" class="external text" href="https://aadenboy.github.io/wiki/inbox">inbox</a> and the Issues page for this wiki's repo are available if you know of any changes that can be made.
+</p>
+<div id="toc" class="toc" role="navigation" aria-labelledby="mw-toc-heading"><input type="checkbox" role="button" id="toctogglecheckbox" class="toctogglecheckbox" style="display:none" /><div class="toctitle" lang="en" dir="ltr"><h2 id="mw-toc-heading">Contents</h2><span class="toctogglespan"><label class="toctogglelabel" for="toctogglecheckbox"></label></span></div>
+<ul>
+<li class="toclevel-1 tocsection-1"><a href="#Setting_up_the_wiki"><span class="tocnumber">1</span> <span class="toctext">Setting up the wiki</span></a></li>
+<li class="toclevel-1 tocsection-2"><a href="#Editing_and_styling"><span class="tocnumber">2</span> <span class="toctext">Editing and styling</span></a></li>
+<li class="toclevel-1 tocsection-3"><a href="#Publishing"><span class="tocnumber">3</span> <span class="toctext">Publishing</span></a></li>
+<li class="toclevel-1 tocsection-4"><a href="#Contributions"><span class="tocnumber">4</span> <span class="toctext">Contributions</span></a></li>
+</ul>
+</div>
+
+<h2><span class="mw-headline" id="Setting_up_the_wiki">Setting up the wiki</span></h2>
+<p>Obviously, the first step is to actually get the wiki set up. This isn't relatively hard, as you just need a way to run SQL and PHP on your system. While you don't need a beefy PC, it does help to have a higher-end device as, again, <em>MediaWiki is expensive</em>. I chose to use MAMP for this, but this is the part where I don't really remember what I did and you're on your own. MediaWiki does have <a href="https://www.mediawiki.org/wiki/Local_development_quickstart" class="extiw" title="mw:Local development quickstart">mw:Local development quickstart</a> and <a href="https://www.mediawiki.org/wiki/Manual:Installation_requirements" class="extiw" title="mw:Manual:Installation requirements">mw:Manual:Installation requirements</a>, though I'm not sure if that's what I used. Anyways, once it's running, MediaWiki should give you a quick setup page where you decide the properties of your wiki, and it should be relatively simple from there.
+</p><p>After the setup process, your wiki should now have an automatically generated "LocalSettings.php" file which contains the settings for your wiki. Most important to you will likely be extensions and namespaces only.
+</p>
+<div class="mw-highlight mw-highlight-lang-php mw-content-ltr" dir="ltr"><pre><span></span><span class="c1"># Important for later!</span>
+<span class="nv">$wgGroupPermissions</span><span class="p">[</span><span class="s2">&quot;*&quot;</span><span class="p">][</span><span class="s2">&quot;edit&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="k">false</span><span class="p">;</span>
+
+<span class="c1"># Extensions that I use for this wiki</span>
+<span class="nx">wfLoadExtension</span><span class="p">(</span> <span class="s1">&#39;Cite&#39;</span> <span class="p">);</span>                  <span class="c1"># Used for citations.</span>
+<span class="nx">wfLoadExtension</span><span class="p">(</span> <span class="s1">&#39;CategoryTree&#39;</span> <span class="p">);</span>          <span class="c1"># Shows a tree for each category, if they have subcategories.</span>
+<span class="nx">wfLoadExtension</span><span class="p">(</span> <span class="s1">&#39;Gadgets&#39;</span> <span class="p">);</span>               <span class="c1"># Allows the use of gadgets.</span>
+<span class="nx">wfLoadExtension</span><span class="p">(</span> <span class="s1">&#39;Math&#39;</span> <span class="p">);</span>                  <span class="c1"># Renders math equations.</span>
+<span class="nx">wfLoadExtension</span><span class="p">(</span> <span class="s1">&#39;TemplateStyles&#39;</span> <span class="p">);</span>        <span class="c1"># Allows CSS to be defined in Template namespace.</span>
+<span class="nx">wfLoadExtension</span><span class="p">(</span> <span class="s1">&#39;WikiEditor&#39;</span> <span class="p">);</span>            <span class="c1"># Provides the toolbar used when editing by source.</span>
+<span class="nx">wfLoadExtension</span><span class="p">(</span> <span class="s1">&#39;CodeEditor&#39;</span> <span class="p">);</span>            <span class="c1"># Provides a more proper IDE for code pages.</span>
+<span class="nx">wfLoadExtension</span><span class="p">(</span> <span class="s1">&#39;TabberNeue&#39;</span> <span class="p">);</span>            <span class="c1"># Allows the use of tabs in pages. Use this instead of Tabber.</span>
+<span class="nx">wfLoadExtension</span><span class="p">(</span> <span class="s1">&#39;Scribunto&#39;</span> <span class="p">);</span>             <span class="c1"># Allows the use of Lua and the Module namespace.</span>
+<span class="nx">wfLoadExtension</span><span class="p">(</span> <span class="s1">&#39;Purge&#39;</span> <span class="p">);</span>                 <span class="c1"># Adds a purge tab for all pages if you need to refresh the cache.</span>
+<span class="nx">wfLoadExtension</span><span class="p">(</span> <span class="s1">&#39;DynamicPageList4&#39;</span> <span class="p">);</span>      <span class="c1"># Allows a way to quickly query pages based on their properties and contents.</span>
+<span class="nx">wfLoadExtension</span><span class="p">(</span> <span class="s1">&#39;SyntaxHighlight_GeSHi&#39;</span> <span class="p">);</span> <span class="c1"># Allows syntax highlighting code blocks.</span>
+<span class="nx">wfLoadExtension</span><span class="p">(</span> <span class="s1">&#39;PortableInfobox&#39;</span> <span class="p">);</span>       <span class="c1"># Provides the infoboxes used by Fandom.</span>
+<span class="nx">wfLoadExtension</span><span class="p">(</span> <span class="s1">&#39;CodeMirror&#39;</span> <span class="p">);</span>            <span class="c1"># Primarily allows syntax highlighting wikitext when editing source.</span>
+<span class="nx">wfLoadExtension</span><span class="p">(</span> <span class="s1">&#39;TemplateData&#39;</span> <span class="p">);</span>          <span class="c1"># Provides data for templates.</span>
+<span class="nx">wfLoadExtension</span><span class="p">(</span> <span class="s1">&#39;TemplateWizard&#39;</span> <span class="p">);</span>        <span class="c1"># Allows inserting templates in the source editor via a pop-up.</span>
+<span class="nx">wfLoadExtension</span><span class="p">(</span> <span class="s1">&#39;ParserFunctions&#39;</span> <span class="p">);</span>       <span class="c1"># Additional parser functions.</span>
+<span class="nx">wfLoadExtension</span><span class="p">(</span> <span class="s1">&#39;CreateRedirect&#39;</span> <span class="p">);</span>        <span class="c1"># Allows quickly creating redirects to pages.</span>
+<span class="nx">wfLoadExtension</span><span class="p">(</span> <span class="s1">&#39;SimpleBatchUpload&#39;</span> <span class="p">);</span>     <span class="c1"># Allows quickly uploading many files at once.</span>
+<span class="nx">wfLoadExtension</span><span class="p">(</span> <span class="s1">&#39;Interwiki&#39;</span> <span class="p">);</span>             <span class="c1"># Provides an interface for managing interwiki links.</span>
+
+<span class="c1"># Blog namespace, as an example</span>
+<span class="nb">define</span><span class="p">(</span><span class="s2">&quot;NS_BLOG&quot;</span><span class="p">,</span> <span class="mi">3500</span><span class="p">);</span>
+<span class="nb">define</span><span class="p">(</span><span class="s2">&quot;NS_BLOG_TALK&quot;</span><span class="p">,</span> <span class="mi">3501</span><span class="p">);</span>
+<span class="nv">$wgExtraNamespaces</span><span class="p">[</span><span class="nx">NS_BLOG</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Blog&quot;</span><span class="p">;</span>
+<span class="nv">$wgExtraNamespaces</span><span class="p">[</span><span class="nx">NS_BLOG_TALK</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Blog_talk&quot;</span><span class="p">;</span>
+</pre></div>
+<h2><span class="mw-headline" id="Editing_and_styling">Editing and styling</span></h2>
+<p>The neat thing about it being your own private wiki is that you can edit and format it however you like! It does help to have some semblance and keep a mental note of the style of the wiki, but it's entirely up to you what you do and don't include. This is also the only drawback, as unless you find a way to allow others to edit prior to publishing, you're the only contributor. I highly recommend learning how to create templates and modules to make page creation much less time consuming. Also take advantage of any data querying you can get; DPL4 and Bucket are my go-to recommends.
+</p><p>For styling your wiki, you'll only need to edit <a href="/wiki/MediaWiki:Common.css" title="MediaWiki:Common.css">MediaWiki:Common.css</a> and <a href="/wiki/MediaWiki:Common.js" title="MediaWiki:Common.js">MediaWiki:Common.js</a> at the very least, but it helps to learn what else can be customized and change their respective MediaWiki namespace pages too. If you're unsure, you can append "?uselang=qqx" to any page to see which placeholders are used. You may like <a href="/wiki/MediaWiki:Sidebar" title="MediaWiki:Sidebar">MediaWiki:Sidebar</a> and <a href="/wiki/MediaWiki:Tagline" title="MediaWiki:Tagline">MediaWiki:Tagline</a>. Now, of course, it's very easy to go in the wrong direction when formatting and styling a wiki (though take my word however you like), so I'll write a blog page on that later.
+</p>
+<h2><span class="mw-headline" id="Publishing">Publishing</span></h2>
+<p>Now the fun part: publishing! It's actually a rather simple process. If you use Mac or Linux, you should already have the <code>wget</code> command available, though you can still install it if you use Windows. All we're going to use it for is to visit each webpage we want available and save it as an HTML file (alongside any resources). The simplest way to do this is to simply start at one page and crawl as much as physically possible, which works if you really want it to be exactly as seen, but generally isn't the best result and takes a long time.<sup id="cite_ref-2" class="reference"><a href="#cite_note-2"><span class="cite-bracket">&#91;</span>note 2<span class="cite-bracket">&#93;</span></a></sup> For example, all of the pages are located at <code>/wiki/index.php/</code> rather than just <code>/wiki/</code>.
+</p><p>To solve this, I use <code>wget</code> through a Lua script. The script itself is relatively small, only taking a list of pages to scrape through. You can control which pages you want accessible or updated this way, the former of which can be retrieved via <a href="/wiki/Special:AllPages" title="Special:AllPages">Special:AllPages</a>. It does still take some time to query each page and the prerequisites, but there's not much of a way around that. As a benefit, the script is able to parse the page and modify it to work statically, such as by removing the account buttons and changing links. It also will create an additional page suffixed "?action=edit" which simply reveals the source of the page (assuming you disabled anonymous editing). I've only tested this script with Vector 2010 (the theme this wiki uses), so I don't know how it fares with other skins. Use responsibly, I guess!
+</p>
+<div class="mw-highlight mw-highlight-lang-lua mw-content-ltr" dir="ltr"><pre><span></span><span class="c1">-- https://gist.github.com/liukun/f9ce7d6d14fa45fe9b924a3eed5c3d99</span>
+<span class="kr">function</span> <span class="nf">char_to_hex</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+    <span class="kr">return</span> <span class="nb">string.format</span><span class="p">(</span><span class="s2">&quot;%%%02X&quot;</span><span class="p">,</span> <span class="nb">string.byte</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
+<span class="kr">end</span>
+<span class="kr">function</span> <span class="nf">urlencode</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="kr">if</span> <span class="n">url</span> <span class="o">==</span> <span class="kc">nil</span> <span class="kr">then</span>
+        <span class="kr">return</span>
+    <span class="kr">end</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">url</span><span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">url</span><span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s2">&quot;([^%w :_%%%-%.~=])&quot;</span><span class="p">,</span> <span class="n">char_to_hex</span><span class="p">)</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">url</span><span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;+&quot;</span><span class="p">)</span>
+    <span class="kr">return</span> <span class="n">url</span>
+<span class="kr">end</span>
+
+<span class="kd">local</span> <span class="n">repo</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/aadenboy/wiki/commits/main/&quot;</span>
+<span class="kr">function</span> <span class="nf">fix</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+    <span class="kd">local</span> <span class="n">safetitle</span> <span class="o">=</span> <span class="n">title</span><span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s2">&quot;[%(%)%^%$%%%.%?%+%-]&quot;</span><span class="p">,</span> <span class="s2">&quot;%%%0&quot;</span><span class="p">)</span>
+    <span class="kd">local</span> <span class="n">urltitle</span> <span class="o">=</span> <span class="n">urlencode</span><span class="p">(</span><span class="n">title</span><span class="p">):</span><span class="n">gsub</span><span class="p">(</span><span class="s2">&quot;[%(%)%^%$%%%.%?%+%-]&quot;</span><span class="p">,</span> <span class="s2">&quot;%%%0&quot;</span><span class="p">)</span>
+    <span class="kd">local</span> <span class="n">urltitle2</span> <span class="o">=</span> <span class="n">urlencode</span><span class="p">(</span><span class="n">title</span><span class="p">):</span><span class="n">gsub</span><span class="p">(</span><span class="s2">&quot;%%&quot;</span><span class="p">,</span> <span class="s2">&quot;%%%%&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">safetitle</span><span class="p">,</span> <span class="n">urltitle</span><span class="p">,</span> <span class="n">urltitle2</span><span class="p">)</span>
+    <span class="kd">local</span> <span class="n">file</span> <span class="o">=</span> <span class="nb">io.open</span><span class="p">(</span><span class="s2">&quot;localhost:8888/mediawiki/index.php/&quot;</span><span class="o">..</span><span class="n">title</span><span class="o">..</span><span class="s2">&quot;.html&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+    <span class="kd">local</span> <span class="n">page</span> <span class="o">=</span> <span class="n">file</span><span class="p">:</span><span class="n">read</span><span class="p">(</span><span class="s2">&quot;*a&quot;</span><span class="p">)</span>
+    <span class="n">file</span><span class="p">:</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="n">page</span> <span class="o">=</span> <span class="n">page</span><span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s1">&#39;%s*&lt;nav id=&quot;p%-personal&quot;.-&lt;/nav&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+            <span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s1">&#39;%s*&lt;nav id=&quot;p%-cactions&quot;.-&lt;/nav&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+            <span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s1">&#39;%s*&lt;nav id=&quot;p%-search&quot;.-&lt;/nav&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+            <span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s1">&#39;%s*&lt;nav id=&quot;p%-tb&quot;.-&lt;/nav&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+            <span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s1">&#39;%s*&lt;nav id=&quot;p%-namespaces&quot;.-&lt;/nav&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+            <span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s1">&#39;%s*&lt;link rel=&quot;search&quot;[^&gt;]+&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+            <span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s1">&#39;%s*&lt;link rel=&quot;EditURI&quot;[^&gt;]+&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+            <span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s1">&#39;%s*&lt;link rel=&quot;alternate&quot;[^&gt;]+&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+            <span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s1">&#39;&lt;textarea readonly=&quot;&quot;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;textarea&#39;</span><span class="p">)</span>
+            <span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s1">&#39;%.%/wiki/&#39;</span><span class="p">,</span> <span class="s1">&#39;/wiki/&#39;</span><span class="p">)</span>
+            <span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s1">&#39;%/wiki/&#39;</span><span class="p">,</span> <span class="s1">&#39;/wiki/&#39;</span><span class="p">)</span>
+            <span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s1">&#39;href=&quot;/wiki/&#39;</span><span class="o">..</span><span class="n">urltitle</span><span class="p">,</span> <span class="s1">&#39;href=&quot;&#39;</span><span class="o">..</span><span class="n">urltitle2</span><span class="p">)</span>
+            <span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s1">&#39;href=&quot;&#39;</span><span class="o">..</span><span class="n">urltitle</span><span class="o">..</span><span class="s1">&#39;%.html&#39;</span><span class="p">,</span> <span class="s1">&#39;href=&quot;&#39;</span><span class="o">..</span><span class="n">urltitle2</span><span class="p">)</span>
+            <span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s1">&#39;href=&quot;&#39;</span><span class="o">..</span><span class="n">urltitle</span><span class="o">..</span><span class="s1">&#39;#&#39;</span><span class="p">,</span> <span class="s1">&#39;href=&quot;#&#39;</span><span class="p">)</span>
+            <span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s1">&#39;http://localhost:8888/mediawiki/index%.php/&#39;</span><span class="p">,</span> <span class="s1">&#39;/wiki/&#39;</span><span class="p">)</span>
+            <span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s1">&#39;http://localhost:8888/mediawiki/index%.php/([^&quot;]-)%.html&#39;</span><span class="p">,</span> <span class="s1">&#39;/wiki/%1&#39;</span><span class="p">)</span>
+            <span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s1">&#39;http://localhost:8888/mediawiki/index%.php%?title=&#39;</span><span class="p">,</span> <span class="s1">&#39;/wiki/&#39;</span><span class="p">)</span>
+            <span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s1">&#39;&amp;amp;action=edit&amp;amp;redlink=1&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+            <span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s1">&#39;&lt;li id=&quot;ca%-view&quot;[^</span><span class="se">\n</span><span class="s1">]+&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;li id=&quot;ca-view&quot; class=&quot;selected mw-list-item&quot;&gt;&lt;a href=&quot;&#39;</span><span class="o">..</span><span class="n">urltitle2</span><span class="o">..</span><span class="s1">&#39;&quot;&gt;&lt;span&gt;Read&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;&lt;li id=&quot;ca-viewsource&quot; class=&quot;mw-list-item&quot;&gt;&lt;a href=&quot;&#39;</span><span class="o">..</span><span class="n">urltitle2</span><span class="o">..</span><span class="s1">&#39;%%3Faction=edit&quot; title=&quot;View page source [e]&quot; accesskey=&quot;e&quot;&gt;&lt;span&gt;View source&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;&lt;li id=&quot;ca-history&quot; class=&quot;mw-list-item&quot;&gt;&lt;a href=&quot;&#39;</span><span class="o">..</span><span class="n">repo</span><span class="o">..</span><span class="n">urltitle2</span><span class="o">..</span><span class="s1">&#39;.html&quot; title=&quot;Past revisions of this page [h]&quot; accesskey=&quot;h&quot;&gt;&lt;span&gt;View history&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;&#39;</span><span class="p">)</span>
+            <span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s1">&#39;%s*&lt;a class=&quot;mw%-jump%-link&quot; href=&quot;#searchInput&quot;&gt;Jump to search&lt;/a&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+    <span class="kd">local</span> <span class="n">out</span> <span class="o">=</span> <span class="nb">io.open</span><span class="p">(</span><span class="s2">&quot;localhost:8888/mediawiki/&quot;</span><span class="o">..</span><span class="n">title</span><span class="o">..</span><span class="s2">&quot;.html&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span>
+    <span class="n">out</span><span class="p">:</span><span class="n">write</span><span class="p">(</span><span class="n">page</span><span class="p">)</span>
+    <span class="n">out</span><span class="p">:</span><span class="n">close</span><span class="p">()</span>
+<span class="kr">end</span>
+
+<span class="c1">-- Remember that MediaWiki pages use underscores and (unless you set it otherwise) starts with a capital.</span>
+<span class="kd">local</span> <span class="n">pagesstr</span> <span class="o">=</span> <span class="p">(</span><span class="s">[[</span>
+<span class="s">Pages go here</span>
+<span class="s">Lorem ipsum</span>
+<span class="s">File:Dolor sit amet.png</span>
+<span class="s">]]</span><span class="p">):</span><span class="n">gsub</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span>
+
+<span class="kd">local</span> <span class="n">pages</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="kr">for</span> <span class="n">page</span> <span class="kr">in</span> <span class="n">pagesstr</span><span class="p">:</span><span class="n">gmatch</span><span class="p">(</span><span class="s2">&quot;[^</span><span class="se">\n</span><span class="s2">]+&quot;</span><span class="p">)</span> <span class="kr">do</span>
+    <span class="kd">local</span> <span class="n">code</span> <span class="o">=</span> <span class="nb">os.execute</span><span class="p">(</span><span class="s1">&#39;wget -E -H -k -K -p --content-on-error &quot;/wiki/&#39;</span><span class="o">..</span><span class="n">urlencode</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">..</span><span class="s1">&#39;&quot;&#39;</span><span class="p">)</span>
+    <span class="n">fix</span><span class="p">(</span><span class="n">page</span><span class="p">)</span>
+    <span class="kd">local</span> <span class="n">code</span> <span class="o">=</span> <span class="nb">os.execute</span><span class="p">(</span><span class="s1">&#39;wget -E -H -k -K -p --content-on-error &quot;/wiki/&#39;</span><span class="o">..</span><span class="n">urlencode</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">..</span><span class="s1">&#39;?action=edit&quot;&#39;</span><span class="p">)</span>
+    <span class="n">fix</span><span class="p">(</span><span class="n">page</span><span class="o">..</span><span class="s2">&quot;?action=edit&quot;</span><span class="p">)</span>
+<span class="kr">end</span>
+</pre></div>
+<p>There are likely other bugs I will need to fix sooner, but this works fairly well on my end.
+</p>
+<h2><span class="mw-headline" id="Contributions">Contributions</span></h2>
+<p>While I did say that you're alone when it comes to editing your wiki, you can still allow other people to suggest edits for you. How you go about this is entirely your own preference, but I allow edit suggestions through GitHub Issues, and set up several forms that contributors can fill out. <a rel="nofollow" class="external free" href="https://github.com/aadenboy/wiki/tree/main/.github/ISSUE_TEMPLATE">https://github.com/aadenboy/wiki/tree/main/.github/ISSUE_TEMPLATE</a>
+</p>
+<div style="margin-top: 25px; border-bottom: 1px solid #a2a9b1; width: 25%;"></div>
+<div class="mw-references-wrap"><ol class="references">
+<li id="cite_note-1"><span class="mw-cite-backlink"><a href="#cite_ref-1">↑</a></span> <span class="reference-text">To summarize, bots really like to scrape every single page they can find—and I mean <em>EVERY</em> page. This is fine if they only scrape what the readers will usually see, but if a greedy or stupid bot (aka almost all of them) stumbles onto more expensive pages like, say, <a rel="nofollow" class="external text" href="https://weirdgloop.org/images/posts/clankers_logs.png">the most recent changes which are relevant to page whatever with a limit of N days starting from date XYZ excluding minor edits and at max M results</a>, and any of the other billions of combinations of parameters sent to special pages, then the software has to spend extra effort generating all of those pages. Who knows what they're doing this for (my bets are on AI), but it's rampant and horrible.</span>
+</li>
+<li id="cite_note-2"><span class="mw-cite-backlink"><a href="#cite_ref-2">↑</a></span> <span class="reference-text">Ironically, <em>we're</em> now the nasty web scrapers in a way.</span>
+</li>
+</ol></div>
+<!-- 
+NewPP limit report
+Cached time: 20260815235712
+Cache expiry: 86400
+Reduced expiry: false
+Complications: [show‐toc]
+CPU time usage: 0.160 seconds
+Real time usage: 1.125 seconds
+Preprocessor visited node count: 60/1000000
+Post‐expand include size: 83/2097152 bytes
+Template argument size: 0/2097152 bytes
+Highest expansion depth: 2/100
+Expensive parser function count: 2/100
+Unstrip recursion depth: 0/20
+Unstrip post‐expand size: 21377/5000000 bytes
+-->
+<!--
+Transclusion expansion time report (%,ms,calls,template)
+100.00%    4.659      1 Template:FootnoteBar
+100.00%    4.659      1 -total
+-->
+
+<!-- Saved in parser cache with key my_wiki:pcache:idhash:263-0!canonical and timestamp 20260815235711 and revision id 672. Rendering was triggered because: edit-page
+ -->
+</div>
+<div class="printfooter" data-nosnippet="">Retrieved from "<a dir="ltr" href="/wiki/Blog:Statically_hosting_a_wiki&amp;oldid=672">/wiki/Blog:Statically_hosting_a_wiki&amp;oldid=672</a>"</div></div>
+		<div id="catlinks" class="catlinks catlinks-allhidden" data-mw="interface"></div>
+	</div>
+</div>
+
+<div id="mw-navigation">
+	<h2>Navigation menu</h2>
+	<div id="mw-head">
+
+		<div id="left-navigation">
+
+			
+<nav id="p-variants" class="mw-portlet mw-portlet-variants emptyPortlet vector-menu-dropdown vector-menu" aria-labelledby="p-variants-label"  >
+	<input type="checkbox"
+		id="p-variants-checkbox"
+		role="button"
+		aria-haspopup="true"
+		data-event-name="ui.dropdown-p-variants"
+		class="vector-menu-checkbox"
+		aria-labelledby="p-variants-label"
+	>
+	<label
+		id="p-variants-label"
+		
+		class="vector-menu-heading "
+	>
+		<span class="vector-menu-heading-label">English</span>
+	</label>
+	<div class="vector-menu-content">
+		
+		<ul class="vector-menu-content-list">
+			
+			
+		</ul>
+		
+	</div>
+</nav>
+
+		</div>
+		<div id="right-navigation">
+			
+<nav id="p-views" class="mw-portlet mw-portlet-views vector-menu-tabs vector-menu-tabs-legacy vector-menu" aria-labelledby="p-views-label"  >
+	<h3
+		id="p-views-label"
+		
+		class="vector-menu-heading "
+	>
+		<span class="vector-menu-heading-label">Views</span>
+	</h3>
+	<div class="vector-menu-content">
+		
+		<ul class="vector-menu-content-list">
+			
+			<li id="ca-view" class="selected mw-list-item"><a href="Blog:Statically_hosting_a_wiki"><span>Read</span></a></li><li id="ca-viewsource" class="mw-list-item"><a href="Blog:Statically_hosting_a_wiki%3Faction=edit" title="View page source [e]" accesskey="e"><span>View source</span></a></li><li id="ca-history" class="mw-list-item"><a href="https://github.com/aadenboy/wiki/commits/main/Blog:Statically_hosting_a_wiki.html" title="Past revisions of this page [h]" accesskey="h"><span>View history</span></a></li>
+		</ul>
+		
+	</div>
+</nav>
+
+			
+<div id="p-search" role="search" class="vector-search-box-vue  vector-search-box-show-thumbnail vector-search-box-auto-expand-width vector-search-box">
+	<h3 >Search</h3>
+	<form action="http://localhost:8888/mediawiki/index.php" id="searchform" class="vector-search-box-form">
+		<div id="simpleSearch"
+			class="vector-search-box-inner"
+			 data-search-loc="header-navigation">
+			<input class="vector-search-box-input"
+				 type="search" name="search" placeholder="Search aadenboy wiki" aria-label="Search aadenboy wiki" autocapitalize="sentences" title="Search aadenboy wiki [f]" accesskey="f" id="searchInput"
+			>
+			<input type="hidden" name="title" value="Special:Search">
+			<input id="mw-searchButton"
+				 class="searchButton mw-fallbackSearchButton" type="submit" name="fulltext" title="Search the pages for this text" value="Search">
+			<input id="searchButton"
+				 class="searchButton" type="submit" name="go" title="Go to a page with this exact name if it exists" value="Go">
+		</div>
+	</form>
+</div>
+
+		</div>
+	</div>
+	
+<div id="mw-panel" class="vector-legacy-sidebar">
+	<div id="p-logo" role="banner">
+		<a class="mw-wiki-logo" href="/wiki/Main_Page"
+			title="Visit the main page"></a>
+	</div>
+	
+<nav id="p-navigation" class="mw-portlet mw-portlet-navigation vector-menu-portal portal vector-menu" aria-labelledby="p-navigation-label"  >
+	<h3
+		id="p-navigation-label"
+		
+		class="vector-menu-heading "
+	>
+		<span class="vector-menu-heading-label">Navigation</span>
+	</h3>
+	<div class="vector-menu-content">
+		
+		<ul class="vector-menu-content-list">
+			
+			<li id="n-mainpage-description" class="mw-list-item"><a href="/wiki/Main_Page" title="Visit the main page [z]" accesskey="z"><span>Main page</span></a></li><li id="n-recentchanges" class="mw-list-item"><a href="https://example.com/" rel="nofollow" title="A list of recent changes in the wiki [r]" accesskey="r"><span>Recent changes</span></a></li><li id="n-github" class="mw-list-item"><a href="https://github.com/aadenboy/wiki/" rel="nofollow"><span>View the GitHub</span></a></li><li id="n-donate" class="mw-list-item"><a href="https://github.com/sponsors/aadenboy" rel="nofollow"><span>Donate to me! ❤️</span></a></li>
+		</ul>
+		
+	</div>
+</nav>
+
+	
+<nav id="p-Lists" class="mw-portlet mw-portlet-Lists vector-menu-portal portal vector-menu" aria-labelledby="p-Lists-label"  >
+	<h3
+		id="p-Lists-label"
+		
+		class="vector-menu-heading "
+	>
+		<span class="vector-menu-heading-label">Lists</span>
+	</h3>
+	<div class="vector-menu-content">
+		
+		<ul class="vector-menu-content-list">
+			
+			<li id="n-Characters" class="mw-list-item"><a href="/wiki/List_of_characters"><span>Characters</span></a></li><li id="n-Games" class="mw-list-item"><a href="/wiki/List_of_games"><span>Games</span></a></li><li id="n-Music" class="mw-list-item"><a href="/wiki/List_of_music"><span>Music</span></a></li>
+		</ul>
+		
+	</div>
+</nav>
+
+	
+</div>
+
+</div>
+
+<footer id="footer" class="mw-footer" >
+	<ul id="footer-info">
+	<li id="footer-info-lastmod"> This page was last edited on 15 August 2026, at 23:57.</li>
+	<li id="footer-info-copyright">Content is available under <a class="external" rel="nofollow" href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike</a> unless otherwise noted.</li>
+</ul>
+
+	<ul id="footer-places">
+	<li id="footer-places-privacy"><a href="/wiki/Wiki:Privacy_policy">Privacy policy</a></li>
+	<li id="footer-places-about"><a href="/wiki/Wiki:About">About aadenboy wiki</a></li>
+	<li id="footer-places-test"><a href="https://github.com/aadenboy/wiki/" rel="noreferrer noopener">View the GitHub</a></li>
+</ul>
+
+	<ul id="footer-icons" class="noprint">
+	<li id="footer-copyrightico"><a href="https://creativecommons.org/licenses/by-sa/4.0/" class="cdx-button cdx-button--fake-button cdx-button--size-large cdx-button--fake-button--enabled"><img src="/wiki/resources/assets/licenses/cc-by-sa.png" alt="Creative Commons Attribution-ShareAlike" width="88" height="31" loading="lazy"></a></li>
+	<li id="footer-poweredbyico"><a href="https://www.mediawiki.org/" class="cdx-button cdx-button--fake-button cdx-button--size-large cdx-button--fake-button--enabled"><img src="/wiki/resources/assets/poweredby_mediawiki.svg" alt="Powered by MediaWiki" width="88" height="31" loading="lazy"></a></li>
+</ul>
+
+</footer>
+
+<script>(RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgBackendResponseTime":1075,"wgPageParseReport":{"limitreport":{"cputime":"0.160","walltime":"1.125","ppvisitednodes":{"value":60,"limit":1000000},"postexpandincludesize":{"value":83,"limit":2097152},"templateargumentsize":{"value":0,"limit":2097152},"expansiondepth":{"value":2,"limit":100},"expensivefunctioncount":{"value":2,"limit":100},"unstrip-depth":{"value":0,"limit":20},"unstrip-size":{"value":21377,"limit":5000000},"timingprofile":["100.00%    4.659      1 Template:FootnoteBar","100.00%    4.659      1 -total"]},"cachereport":{"timestamp":"20260815235712","ttl":86400,"transientcontent":false}}});});</script>
+</body>
+</html>
