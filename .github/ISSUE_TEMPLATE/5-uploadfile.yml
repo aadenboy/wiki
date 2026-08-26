@@ -51,7 +51,7 @@ body:
     id: license
     attributes:
       label: License
-      description: What is the license of the file?
+      description: What is the license of the file? The wiki can only host files that are allowed for use on the wiki. If the file is normally not allowed, but has explicit permission from the author, provide a source in this field instead.
       placeholder: CC BY-SA 4.0
     validations:
       required: true
