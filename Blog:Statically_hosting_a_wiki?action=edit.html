@@ -88,7 +88,7 @@ Now the fun part: publishing! It's actually a rather simple process. If you use 
 
 For this, I've got a Lua script that queries the wiki for all of its pages, then does a lot of conversion magic to make it friendlier for a static output. Compared to the prior method, this will go through the entire wiki's contents and parse every page, but that is a necessary tradeoff as I can't really keep track of all the pages I update (I have this on a cronjob anyways). I do allow a way to omit pages from being indexed, so long as the tag &lt;code&gt;&lt;meta name="page-no-include" content="yes"&gt;&lt;/code&gt; is included somewhere in the page (I have &lt;code&gt;$wgRawHtml = true;&lt;/code&gt; enabled). You can see the source at [[Blog:Statically hosting a wiki/Fetcher]].
 
-{{Collapsible|See the original method I used to do this}}
+&lt;!--{{Collapsible|See the original method I used to do this}}
 To solve this, I use &lt;code&gt;wget&lt;/code&gt; through a Lua script. The script itself is relatively small, only taking a list of pages to scrape through. You can control which pages you want accessible or updated this way, the former of which can be retrieved via [[Special:AllPages]]. It does still take some time to query each page and the prerequisites, but there's not much of a way around that. As a benefit, the script is able to parse the page and modify it to work statically, such as by removing the account buttons and changing links. It also will create an additional page suffixed "?action=edit" which simply reveals the source of the page (assuming you disabled anonymous editing). I've only tested this script with Vector 2010 (the theme this wiki uses), so I don't know how it fares with other skins. Use responsibly, I guess!
 
 &lt;syntaxhighlight lang="lua"&gt;
@@ -159,7 +159,7 @@ end
 &lt;/syntaxhighlight&gt;
 
 There are likely other bugs I will need to fix sooner, but this works fairly well on my end.
-{{Collapsible end}}
+{{Collapsible end}}--&gt;
 
 == Contributions ==
 While I did say that you're alone when it comes to editing your wiki, you can still allow other people to suggest edits for you. How you go about this is entirely your own preference, but I allow edit suggestions through GitHub Issues, and set up several forms that contributors can fill out. https://github.com/aadenboy/wiki/tree/main/.github/ISSUE_TEMPLATE
@@ -170,7 +170,7 @@ While I did say that you're alone when it comes to editing your wiki, you can st
 [[Category:Blogs]]
 </textarea><div class="templatesUsed"><div class="mw-templatesUsedExplanation"><p>Templates used on this page:
 </p></div><ul>
-<li><a href="/wiki/Template:Collapsible" title="Template:Collapsible">Template:Collapsible</a> (<a href="/wiki/Template:Collapsible%3Faction=edit" title="Template:Collapsible">view source</a>) </li><li><a href="/wiki/Template:Collapsible_end" title="Template:Collapsible end">Template:Collapsible end</a> (<a href="/wiki/Template:Collapsible_end%3Faction=edit" title="Template:Collapsible end">view source</a>) </li><li><a href="/wiki/Template:FootnoteBar" title="Template:FootnoteBar">Template:FootnoteBar</a> (<a href="/wiki/Template:FootnoteBar%3Faction=edit" title="Template:FootnoteBar">view source</a>) </li><li><a href="/wiki/Template:Hatnote" title="Template:Hatnote">Template:Hatnote</a> (<a href="/wiki/Template:Hatnote%3Faction=edit" title="Template:Hatnote">view source</a>) </li></ul></div><p id="mw-returnto">Return to <a href="/wiki/Blog:Statically_hosting_a_wiki" title="Blog:Statically hosting a wiki">Blog:Statically hosting a wiki</a>.</p>
+<li><a href="/wiki/Template:FootnoteBar" title="Template:FootnoteBar">Template:FootnoteBar</a> (<a href="/wiki/Template:FootnoteBar%3Faction=edit" title="Template:FootnoteBar">view source</a>) </li><li><a href="/wiki/Template:Hatnote" title="Template:Hatnote">Template:Hatnote</a> (<a href="/wiki/Template:Hatnote%3Faction=edit" title="Template:Hatnote">view source</a>) </li></ul></div><p id="mw-returnto">Return to <a href="/wiki/Blog:Statically_hosting_a_wiki" title="Blog:Statically hosting a wiki">Blog:Statically hosting a wiki</a>.</p>
 
 </div>
 		<div id="catlinks" class="catlinks catlinks-allhidden" data-mw="interface"></div>

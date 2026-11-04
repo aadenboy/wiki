@@ -85,79 +85,8 @@
 <h2><span class="mw-headline" id="Publishing">Publishing</span></h2>
 <p>Now the fun part: publishing! It's actually a rather simple process. If you use Mac or Linux, you should already have the <code>wget</code> command available, though you can still install it if you use Windows. All we're going to use it for is to visit each webpage we want available and save it as an HTML file (alongside any resources). The simplest way to do this is to simply start at one page and crawl as much as physically possible, which works if you really want it to be exactly as seen, but generally isn't the best result and takes a long time.<sup id="cite_ref-2" class="reference"><a href="#cite_note-2"><span class="cite-bracket">[</span>note 2<span class="cite-bracket">]</span></a></sup> For example, all of the pages are located at <code>/wiki/index.php/</code> rather than just <code>/wiki/</code>.
 </p><p>For this, I've got a Lua script that queries the wiki for all of its pages, then does a lot of conversion magic to make it friendlier for a static output. Compared to the prior method, this will go through the entire wiki's contents and parse every page, but that is a necessary tradeoff as I can't really keep track of all the pages I update (I have this on a cronjob anyways). I do allow a way to omit pages from being indexed, so long as the tag <code>&lt;meta name="page-no-include" content="yes"&gt;</code> is included somewhere in the page (I have <code>$wgRawHtml = true;</code> enabled). You can see the source at <a href="/wiki/Blog:Statically_hosting_a_wiki/Fetcher" title="Blog:Statically hosting a wiki/Fetcher">Blog:Statically hosting a wiki/Fetcher</a>.
+</p><p><br>
 </p>
-<div style="background: rgba(0 25 45 / 40%); border: 1px solid var(--border-color-base, #a2a9b1); margin: 1em 0;">
-<div style="padding: 1em;" class="mw-collapsible mw-collapsed mw-collapsible-section" data-expandtext="See the original method I used to do this" data-collapsetext="Collapse">
-<p>To solve this, I use <code>wget</code> through a Lua script. The script itself is relatively small, only taking a list of pages to scrape through. You can control which pages you want accessible or updated this way, the former of which can be retrieved via <a href="/wiki/Special:AllPages" title="Special:AllPages">Special:AllPages</a>. It does still take some time to query each page and the prerequisites, but there's not much of a way around that. As a benefit, the script is able to parse the page and modify it to work statically, such as by removing the account buttons and changing links. It also will create an additional page suffixed "?action=edit" which simply reveals the source of the page (assuming you disabled anonymous editing). I've only tested this script with Vector 2010 (the theme this wiki uses), so I don't know how it fares with other skins. Use responsibly, I guess!
-</p>
-<div class="mw-highlight mw-highlight-lang-lua mw-content-ltr" dir="ltr"><pre><span></span><span class="c1">-- https://gist.github.com/liukun/f9ce7d6d14fa45fe9b924a3eed5c3d99</span>
-<span class="kr">function</span> <span class="nf">char_to_hex</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
-    <span class="kr">return</span> <span class="nb">string.format</span><span class="p">(</span><span class="s2">"%%%02X"</span><span class="p">,</span> <span class="nb">string.byte</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
-<span class="kr">end</span>
-<span class="kr">function</span> <span class="nf">urlencode</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-    <span class="kr">if</span> <span class="n">url</span> <span class="o">==</span> <span class="kc">nil</span> <span class="kr">then</span>
-        <span class="kr">return</span>
-    <span class="kr">end</span>
-    <span class="n">url</span> <span class="o">=</span> <span class="n">url</span><span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="s2">"</span><span class="se">\r\n</span><span class="s2">"</span><span class="p">)</span>
-    <span class="n">url</span> <span class="o">=</span> <span class="n">url</span><span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s2">"([^%w :_%%%-%.~=])"</span><span class="p">,</span> <span class="n">char_to_hex</span><span class="p">)</span>
-    <span class="n">url</span> <span class="o">=</span> <span class="n">url</span><span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s2">" "</span><span class="p">,</span> <span class="s2">"+"</span><span class="p">)</span>
-    <span class="kr">return</span> <span class="n">url</span>
-<span class="kr">end</span>
-
-<span class="kd">local</span> <span class="n">repo</span> <span class="o">=</span> <span class="s2">"https://github.com/aadenboy/wiki/commits/main/"</span>
-<span class="kr">function</span> <span class="nf">fix</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
-    <span class="kd">local</span> <span class="n">safetitle</span> <span class="o">=</span> <span class="n">title</span><span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s2">"[%(%)%^%$%%%.%?%+%-]"</span><span class="p">,</span> <span class="s2">"%%%0"</span><span class="p">)</span>
-    <span class="kd">local</span> <span class="n">urltitle</span> <span class="o">=</span> <span class="n">urlencode</span><span class="p">(</span><span class="n">title</span><span class="p">):</span><span class="n">gsub</span><span class="p">(</span><span class="s2">"[%(%)%^%$%%%.%?%+%-]"</span><span class="p">,</span> <span class="s2">"%%%0"</span><span class="p">)</span>
-    <span class="kd">local</span> <span class="n">urltitle2</span> <span class="o">=</span> <span class="n">urlencode</span><span class="p">(</span><span class="n">title</span><span class="p">):</span><span class="n">gsub</span><span class="p">(</span><span class="s2">"%%"</span><span class="p">,</span> <span class="s2">"%%%%"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">safetitle</span><span class="p">,</span> <span class="n">urltitle</span><span class="p">,</span> <span class="n">urltitle2</span><span class="p">)</span>
-    <span class="kd">local</span> <span class="n">file</span> <span class="o">=</span> <span class="nb">io.open</span><span class="p">(</span><span class="s2">"localhost:8888/mediawiki/index.php/"</span><span class="o">..</span><span class="n">title</span><span class="o">..</span><span class="s2">".html"</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span>
-    <span class="kd">local</span> <span class="n">page</span> <span class="o">=</span> <span class="n">file</span><span class="p">:</span><span class="n">read</span><span class="p">(</span><span class="s2">"*a"</span><span class="p">)</span>
-    <span class="n">file</span><span class="p">:</span><span class="n">close</span><span class="p">()</span>
-
-    <span class="n">page</span> <span class="o">=</span> <span class="n">page</span><span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s1">'%s*&lt;nav id="p%-personal".-&lt;/nav&gt;'</span><span class="p">,</span> <span class="s1">''</span><span class="p">)</span>
-            <span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s1">'%s*&lt;nav id="p%-cactions".-&lt;/nav&gt;'</span><span class="p">,</span> <span class="s1">''</span><span class="p">)</span>
-            <span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s1">'%s*&lt;nav id="p%-search".-&lt;/nav&gt;'</span><span class="p">,</span> <span class="s1">''</span><span class="p">)</span>
-            <span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s1">'%s*&lt;nav id="p%-tb".-&lt;/nav&gt;'</span><span class="p">,</span> <span class="s1">''</span><span class="p">)</span>
-            <span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s1">'%s*&lt;nav id="p%-namespaces".-&lt;/nav&gt;'</span><span class="p">,</span> <span class="s1">''</span><span class="p">)</span>
-            <span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s1">'%s*&lt;link rel="search"[^&gt;]+&gt;'</span><span class="p">,</span> <span class="s1">''</span><span class="p">)</span>
-            <span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s1">'%s*&lt;link rel="EditURI"[^&gt;]+&gt;'</span><span class="p">,</span> <span class="s1">''</span><span class="p">)</span>
-            <span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s1">'%s*&lt;link rel="alternate"[^&gt;]+&gt;'</span><span class="p">,</span> <span class="s1">''</span><span class="p">)</span>
-            <span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s1">'&lt;textarea readonly=""'</span><span class="p">,</span> <span class="s1">'&lt;textarea'</span><span class="p">)</span>
-            <span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s1">'%.%./'</span><span class="p">,</span> <span class="s1">'/wiki/'</span><span class="p">)</span>
-            <span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s1">'%./'</span><span class="p">,</span> <span class="s1">'/wiki/'</span><span class="p">)</span>
-            <span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s1">'href="/wiki/'</span><span class="o">..</span><span class="n">urltitle</span><span class="p">,</span> <span class="s1">'href="'</span><span class="o">..</span><span class="n">urltitle2</span><span class="p">)</span>
-            <span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s1">'href="'</span><span class="o">..</span><span class="n">urltitle</span><span class="o">..</span><span class="s1">'%.html'</span><span class="p">,</span> <span class="s1">'href="'</span><span class="o">..</span><span class="n">urltitle2</span><span class="p">)</span>
-            <span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s1">'href="'</span><span class="o">..</span><span class="n">urltitle</span><span class="o">..</span><span class="s1">'#'</span><span class="p">,</span> <span class="s1">'href="#'</span><span class="p">)</span>
-            <span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s1">'http://localhost:8888/mediawiki/index%.php/'</span><span class="p">,</span> <span class="s1">'/wiki/'</span><span class="p">)</span>
-            <span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s1">'http://localhost:8888/mediawiki/index%.php/([^"]-)%.html'</span><span class="p">,</span> <span class="s1">'/wiki/%1'</span><span class="p">)</span>
-            <span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s1">'http://localhost:8888/mediawiki/index%.php%?title='</span><span class="p">,</span> <span class="s1">'/wiki/'</span><span class="p">)</span>
-            <span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s1">'&amp;amp;action=edit&amp;amp;redlink=1'</span><span class="p">,</span> <span class="s1">''</span><span class="p">)</span>
-            <span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s1">'&lt;li id="ca%-view"[^</span><span class="se">\n</span><span class="s1">]+'</span><span class="p">,</span> <span class="s1">'&lt;li id="ca-view" class="selected mw-list-item"&gt;&lt;a href="'</span><span class="o">..</span><span class="n">urltitle2</span><span class="o">..</span><span class="s1">'"&gt;&lt;span&gt;Read&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;&lt;li id="ca-viewsource" class="mw-list-item"&gt;&lt;a href="'</span><span class="o">..</span><span class="n">urltitle2</span><span class="o">..</span><span class="s1">'%%3Faction=edit" title="View page source [e]" accesskey="e"&gt;&lt;span&gt;View source&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;&lt;li id="ca-history" class="mw-list-item"&gt;&lt;a href="'</span><span class="o">..</span><span class="n">repo</span><span class="o">..</span><span class="n">urltitle2</span><span class="o">..</span><span class="s1">'.html" title="Past revisions of this page [h]" accesskey="h"&gt;&lt;span&gt;View history&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;'</span><span class="p">)</span>
-            <span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s1">'%s*&lt;a class="mw%-jump%-link" href="#searchInput"&gt;Jump to search&lt;/a&gt;'</span><span class="p">,</span> <span class="s1">''</span><span class="p">)</span>
-
-    <span class="kd">local</span> <span class="n">out</span> <span class="o">=</span> <span class="nb">io.open</span><span class="p">(</span><span class="s2">"localhost:8888/mediawiki/"</span><span class="o">..</span><span class="n">title</span><span class="o">..</span><span class="s2">".html"</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span>
-    <span class="n">out</span><span class="p">:</span><span class="n">write</span><span class="p">(</span><span class="n">page</span><span class="p">)</span>
-    <span class="n">out</span><span class="p">:</span><span class="n">close</span><span class="p">()</span>
-<span class="kr">end</span>
-
-<span class="c1">-- Remember that MediaWiki pages use underscores and (unless you set it otherwise) starts with a capital.</span>
-<span class="kd">local</span> <span class="n">pagesstr</span> <span class="o">=</span> <span class="p">(</span><span class="s">[[</span>
-<span class="s">Pages go here</span>
-<span class="s">Lorem ipsum</span>
-<span class="s">File:Dolor sit amet.png</span>
-<span class="s">]]</span><span class="p">):</span><span class="n">gsub</span><span class="p">(</span><span class="s2">" "</span><span class="p">,</span> <span class="s2">"_"</span><span class="p">)</span>
-
-<span class="kd">local</span> <span class="n">pages</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="kr">for</span> <span class="n">page</span> <span class="kr">in</span> <span class="n">pagesstr</span><span class="p">:</span><span class="n">gmatch</span><span class="p">(</span><span class="s2">"[^</span><span class="se">\n</span><span class="s2">]+"</span><span class="p">)</span> <span class="kr">do</span>
-    <span class="kd">local</span> <span class="n">code</span> <span class="o">=</span> <span class="nb">os.execute</span><span class="p">(</span><span class="s1">'wget -E -H -k -K -p --content-on-error "http://localhost:8888/mediawiki/index.php/'</span><span class="o">..</span><span class="n">urlencode</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">..</span><span class="s1">'"'</span><span class="p">)</span>
-    <span class="n">fix</span><span class="p">(</span><span class="n">page</span><span class="p">)</span>
-    <span class="kd">local</span> <span class="n">code</span> <span class="o">=</span> <span class="nb">os.execute</span><span class="p">(</span><span class="s1">'wget -E -H -k -K -p --content-on-error "http://localhost:8888/mediawiki/index.php/'</span><span class="o">..</span><span class="n">urlencode</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">..</span><span class="s1">'?action=edit"'</span><span class="p">)</span>
-    <span class="n">fix</span><span class="p">(</span><span class="n">page</span><span class="o">..</span><span class="s2">"?action=edit"</span><span class="p">)</span>
-<span class="kr">end</span>
-</pre></div>
-<p>There are likely other bugs I will need to fix sooner, but this works fairly well on my end.
-</p>
-</div></div>
 <h2><span class="mw-headline" id="Contributions">Contributions</span></h2>
 <p>While I did say that you're alone when it comes to editing your wiki, you can still allow other people to suggest edits for you. How you go about this is entirely your own preference, but I allow edit suggestions through GitHub Issues, and set up several forms that contributors can fill out. <a rel="nofollow" class="external free" href="https://github.com/aadenboy/wiki/tree/main/.github/ISSUE_TEMPLATE">https://github.com/aadenboy/wiki/tree/main/.github/ISSUE_TEMPLATE</a>
 </p>
@@ -253,7 +182,7 @@
 
 <footer id="footer" class="mw-footer">
 	<ul id="footer-info">
-	<li id="footer-info-lastmod"> This page was last edited on 4 November 2026, at 04:26.</li>
+	<li id="footer-info-lastmod"> This page was last edited on 4 November 2026, at 23:19.</li>
 	<li id="footer-info-copyright">Content is available under <a class="external" rel="nofollow" href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike</a> unless otherwise noted.</li>
 </ul>
 
