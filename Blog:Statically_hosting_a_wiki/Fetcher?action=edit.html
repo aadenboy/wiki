@@ -303,6 +303,31 @@ for page in pagesstr:gmatch("[^\n]+") do
 end]]
 &lt;/syntaxhighlight&gt;
 
+I also use this Shell file, though your mileage may vary.
+&lt;syntaxhighlight lang="bash"&gt;
+#!/bin/bash
+export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+
+cd ~/THE/FILE/PATH # Obviously not what it is called; this is just an example.
+: &gt; console.out
+lua fetcher.lua
+
+cd ~/THE/FILE/PATH/localhost:8888/mediawiki
+rm -rf index.php
+cat refmain.css &gt; main.css
+for i in load.php*.css; do
+    cat $i &gt;&gt; main.css
+done
+
+if [[ -n $(git status -s) ]]; then
+    echo "Committing"
+    git add .
+    git commit -m "Automatic update: $(date -u +'%H:%M:%S, %-d %B %Y (UTC)')"
+    git push -u origin main
+    echo "Pushed"
+fi
+&lt;/syntaxhighlight&gt;
+
 [[Category:Blogs]]
 </textarea><div class="templatesUsed"></div><p id="mw-returnto">Return to <a href="/wiki/Blog:Statically_hosting_a_wiki/Fetcher" title="Blog:Statically hosting a wiki/Fetcher">Blog:Statically hosting a wiki/Fetcher</a>.</p>
 
@@ -356,7 +381,7 @@ end]]
 		
 		<ul class="vector-menu-content-list">
 			
-			<li id="n-mainpage-description" class="mw-list-item"><a href="/wiki/Main_Page" title="Visit the main page [z]" accesskey="z"><span>Main page</span></a></li><li id="n-recentchanges" class="mw-list-item"><a href="https://example.com/" rel="nofollow" title="A list of recent changes in the wiki [r]" accesskey="r"><span>Recent changes</span></a></li><li id="n-github" class="mw-list-item"><a href="https://github.com/aadenboy/wiki/" rel="nofollow"><span>View the GitHub</span></a></li><li id="n-donate" class="mw-list-item"><a href="https://github.com/sponsors/aadenboy" rel="nofollow"><span>Donate to me! ❤️</span></a></li>
+			<li id="n-mainpage-description" class="mw-list-item"><a href="/wiki/Main_Page" title="Visit the main page [z]" accesskey="z"><span>Main page</span></a></li><li id="n-recentchanges" class="mw-list-item"><a href="https://github.com/aadenboy/wiki/commits/main/" rel="nofollow" title="A list of recent changes in the wiki [r]" accesskey="r"><span>Recent changes</span></a></li><li id="n-github" class="mw-list-item"><a href="https://github.com/aadenboy/wiki/" rel="nofollow"><span>View the GitHub</span></a></li><li id="n-donate" class="mw-list-item"><a href="https://github.com/sponsors/aadenboy" rel="nofollow"><span>Donate to me! ❤️</span></a></li>
 		</ul>
 		
 	</div>
