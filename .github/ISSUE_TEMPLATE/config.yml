@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Inbox
+    url: https://aadenboy.github.io/inbox/
+    about: Send messages here. They can be anonymous.
+  - name: Email
+    url: mailto:aadenboy@email.com
+    about: Directly message me here.
