@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html class="client-nojs" lang="en" dir="ltr"><head>
+    <meta charset="UTF-8">
+    <title>View source for MediaWiki:Common.css - aadenboy wiki</title>
+    <link rel="stylesheet" href="/wiki/main.css">
+    <script src="https://code.jquery.com/jquery-4.0.0.min.js"></script>
+    <meta name="ResourceLoaderDynamicStyles" content="">
+    <link rel="stylesheet" href="/wiki/sitestyles.css">
+    <meta name="generator" content="MediaWiki 1.43.0">
+    <meta name="robots" content="max-image-preview:standard">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/">
+<meta property="og:site_name" content="Aadenboy Wiki"><meta property="og:url" content="https://aadenboy.github.io/wiki/MediaWiki%3ACommon.css%3Faction%3Dedit"><meta property="og:type" content="website"><meta name="title" property="og:title" content="View source for MediaWiki:Common.css"><meta name="image" property="og:image" content="https://aadenboy.github.io/wiki/resources/assets/licenses/cc-by-sa.png"><meta name="description" property="description" content=""><meta property="twitter:card" content="summary_large_image"><meta property="twitter:title" content="View source for MediaWiki:Common.css"><meta property="twitter:description" content=""><meta property="twitter:image:src" content="https://aadenboy.github.io/wiki/resources/assets/licenses/cc-by-sa.png"><meta property="twitter:image" content="https://aadenboy.github.io/wiki/resources/assets/licenses/cc-by-sa.png"><meta property="twitter:domain" content="https://aadenboy.github.io/wiki/"></head>
+<body class="codeeditor-loading skin-vector-legacy mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-8 ns-subject page-MediaWiki_Common_css rootpage-MediaWiki_Common_css skin-vector action-edit"><div id="mw-page-base" class="noprint"></div>
+<div id="mw-head-base" class="noprint"></div>
+<div id="content" class="mw-body" role="main">
+	<a id="top" href=""></a>
+	<div id="siteNotice"></div>
+	<div class="mw-indicators">
+	</div>
+	<h1 id="firstHeading" class="firstHeading mw-first-heading">View source for MediaWiki:Common.css</h1>
+	<div id="bodyContent" class="vector-body">
+		
+		<div id="contentSub"><div id="mw-content-subtitle">← <a href="/wiki/MediaWiki:Common.css" title="MediaWiki:Common.css">MediaWiki:Common.css</a></div></div>
+		<div id="contentSub2"></div>
+		
+		<div id="jump-to-nav"></div>
+		<a class="mw-jump-link" href="#mw-head">Jump to navigation</a>
+		<a class="mw-jump-link" href="#searchInput">Jump to search</a>
+		<div id="mw-content-text" class="mw-body-content"><p>You do not have permission to edit this page, for the following reasons:
+</p>
+<ul class="permissions-errors"><li class="mw-permissionerror-badaccess-groups">The action you have requested is limited to users in the group: <a href="/wiki/Wiki:Users%3Faction=edit&amp;redlink=1" class="new" title="Wiki:Users (page does not exist)">Users</a>.</li><li class="mw-permissionerror-protectedinterface">This page provides interface text for the software on this wiki, and is protected to prevent abuse.
+To add or change translations for all wikis, please use <a rel="nofollow" class="external text" href="https://translatewiki.net/">translatewiki.net</a>, the MediaWiki localisation project.</li><li class="mw-permissionerror-sitecssprotected">You do not have permission to edit this CSS page because it may affect all visitors.</li></ul><hr>
+<div class="cdx-message cdx-message--block"><span class="cdx-message__icon"></span><div class="cdx-message__content"><div><b>Are you looking to help edit this wiki?</b> Please submit a GitHub Issue to this wiki's repository to suggest changes.</div></div></div><textarea readonly="" accesskey="," id="wpTextbox1" cols="80" rows="25" style="" class="mw-editfont-monospace" lang="en" dir="ltr" name="wpTextbox1">#siteSub, #forceSub {
+    display: block;
+    padding-left: 1.5em;
+    font-size: 120%;
+    font-style: italic;
+}
+body.page-Main_Page.action-view #siteSub,
+body.page-Main_Page.action-submit #siteSub {
+    display: none;
+}
+
+.banner-box {
+	background: rgba(0 25 45 / 40%);
+	padding: 0;
+	margin: 5px;
+	height: 85px;
+	border: 1px solid var(--border-color-base, #a2a9b1);
+}
+.banner-box.banner-mini {
+	margin: 3px;
+	height: 50px;
+}
+.banner-icon img {
+	width: auto;
+	height: 100%;
+	float: left;
+	margin-right: 10px;
+}
+.banner-mini .banner-icon img {
+	margin-right: 5px;
+}
+.banner-flex-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	height: 75px;
+	padding: 5px 0;
+}
+.banner-mini .banner-flex-container {
+	height: 46px;
+	padding: 2px 0;
+}
+.banner-header {
+	font-size: 24px;
+	font-weight: bold;
+	display: block;
+	margin-bottom: 5px;
+}
+.banner-mini .banner-header {
+	font-size: 1.2em;
+	margin-bottom: 0;
+}
+.banner-center .banner-header, .banner-center .banner-content {
+	text-align: center;
+}
+
+.ib-table {
+	float: right;
+	width: 350px;
+	margin: 5px;
+	clear: right;
+}
+.ib-table caption {
+	font-size: 200%;
+}
+.ib-table th {
+	width: 40%;
+}
+
+.cubeContainer {
+	transform-style: preserve-3d;
+    perspective: 100vw;
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+}
+@keyframes spin {
+    from { transform: rotate3d(0, 0, 0, 0deg) }
+      to { transform: rotate3d(1, 1, 1, 360deg) }
+}
+.rotatingCube {
+    transform-style: preserve-3d;
+    transform-origin: 50% 50%;
+    animation: 3s linear infinite spin;
+    width: 1em;
+    height: 1em;
+}
+.rotatingCube .face-1, .rotatingCube .face-2,
+.rotatingCube .face-3, .rotatingCube .face-4,
+.rotatingCube .face-5, .rotatingCube .face-6 {
+	width: 1em;
+	height: 1em;
+	position: absolute;
+	transform-style: preserve-3d;
+}
+.rotatingCube .face-1 {
+    background-color: #f00;
+    transform: translateZ(0.5em);
+}
+.rotatingCube .face-2 {
+    background-color: #0ff;
+    transform: translateZ(-0.5em) rotateY(180deg);
+}
+.rotatingCube .face-3 {
+    background-color: #0f0;
+    transform: translateX(0.5em) rotateY(90deg);
+}
+.rotatingCube .face-4 {
+    background-color: #f0f;
+    transform: translateX(-0.5em) rotateY(270deg);
+}
+.rotatingCube .face-5 {
+    background-color: #00f;
+    transform: translateY(0.5em) rotateX(90deg);
+}
+.rotatingCube .face-6 {
+    background-color: #ff0;
+    transform: translateY(-0.5em) rotateX(270deg);
+}
+
+#p-tb { display: none; }
+
+.pi-media-collection div {
+    display: block;
+}
+
+.pi-media-collection-tabs {
+    display: none;
+}
+
+.mw-collapsible-section button {
+    float: none !important;
+    display: block;
+    width: 100%;
+    text-align: left;
+}
+.mw-collapsible-section:not(.mw-collapsed) button {
+    border-bottom: 1px solid #fff4;
+    margin-bottom: 1em;
+}
+.mw-collapsible-section button::before {
+    content: none;
+}
+.mw-collapsible-section button::after {
+    content: none;
+}
+
+/* -------- */
+
+:root {
+    --pi-background: rgb(7 11 23 / 70%);
+    --pi-secondary-background: rgba(0 10 20 / 50%);
+    --background-color-base: rgb(0 15 10 / 75%);
+    --background-color-neutral-subtle: rgb(5 18 30 / 60%);
+    --background-color-neutral: rgb(3 11 18 / 80%);
+    --background-color-interactive-subtle: rgb(8 18 29 / 60%);
+    --color-base: #e0ebe7;
+    --color-emphasized: #ebf0f7;
+    --color-subtle: #ddd;
+}
+* {
+    font-family: Verdana !important;
+}
+body {
+    background: url("/wiki/images/3/3d/PerlinBG.png");
+    background-attachment: fixed;
+}
+body::before {
+    content: '';
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgb(6 22 23 / 57%);
+    mix-blend-mode: multiply;
+    z-index: -1;
+}
+#content {
+    background: none;
+    position: relative;
+}
+#content::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--background-color-base);
+    mix-blend-mode: hard-light;
+    z-index: -1;
+    backdrop-filter: blur(24px);
+}
+#mw-page-base {
+    background: none;
+}
+.vector-menu-tabs-legacy li {
+    background: var(--background-color-neutral-subtle);
+}
+.vector-menu-tabs-legacy .selected {
+    background: var(--background-color-base);
+}
+#mw-panel nav {
+    background: var(--background-color-neutral-subtle);
+    border: 1px solid #77c1f6;
+    margin-bottom: 1em;
+}
+ul {
+    list-style-image: none !important;
+}
+#footer-icons a {
+	background: none;
+}
+
+a {
+    color: #5a8efa !important;
+}
+a:visited {
+    color: #9bcaff !important;
+}
+a.extiw, a.external {
+    color: #ae6bda !important;
+}
+a.extiw:visited, a.external:visited {
+    color: #cd96f1 !important;
+}
+a.new {
+    color: #ff7070 !important;
+}
+a.new:visited {
+    color: #ff8e8e !important;
+}
+
+#footer li {
+    background: var(--background-color-neutral-subtle);
+    border: 1px solid #77c1f6;
+    padding: 1em;
+    margin-bottom: 0.5em;
+}
+
+.mw-highlight .hll {
+    background-color: #49483e
+}
+
+.mw-highlight {
+    background: #272822;
+    color: #f8f8f2
+}
+
+.mw-highlight .c {
+    color: #959077
+}
+
+.mw-highlight .err {
+    color: #ed007e;
+    background-color: #1e0010
+}
+
+.mw-highlight .esc {
+    color: #f8f8f2
+}
+
+.mw-highlight .g {
+    color: #f8f8f2
+}
+
+.mw-highlight .k {
+    color: #66d9ef
+}
+
+.mw-highlight .l {
+    color: #ae81ff
+}
+
+.mw-highlight .n {
+    color: #f8f8f2
+}
+
+.mw-highlight .o {
+    color: #ff4689
+}
+
+.mw-highlight .x {
+    color: #f8f8f2
+}
+
+.mw-highlight .p {
+    color: #f8f8f2
+}
+
+.mw-highlight .ch {
+    color: #959077
+}
+
+.mw-highlight .cm {
+    color: #959077
+}
+
+.mw-highlight .cp {
+    color: #959077
+}
+
+.mw-highlight .cpf {
+    color: #959077
+}
+
+.mw-highlight .c1 {
+    color: #959077
+}
+
+.mw-highlight .cs {
+    color: #959077
+}
+
+.mw-highlight .gd {
+    color: #ff4689
+}
+
+.mw-highlight .ge {
+    color: #f8f8f2;
+    font-style: italic
+}
+
+.mw-highlight .ges {
+    color: #f8f8f2;
+    font-weight: bold;
+    font-style: italic
+}
+
+.mw-highlight .gr {
+    color: #f8f8f2
+}
+
+.mw-highlight .gh {
+    color: #f8f8f2
+}
+
+.mw-highlight .gi {
+    color: #a6e22e
+}
+
+.mw-highlight .go {
+    color: #66d9ef
+}
+
+.mw-highlight .gp {
+    color: #ff4689;
+    font-weight: bold
+}
+
+.mw-highlight .gs {
+    color: #f8f8f2;
+    font-weight: bold
+}
+
+.mw-highlight .gu {
+    color: #959077
+}
+
+.mw-highlight .gt {
+    color: #f8f8f2
+}
+
+.mw-highlight .kc {
+    color: #66d9ef
+}
+
+.mw-highlight .kd {
+    color: #66d9ef
+}
+
+.mw-highlight .kn {
+    color: #ff4689
+}
+
+.mw-highlight .kp {
+    color: #66d9ef
+}
+
+.mw-highlight .kr {
+    color: #66d9ef
+}
+
+.mw-highlight .kt {
+    color: #66d9ef
+}
+
+.mw-highlight .ld {
+    color: #e6db74
+}
+
+.mw-highlight .m {
+    color: #ae81ff
+}
+
+.mw-highlight .s {
+    color: #e6db74
+}
+
+.mw-highlight .na {
+    color: #a6e22e
+}
+
+.mw-highlight .nb {
+    color: #f8f8f2
+}
+
+.mw-highlight .nc {
+    color: #a6e22e
+}
+
+.mw-highlight .no {
+    color: #66d9ef
+}
+
+.mw-highlight .nd {
+    color: #a6e22e
+}
+
+.mw-highlight .ni {
+    color: #f8f8f2
+}
+
+.mw-highlight .ne {
+    color: #a6e22e
+}
+
+.mw-highlight .nf {
+    color: #a6e22e
+}
+
+.mw-highlight .nl {
+    color: #f8f8f2
+}
+
+.mw-highlight .nn {
+    color: #f8f8f2
+}
+
+.mw-highlight .nx {
+    color: #a6e22e
+}
+
+.mw-highlight .py {
+    color: #f8f8f2
+}
+
+.mw-highlight .nt {
+    color: #ff4689
+}
+
+.mw-highlight .nv {
+    color: #f8f8f2
+}
+
+.mw-highlight .ow {
+    color: #ff4689
+}
+
+.mw-highlight .pm {
+    color: #f8f8f2
+}
+
+.mw-highlight .w {
+    color: #f8f8f2
+}
+
+.mw-highlight .mb {
+    color: #ae81ff
+}
+
+.mw-highlight .mf {
+    color: #ae81ff
+}
+
+.mw-highlight .mh {
+    color: #ae81ff
+}
+
+.mw-highlight .mi {
+    color: #ae81ff
+}
+
+.mw-highlight .mo {
+    color: #ae81ff
+}
+
+.mw-highlight .sa {
+    color: #e6db74
+}
+
+.mw-highlight .sb {
+    color: #e6db74
+}
+
+.mw-highlight .sc {
+    color: #e6db74
+}
+
+.mw-highlight .dl {
+    color: #e6db74
+}
+
+.mw-highlight .sd {
+    color: #e6db74
+}
+
+.mw-highlight .s2 {
+    color: #e6db74
+}
+
+.mw-highlight .se {
+    color: #ae81ff
+}
+
+.mw-highlight .sh {
+    color: #e6db74
+}
+
+.mw-highlight .si {
+    color: #e6db74
+}
+
+.mw-highlight .sx {
+    color: #e6db74
+}
+
+.mw-highlight .sr {
+    color: #e6db74
+}
+
+.mw-highlight .s1 {
+    color: #e6db74
+}
+
+.mw-highlight .ss {
+    color: #e6db74
+}
+
+.mw-highlight .bp {
+    color: #f8f8f2
+}
+
+.mw-highlight .fm {
+    color: #a6e22e
+}
+
+.mw-highlight .vc {
+    color: #f8f8f2
+}
+
+.mw-highlight .vg {
+    color: #f8f8f2
+}
+
+.mw-highlight .vi {
+    color: #f8f8f2
+}
+
+.mw-highlight .vm {
+    color: #f8f8f2
+}
+
+.mw-highlight .il {
+    color: #ae81ff
+}
+</textarea><div class="templatesUsed"></div><p id="mw-returnto">Return to <a href="/wiki/MediaWiki:Common.css" title="MediaWiki:Common.css">MediaWiki:Common.css</a>.</p>
+
+</div>
+		<div id="catlinks" class="catlinks catlinks-allhidden" data-mw="interface"></div>
+	</div>
+</div>
+
+<div id="mw-navigation">
+	<h2>Navigation menu</h2>
+	<div id="mw-head">
+		
+
+
+		
+		<div id="left-navigation">
+			
+<nav id="p-views" class="mw-portlet mw-portlet-views vector-menu-tabs vector-menu-tabs-legacy vector-menu" aria-labelledby="p-views-label">
+	<h3 id="p-views-label" class="vector-menu-heading ">
+		<span class="vector-menu-heading-label">Views</span>
+	</h3>
+	<div class="vector-menu-content">
+		
+		<ul class="vector-menu-content-list">
+			
+			<li id="ca-view" class="mw-list-item"><a href="/wiki/MediaWiki:Common.css"><span>Read</span></a></li><li id="ca-viewsource" class="selected mw-list-item"><a href="/wiki/MediaWiki:Common.css%3Faction=edit" title="View the source of this page for editing." accesskey="e"><span>View source</span></a></li><li id="ca-history" class="mw-list-item"><a href="https://github.com/aadenboy/wiki/commits/main/MediaWiki:Common.css?action=edit.html" title="Past revisions of this page [h]" accesskey="h"><span>View history</span></a></li>
+		</ul>
+		
+	</div>
+</nav>
+
+			
+
+
+			
+
+
+		</div>
+	</div>
+	
+<div id="mw-panel" class="vector-legacy-sidebar">
+	<div id="p-logo" role="banner">
+		<a class="mw-wiki-logo" href="/wiki/Main_Page" title="Visit the main page"></a>
+	</div>
+	
+<nav id="p-navigation" class="mw-portlet mw-portlet-navigation vector-menu-portal portal vector-menu" aria-labelledby="p-navigation-label">
+	<h3 id="p-navigation-label" class="vector-menu-heading ">
+		<span class="vector-menu-heading-label">Navigation</span>
+	</h3>
+	<div class="vector-menu-content">
+		
+		<ul class="vector-menu-content-list">
+			
+			<li id="n-mainpage-description" class="mw-list-item"><a href="/wiki/Main_Page" title="Visit the main page [z]" accesskey="z"><span>Main page</span></a></li><li id="n-recentchanges" class="mw-list-item"><a href="https://github.com/aadenboy/wiki/commits/main/" rel="nofollow" title="A list of recent changes in the wiki [r]" accesskey="r"><span>Recent changes</span></a></li><li id="n-github" class="mw-list-item"><a href="https://github.com/aadenboy/wiki/" rel="nofollow"><span>View the GitHub</span></a></li><li id="n-donate" class="mw-list-item"><a href="https://github.com/sponsors/aadenboy" rel="nofollow"><span>Donate to me! ❤️</span></a></li>
+		</ul>
+		
+	</div>
+</nav>
+
+	
+<nav id="p-Lists" class="mw-portlet mw-portlet-Lists vector-menu-portal portal vector-menu" aria-labelledby="p-Lists-label">
+	<h3 id="p-Lists-label" class="vector-menu-heading ">
+		<span class="vector-menu-heading-label">Lists</span>
+	</h3>
+	<div class="vector-menu-content">
+		
+		<ul class="vector-menu-content-list">
+			
+			<li id="n-Characters" class="mw-list-item"><a href="/wiki/List_of_characters"><span>Characters</span></a></li><li id="n-Games" class="mw-list-item"><a href="/wiki/List_of_games"><span>Games</span></a></li><li id="n-Music" class="mw-list-item"><a href="/wiki/List_of_music"><span>Music</span></a></li>
+		</ul>
+		
+	</div>
+</nav>
+
+
+
+	
+</div>
+
+</div>
+
+<footer id="footer" class="mw-footer">
+	<ul id="footer-info">
+</ul>
+
+	<ul id="footer-places">
+	<li id="footer-places-privacy"><a href="/wiki/Wiki:Privacy_policy">Privacy policy</a></li>
+	<li id="footer-places-about"><a href="/wiki/Wiki:About">About aadenboy wiki</a></li>
+	<li id="footer-places-test"><a href="https://github.com/aadenboy/wiki/" rel="noreferrer noopener">View the GitHub</a></li>
+</ul>
+
+	<ul id="footer-icons" class="noprint">
+	<li id="footer-copyrightico"><a href="https://creativecommons.org/licenses/by-sa/4.0/" class="cdx-button cdx-button--fake-button cdx-button--size-large cdx-button--fake-button--enabled"><img src="/wiki/resources/assets/licenses/cc-by-sa.png" alt="Creative Commons Attribution-ShareAlike" width="88" height="31" loading="lazy" srcset=""></a></li>
+	<li id="footer-poweredbyico"><a href="https://www.mediawiki.org/" class="cdx-button cdx-button--fake-button cdx-button--size-large cdx-button--fake-button--enabled"><img src="/wiki/resources/assets/poweredby_mediawiki.svg" alt="Powered by MediaWiki" width="88" height="31" loading="lazy" srcset=""></a></li>
+</ul>
+
+</footer>
+
+<script async="" src="/wiki/common.js"></script>
+
+</body></html>

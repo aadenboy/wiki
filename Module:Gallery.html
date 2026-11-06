@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html class="client-nojs" lang="en" dir="ltr"><head>
+    <meta charset="UTF-8">
+    <title>Module:Gallery - aadenboy wiki</title>
+    <link rel="stylesheet" href="/wiki/main.css">
+    <script src="https://code.jquery.com/jquery-4.0.0.min.js"></script>
+    <meta name="ResourceLoaderDynamicStyles" content="">
+    <link rel="stylesheet" href="/wiki/sitestyles.css">
+    <meta name="generator" content="MediaWiki 1.43.0">
+    <meta name="robots" content="max-image-preview:standard">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/">
+<meta property="og:site_name" content="Aadenboy Wiki"><meta property="og:url" content="https://aadenboy.github.io/wiki/Module%3AGallery"><meta property="og:type" content="website"><meta name="title" property="og:title" content="Module:Gallery"><meta name="image" property="og:image" content="https://aadenboy.github.io/wiki/resources/assets/licenses/cc-by-sa.png"><meta name="description" property="description" content="Documentation for this module may be created at Module:Gallery/doc"><meta property="twitter:card" content="summary_large_image"><meta property="twitter:title" content="Module:Gallery"><meta property="twitter:description" content="Documentation for this module may be created at Module:Gallery/doc"><meta property="twitter:image:src" content="https://aadenboy.github.io/wiki/resources/assets/licenses/cc-by-sa.png"><meta property="twitter:image" content="https://aadenboy.github.io/wiki/resources/assets/licenses/cc-by-sa.png"><meta property="twitter:domain" content="https://aadenboy.github.io/wiki/"></head>
+<body class="skin-vector-legacy mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-828 ns-subject page-Module_Gallery rootpage-Module_Gallery skin-vector action-view"><div id="mw-page-base" class="noprint"></div>
+<div id="mw-head-base" class="noprint"></div>
+<div id="content" class="mw-body" role="main">
+	<a id="top" href=""></a>
+	<div id="siteNotice"></div>
+	<div class="mw-indicators">
+	</div>
+	<h1 id="firstHeading" class="firstHeading mw-first-heading"><span class="mw-page-title-namespace">Module</span><span class="mw-page-title-separator">:</span><span class="mw-page-title-main">Gallery</span></h1>
+	<div id="bodyContent" class="vector-body">
+		<div id="siteSub" class="noprint">From the Aadenboy Wiki</div>
+		<div id="contentSub"><div id="mw-content-subtitle"></div></div>
+		<div id="contentSub2"></div>
+		
+		<div id="jump-to-nav"></div>
+		<a class="mw-jump-link" href="#mw-head">Jump to navigation</a>
+		<a class="mw-jump-link" href="#searchInput">Jump to search</a>
+		<div id="mw-content-text" class="mw-body-content"><div class="mw-content-ltr mw-parser-output" lang="en" dir="ltr"><p><i>Documentation for this module may be created at <a href="/wiki/Module:Gallery/doc%3Faction=edit&amp;redlink=1" class="new" title="Module:Gallery/doc (page does not exist)">Module:Gallery/doc</a></i>
+</p><div class="mw-highlight mw-highlight-lang-lua mw-content-ltr mw-highlight-lines" dir="ltr"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos" data-line="1"></span></a><span class="kd">local</span> <span class="n">Yesno</span> <span class="o">=</span> <span class="nb">require</span><span class="p">(</span><span class="s2">"Module:Yesno"</span><span class="p">)</span>
+</span><span id="L-2"><a href="#L-2"><span class="linenos" data-line="2"></span></a><span class="kd">local</span> <span class="n">File</span> <span class="o">=</span> <span class="nb">require</span><span class="p">(</span><span class="s2">"Module:File"</span><span class="p">)</span>
+</span><span id="L-3"><a href="#L-3"><span class="linenos" data-line="3"></span></a><span class="kd">local</span> <span class="n">p</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span id="L-4"><a href="#L-4"><span class="linenos" data-line="4"></span></a>
+</span><span id="L-5"><a href="#L-5"><span class="linenos" data-line="5"></span></a><span class="kr">function</span> <span class="nc">p</span><span class="p">.</span><span class="nf">getarg</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">argument</span><span class="p">)</span>
+</span><span id="L-6"><a href="#L-6"><span class="linenos" data-line="6"></span></a>	<span class="kd">local</span> <span class="n">arg</span> <span class="o">=</span> <span class="n">content</span><span class="p">:</span><span class="n">match</span><span class="p">(</span><span class="s2">"%|%s*"</span><span class="o">..</span><span class="n">argument</span><span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s2">"[%^%$%[%]%(%)%+%-%*%?%%%.]"</span><span class="p">,</span> <span class="s2">"%%%0"</span><span class="p">)</span><span class="o">..</span><span class="s2">"%s*=%s*([^|}]+)"</span><span class="p">)</span>
+</span><span id="L-7"><a href="#L-7"><span class="linenos" data-line="7"></span></a>    <span class="kr">return</span> <span class="n">arg</span> <span class="ow">and</span> <span class="n">arg</span><span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s2">"&lt;!%-%-.-%-%-&gt;"</span><span class="p">,</span> <span class="s2">""</span><span class="p">):</span><span class="n">gsub</span><span class="p">(</span><span class="s2">"^%s*(.-)%s*$"</span><span class="p">,</span> <span class="s2">"%1"</span><span class="p">)</span>
+</span><span id="L-8"><a href="#L-8"><span class="linenos" data-line="8"></span></a><span class="kr">end</span>
+</span><span id="L-9"><a href="#L-9"><span class="linenos" data-line="9"></span></a>
+</span><span id="L-10"><a href="#L-10"><span class="linenos" data-line="10"></span></a><span class="kr">function</span> <span class="nc">p</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">list</span><span class="p">,</span> <span class="n">callback</span><span class="p">)</span>
+</span><span id="L-11"><a href="#L-11"><span class="linenos" data-line="11"></span></a>	<span class="kd">local</span> <span class="n">build</span> <span class="o">=</span> <span class="s2">""</span>
+</span><span id="L-12"><a href="#L-12"><span class="linenos" data-line="12"></span></a>	<span class="kd">local</span> <span class="n">amount</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="L-13"><a href="#L-13"><span class="linenos" data-line="13"></span></a>	<span class="kr">for</span> <span class="n">item</span> <span class="kr">in</span> <span class="n">list</span><span class="p">:</span><span class="n">gmatch</span><span class="p">(</span><span class="s2">"[^;]+"</span><span class="p">)</span> <span class="kr">do</span>
+</span><span id="L-14"><a href="#L-14"><span class="linenos" data-line="14"></span></a>		<span class="kd">local</span> <span class="n">title</span> <span class="o">=</span> <span class="n">mw</span><span class="p">.</span><span class="n">title</span><span class="p">.</span><span class="n">new</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+</span><span id="L-15"><a href="#L-15"><span class="linenos" data-line="15"></span></a>		<span class="kd">local</span> <span class="n">content</span> <span class="o">=</span> <span class="n">title</span> <span class="ow">and</span> <span class="n">title</span><span class="p">:</span><span class="n">getContent</span><span class="p">()</span>
+</span><span id="L-16"><a href="#L-16"><span class="linenos" data-line="16"></span></a>		<span class="kr">if</span> <span class="n">content</span> <span class="kr">then</span>
+</span><span id="L-17"><a href="#L-17"><span class="linenos" data-line="17"></span></a>			<span class="kd">local</span> <span class="n">result</span> <span class="o">=</span> <span class="n">callback</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">content</span><span class="p">)</span>
+</span><span id="L-18"><a href="#L-18"><span class="linenos" data-line="18"></span></a>			<span class="n">amount</span> <span class="o">=</span> <span class="n">amount</span> <span class="o">+</span> <span class="p">(</span><span class="n">result</span> <span class="ow">and</span> <span class="mi">1</span> <span class="ow">or</span> <span class="mi">0</span><span class="p">)</span>
+</span><span id="L-19"><a href="#L-19"><span class="linenos" data-line="19"></span></a>			<span class="n">build</span> <span class="o">=</span> <span class="n">build</span><span class="o">..</span><span class="p">(</span><span class="n">result</span> <span class="ow">and</span> <span class="n">result</span><span class="o">..</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span> <span class="ow">or</span> <span class="s2">""</span><span class="p">)</span>
+</span><span id="L-20"><a href="#L-20"><span class="linenos" data-line="20"></span></a>		<span class="kr">end</span>
+</span><span id="L-21"><a href="#L-21"><span class="linenos" data-line="21"></span></a>	<span class="kr">end</span>
+</span><span id="L-22"><a href="#L-22"><span class="linenos" data-line="22"></span></a>	<span class="kr">return</span> <span class="n">build</span><span class="p">:</span><span class="n">sub</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">),</span> <span class="n">amount</span>
+</span><span id="L-23"><a href="#L-23"><span class="linenos" data-line="23"></span></a><span class="kr">end</span>
+</span><span id="L-24"><a href="#L-24"><span class="linenos" data-line="24"></span></a>
+</span><span id="L-25"><a href="#L-25"><span class="linenos" data-line="25"></span></a><span class="kr">function</span> <span class="nc">p</span><span class="p">.</span><span class="nf">build</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span> <span class="c1">-- so jank I need to redo this later</span>
+</span><span id="L-26"><a href="#L-26"><span class="linenos" data-line="26"></span></a>	<span class="kd">local</span> <span class="n">mode</span> <span class="o">=</span> <span class="n">frame</span><span class="p">.</span><span class="n">args</span><span class="p">.</span><span class="n">mode</span> <span class="ow">or</span> <span class="s2">"gallery"</span>
+</span><span id="L-27"><a href="#L-27"><span class="linenos" data-line="27"></span></a>	<span class="kd">local</span> <span class="n">entries</span> <span class="o">=</span> <span class="n">frame</span><span class="p">.</span><span class="n">args</span><span class="p">.</span><span class="n">entries</span> <span class="ow">or</span> <span class="s2">""</span>
+</span><span id="L-28"><a href="#L-28"><span class="linenos" data-line="28"></span></a>	<span class="kd">local</span> <span class="n">expanded</span> <span class="o">=</span> <span class="n">Yesno</span><span class="p">(</span><span class="n">frame</span><span class="p">.</span><span class="n">args</span><span class="p">.</span><span class="n">expanded</span><span class="p">)</span>
+</span><span id="L-29"><a href="#L-29"><span class="linenos" data-line="29"></span></a>	<span class="kd">local</span> <span class="n">maximum</span> <span class="o">=</span> <span class="nb">tonumber</span><span class="p">(</span><span class="n">frame</span><span class="p">.</span><span class="n">args</span><span class="p">.</span><span class="n">maximum</span><span class="p">)</span>
+</span><span id="L-30"><a href="#L-30"><span class="linenos" data-line="30"></span></a>	<span class="kd">local</span> <span class="n">strings</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span id="L-31"><a href="#L-31"><span class="linenos" data-line="31"></span></a>	<span class="kd">local</span> <span class="n">_</span><span class="p">,</span> <span class="n">amount</span> <span class="o">=</span> <span class="n">p</span><span class="p">.</span><span class="n">parse</span><span class="p">(</span><span class="n">entries</span><span class="p">,</span> <span class="kr">function</span><span class="p">(</span><span class="n">entry</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">content</span><span class="p">)</span>
+</span><span id="L-32"><a href="#L-32"><span class="linenos" data-line="32"></span></a>		<span class="kd">local</span> <span class="n">title</span> <span class="o">=</span> <span class="n">p</span><span class="p">.</span><span class="n">getarg</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="s2">"title"</span><span class="p">)</span>
+</span><span id="L-33"><a href="#L-33"><span class="linenos" data-line="33"></span></a>		<span class="kd">local</span> <span class="n">involved</span> <span class="o">=</span> <span class="n">File</span><span class="p">.</span><span class="n">fetchInvolvement</span><span class="p">{</span><span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="n">p</span><span class="p">.</span><span class="n">getarg</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="s2">"involved"</span><span class="p">),</span> <span class="n">frame</span><span class="p">.</span><span class="n">args</span><span class="p">.</span><span class="n">involvement</span><span class="p">}}</span>
+</span><span id="L-34"><a href="#L-34"><span class="linenos" data-line="34"></span></a>		<span class="n">mw</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">getarg</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="s2">"involved"</span><span class="p">),</span> <span class="n">involved</span><span class="p">,</span> <span class="n">frame</span><span class="p">.</span><span class="n">args</span><span class="p">.</span><span class="n">involvement</span><span class="p">)</span>
+</span><span id="L-35"><a href="#L-35"><span class="linenos" data-line="35"></span></a>		<span class="kd">local</span> <span class="n">explanation</span> <span class="o">=</span> <span class="n">p</span><span class="p">.</span><span class="n">getarg</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="s2">"explanation"</span><span class="p">)</span>
+</span><span id="L-36"><a href="#L-36"><span class="linenos" data-line="36"></span></a>		<span class="kd">local</span> <span class="n">transcription</span> <span class="o">=</span> <span class="n">p</span><span class="p">.</span><span class="n">getarg</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="s2">"transcription"</span><span class="p">)</span>
+</span><span id="L-37"><a href="#L-37"><span class="linenos" data-line="37"></span></a>		<span class="kd">local</span> <span class="n">date</span> <span class="o">=</span> <span class="n">p</span><span class="p">.</span><span class="n">getarg</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="s2">"date"</span><span class="p">)</span>
+</span><span id="L-38"><a href="#L-38"><span class="linenos" data-line="38"></span></a>		<span class="n">mw</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">date</span><span class="p">)</span>
+</span><span id="L-39"><a href="#L-39"><span class="linenos" data-line="39"></span></a>		<span class="kd">local</span> <span class="n">str</span> <span class="o">=</span> <span class="s2">""</span>
+</span><span id="L-40"><a href="#L-40"><span class="linenos" data-line="40"></span></a>		<span class="kr">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">"gallery"</span> <span class="kr">then</span>
+</span><span id="L-41"><a href="#L-41"><span class="linenos" data-line="41"></span></a>			<span class="n">str</span> <span class="o">=</span> <span class="n">entry</span>
+</span><span id="L-42"><a href="#L-42"><span class="linenos" data-line="42"></span></a>			    <span class="o">..</span><span class="p">((</span><span class="n">explanation</span> <span class="ow">or</span> <span class="n">involved</span> <span class="o">~=</span> <span class="s2">""</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">"|"</span> <span class="ow">or</span> <span class="s2">""</span><span class="p">)</span>
+</span><span id="L-43"><a href="#L-43"><span class="linenos" data-line="43"></span></a>			    <span class="o">..</span><span class="s2">"''["</span><span class="o">..</span><span class="p">(</span><span class="n">date</span> <span class="ow">or</span> <span class="s2">"Unknown date"</span><span class="p">)</span><span class="o">..</span><span class="s2">"]''&lt;br /&gt;"</span>
+</span><span id="L-44"><a href="#L-44"><span class="linenos" data-line="44"></span></a>			    <span class="o">..</span><span class="p">(</span><span class="n">explanation</span> <span class="ow">and</span> <span class="s2">"([["</span><span class="o">..</span><span class="n">explanation</span><span class="o">..</span><span class="s2">"]]) "</span> <span class="ow">or</span> <span class="s2">""</span><span class="p">)</span>
+</span><span id="L-45"><a href="#L-45"><span class="linenos" data-line="45"></span></a>			    <span class="o">..</span><span class="n">involved</span>
+</span><span id="L-46"><a href="#L-46"><span class="linenos" data-line="46"></span></a>			    <span class="o">..</span><span class="p">(</span><span class="n">transcription</span> <span class="ow">and</span> <span class="s2">"|alt="</span><span class="o">..</span><span class="n">transcription</span> <span class="ow">or</span> <span class="s2">""</span><span class="p">)</span>
+</span><span id="L-47"><a href="#L-47"><span class="linenos" data-line="47"></span></a>			    <span class="o">..</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span>
+</span><span id="L-48"><a href="#L-48"><span class="linenos" data-line="48"></span></a>		<span class="kr">elseif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">"list"</span> <span class="kr">then</span>
+</span><span id="L-49"><a href="#L-49"><span class="linenos" data-line="49"></span></a>			<span class="n">str</span> <span class="o">=</span> <span class="nb">string.format</span><span class="p">(</span><span class="s2">"&lt;li&gt;[[%s]]&lt;/li&gt;"</span><span class="p">,</span> <span class="n">explanation</span> <span class="ow">or</span> <span class="s2">":"</span><span class="o">..</span><span class="n">entry</span><span class="p">)</span>
+</span><span id="L-50"><a href="#L-50"><span class="linenos" data-line="50"></span></a>		<span class="kr">end</span>
+</span><span id="L-51"><a href="#L-51"><span class="linenos" data-line="51"></span></a>		<span class="nb">table.insert</span><span class="p">(</span><span class="n">strings</span><span class="p">,</span> <span class="p">{</span><span class="n">mw</span><span class="p">.</span><span class="n">getLanguage</span><span class="p">(</span><span class="s2">"en"</span><span class="p">):</span><span class="n">formatDate</span><span class="p">(</span><span class="s2">"U"</span><span class="p">,</span> <span class="n">date</span> <span class="ow">or</span> <span class="s2">"1 January 1970"</span><span class="p">),</span> <span class="n">str</span><span class="p">})</span>
+</span><span id="L-52"><a href="#L-52"><span class="linenos" data-line="52"></span></a>		<span class="kr">return</span> <span class="s2">""</span>
+</span><span id="L-53"><a href="#L-53"><span class="linenos" data-line="53"></span></a>	<span class="kr">end</span><span class="p">)</span>
+</span><span id="L-54"><a href="#L-54"><span class="linenos" data-line="54"></span></a>	<span class="nb">table.sort</span><span class="p">(</span><span class="n">strings</span><span class="p">,</span> <span class="kr">function</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="kr">return</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="kr">end</span><span class="p">)</span>
+</span><span id="L-55"><a href="#L-55"><span class="linenos" data-line="55"></span></a>	<span class="kd">local</span> <span class="n">data</span> <span class="o">=</span> <span class="s2">""</span>
+</span><span id="L-56"><a href="#L-56"><span class="linenos" data-line="56"></span></a>	<span class="kr">for</span> <span class="n">i</span><span class="p">,</span><span class="n">v</span> <span class="kr">in</span> <span class="nb">ipairs</span><span class="p">(</span><span class="n">strings</span><span class="p">)</span> <span class="kr">do</span> <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">..</span><span class="n">v</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">..</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span> <span class="kr">end</span>
+</span><span id="L-57"><a href="#L-57"><span class="linenos" data-line="57"></span></a>	<span class="kr">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">"gallery"</span> <span class="kr">then</span>
+</span><span id="L-58"><a href="#L-58"><span class="linenos" data-line="58"></span></a>		<span class="kr">return</span> <span class="p">(</span><span class="n">frame</span><span class="p">:</span><span class="n">extensionTag</span><span class="p">(</span>
+</span><span id="L-59"><a href="#L-59"><span class="linenos" data-line="59"></span></a>			<span class="s2">"gallery"</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span>
+</span><span id="L-60"><a href="#L-60"><span class="linenos" data-line="60"></span></a>			<span class="n">amount</span> <span class="o">&gt;</span> <span class="p">(</span><span class="n">maximum</span> <span class="ow">or</span> <span class="mi">5</span><span class="p">)</span> <span class="ow">and</span> <span class="p">{</span>
+</span><span id="L-61"><a href="#L-61"><span class="linenos" data-line="61"></span></a>				<span class="n">class</span> <span class="o">=</span> <span class="s2">"mw-collapsible"</span><span class="o">..</span><span class="p">(</span><span class="n">expanded</span> <span class="ow">and</span> <span class="s2">""</span> <span class="ow">or</span> <span class="s2">" mw-collapsed"</span><span class="p">),</span>
+</span><span id="L-62"><a href="#L-62"><span class="linenos" data-line="62"></span></a>				<span class="p">[</span><span class="s2">"data-expandtext"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"Show all "</span><span class="o">..</span><span class="n">amount</span><span class="o">..</span><span class="s2">" artworks"</span><span class="p">,</span>
+</span><span id="L-63"><a href="#L-63"><span class="linenos" data-line="63"></span></a>				<span class="p">[</span><span class="s2">"data-collapsetext"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"Hide artwork"</span><span class="p">,</span>
+</span><span id="L-64"><a href="#L-64"><span class="linenos" data-line="64"></span></a>				<span class="n">caption</span> <span class="o">=</span> <span class="n">frame</span><span class="p">.</span><span class="n">args</span><span class="p">.</span><span class="n">caption</span><span class="p">,</span>
+</span><span id="L-65"><a href="#L-65"><span class="linenos" data-line="65"></span></a>				<span class="n">widths</span> <span class="o">=</span> <span class="n">frame</span><span class="p">.</span><span class="n">args</span><span class="p">.</span><span class="n">widths</span><span class="p">,</span>
+</span><span id="L-66"><a href="#L-66"><span class="linenos" data-line="66"></span></a>				<span class="n">heights</span> <span class="o">=</span> <span class="n">frame</span><span class="p">.</span><span class="n">args</span><span class="p">.</span><span class="n">heights</span>
+</span><span id="L-67"><a href="#L-67"><span class="linenos" data-line="67"></span></a>			<span class="p">}</span> <span class="ow">or</span> <span class="kc">nil</span>
+</span><span id="L-68"><a href="#L-68"><span class="linenos" data-line="68"></span></a>		<span class="p">):</span><span class="n">gsub</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">+$"</span><span class="p">,</span> <span class="s2">""</span><span class="p">))</span>
+</span><span id="L-69"><a href="#L-69"><span class="linenos" data-line="69"></span></a>	<span class="kr">elseif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">"list"</span> <span class="kr">then</span>
+</span><span id="L-70"><a href="#L-70"><span class="linenos" data-line="70"></span></a>		<span class="kr">return</span> <span class="p">((</span><span class="s2">"&lt;ul"</span><span class="o">..</span><span class="p">(</span><span class="n">amount</span> <span class="o">&gt;</span> <span class="p">(</span><span class="n">maximum</span> <span class="ow">or</span> <span class="mi">15</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">string.format</span><span class="p">(</span><span class="s1">' class="mw-collapsible%s" data-expandtext="%s" data-collapsetext="%s"'</span><span class="p">,</span>
+</span><span id="L-71"><a href="#L-71"><span class="linenos" data-line="71"></span></a>			<span class="n">expanded</span> <span class="ow">and</span> <span class="s2">""</span> <span class="ow">or</span> <span class="s2">" mw-collapsed"</span><span class="p">,</span>
+</span><span id="L-72"><a href="#L-72"><span class="linenos" data-line="72"></span></a>			<span class="s2">"Show all "</span><span class="o">..</span><span class="n">amount</span><span class="o">..</span><span class="s2">" artowrks"</span><span class="p">,</span>
+</span><span id="L-73"><a href="#L-73"><span class="linenos" data-line="73"></span></a>			<span class="s2">"Hide artwork"</span>
+</span><span id="L-74"><a href="#L-74"><span class="linenos" data-line="74"></span></a>		<span class="p">)</span> <span class="ow">or</span> <span class="s2">""</span><span class="p">)</span><span class="o">..</span><span class="s2">"&gt;"</span><span class="o">..</span><span class="n">data</span><span class="o">..</span><span class="s2">"&lt;/ul&gt;"</span><span class="p">):</span><span class="n">gsub</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">+$"</span><span class="p">,</span> <span class="s2">""</span><span class="p">))</span>
+</span><span id="L-75"><a href="#L-75"><span class="linenos" data-line="75"></span></a>	<span class="kr">end</span>
+</span><span id="L-76"><a href="#L-76"><span class="linenos" data-line="76"></span></a><span class="kr">end</span>
+</span><span id="L-77"><a href="#L-77"><span class="linenos" data-line="77"></span></a>
+</span><span id="L-78"><a href="#L-78"><span class="linenos" data-line="78"></span></a><span class="kr">return</span> <span class="n">p</span>
+</span></pre></div>
+
+
+</div>
+</div>
+		<div id="catlinks" class="catlinks catlinks-allhidden" data-mw="interface"></div>
+	</div>
+</div>
+
+<div id="mw-navigation">
+	<h2>Navigation menu</h2>
+	<div id="mw-head">
+		
+
+
+		
+		<div id="left-navigation">
+			
+<nav id="p-views" class="mw-portlet mw-portlet-views vector-menu-tabs vector-menu-tabs-legacy vector-menu" aria-labelledby="p-views-label">
+	<h3 id="p-views-label" class="vector-menu-heading ">
+		<span class="vector-menu-heading-label">Views</span>
+	</h3>
+	<div class="vector-menu-content">
+		
+		<ul class="vector-menu-content-list">
+			
+			<li id="ca-view" class="selected mw-list-item"><a href="/wiki/Module:Gallery"><span>Read</span></a></li><li id="ca-viewsource" class="mw-list-item"><a href="/wiki/Module:Gallery%3Faction=edit" title="View the source of this page for editing." accesskey="e"><span>View source</span></a></li><li id="ca-history" class="mw-list-item"><a href="https://github.com/aadenboy/wiki/commits/main/Module:Gallery.html" title="Past revisions of this page [h]" accesskey="h"><span>View history</span></a></li>
+		</ul>
+		
+	</div>
+</nav>
+
+			
+
+
+			
+
+
+		</div>
+	</div>
+	
+<div id="mw-panel" class="vector-legacy-sidebar">
+	<div id="p-logo" role="banner">
+		<a class="mw-wiki-logo" href="/wiki/Main_Page" title="Visit the main page"></a>
+	</div>
+	
+<nav id="p-navigation" class="mw-portlet mw-portlet-navigation vector-menu-portal portal vector-menu" aria-labelledby="p-navigation-label">
+	<h3 id="p-navigation-label" class="vector-menu-heading ">
+		<span class="vector-menu-heading-label">Navigation</span>
+	</h3>
+	<div class="vector-menu-content">
+		
+		<ul class="vector-menu-content-list">
+			
+			<li id="n-mainpage-description" class="mw-list-item"><a href="/wiki/Main_Page" title="Visit the main page [z]" accesskey="z"><span>Main page</span></a></li><li id="n-recentchanges" class="mw-list-item"><a href="https://github.com/aadenboy/wiki/commits/main/" rel="nofollow" title="A list of recent changes in the wiki [r]" accesskey="r"><span>Recent changes</span></a></li><li id="n-github" class="mw-list-item"><a href="https://github.com/aadenboy/wiki/" rel="nofollow"><span>View the GitHub</span></a></li><li id="n-donate" class="mw-list-item"><a href="https://github.com/sponsors/aadenboy" rel="nofollow"><span>Donate to me! ❤️</span></a></li>
+		</ul>
+		
+	</div>
+</nav>
+
+	
+<nav id="p-Lists" class="mw-portlet mw-portlet-Lists vector-menu-portal portal vector-menu" aria-labelledby="p-Lists-label">
+	<h3 id="p-Lists-label" class="vector-menu-heading ">
+		<span class="vector-menu-heading-label">Lists</span>
+	</h3>
+	<div class="vector-menu-content">
+		
+		<ul class="vector-menu-content-list">
+			
+			<li id="n-Characters" class="mw-list-item"><a href="/wiki/List_of_characters"><span>Characters</span></a></li><li id="n-Games" class="mw-list-item"><a href="/wiki/List_of_games"><span>Games</span></a></li><li id="n-Music" class="mw-list-item"><a href="/wiki/List_of_music"><span>Music</span></a></li>
+		</ul>
+		
+	</div>
+</nav>
+
+
+
+	
+</div>
+
+</div>
+
+<footer id="footer" class="mw-footer">
+	<ul id="footer-info">
+	<li id="footer-info-lastmod"> This page was last edited on 26 August 2026, at 20:59.</li>
+	<li id="footer-info-copyright">Content is available under <a class="external" rel="nofollow" href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike</a> unless otherwise noted.</li>
+</ul>
+
+	<ul id="footer-places">
+	<li id="footer-places-privacy"><a href="/wiki/Wiki:Privacy_policy">Privacy policy</a></li>
+	<li id="footer-places-about"><a href="/wiki/Wiki:About">About aadenboy wiki</a></li>
+	<li id="footer-places-test"><a href="https://github.com/aadenboy/wiki/" rel="noreferrer noopener">View the GitHub</a></li>
+</ul>
+
+	<ul id="footer-icons" class="noprint">
+	<li id="footer-copyrightico"><a href="https://creativecommons.org/licenses/by-sa/4.0/" class="cdx-button cdx-button--fake-button cdx-button--size-large cdx-button--fake-button--enabled"><img src="/wiki/resources/assets/licenses/cc-by-sa.png" alt="Creative Commons Attribution-ShareAlike" width="88" height="31" loading="lazy" srcset=""></a></li>
+	<li id="footer-poweredbyico"><a href="https://www.mediawiki.org/" class="cdx-button cdx-button--fake-button cdx-button--size-large cdx-button--fake-button--enabled"><img src="/wiki/resources/assets/poweredby_mediawiki.svg" alt="Powered by MediaWiki" width="88" height="31" loading="lazy" srcset=""></a></li>
+</ul>
+
+</footer>
+
+<script async="" src="/wiki/common.js"></script>
+
+</body></html>

@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html class="client-nojs" lang="en" dir="ltr"><head>
+    <meta charset="UTF-8">
+    <title>Blog:Statically hosting a wiki/Fetcher - aadenboy wiki</title>
+    <link rel="stylesheet" href="/wiki/main.css">
+    <script src="https://code.jquery.com/jquery-4.0.0.min.js"></script>
+    <meta name="ResourceLoaderDynamicStyles" content="">
+    <link rel="stylesheet" href="/wiki/sitestyles.css">
+    <meta name="generator" content="MediaWiki 1.43.0">
+    <meta name="robots" content="max-image-preview:standard">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/">
+<meta property="og:site_name" content="Aadenboy Wiki"><meta property="og:url" content="https://aadenboy.github.io/wiki/Blog%3AStatically_hosting_a_wiki%2FFetcher"><meta property="og:type" content="website"><meta name="title" property="og:title" content="Blog:Statically hosting a wiki/Fetcher"><meta name="image" property="og:image" content="https://aadenboy.github.io/wiki/resources/assets/licenses/cc-by-sa.png"><meta name="description" property="description" content="Note that unlike the prior version, I didn't provide any customization here. Everything relating to the wiki is hard-baked in. You will need to get gumbo from Luarocks and json from https://github.com/rxi/json.lua. You'll also need to paste MediaWiki:Common.js to common.js manually."><meta property="twitter:card" content="summary_large_image"><meta property="twitter:title" content="Blog:Statically hosting a wiki/Fetcher"><meta property="twitter:description" content="Note that unlike the prior version, I didn't provide any customization here. Everything relating to the wiki is hard-baked in. You will need to get gumbo from Luarocks and json from https://github.com/rxi/json.lua. You'll also need to paste MediaWiki:Common.js to common.js manually."><meta property="twitter:image:src" content="https://aadenboy.github.io/wiki/resources/assets/licenses/cc-by-sa.png"><meta property="twitter:image" content="https://aadenboy.github.io/wiki/resources/assets/licenses/cc-by-sa.png"><meta property="twitter:domain" content="https://aadenboy.github.io/wiki/"></head>
+<body class="skin-vector-legacy mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-3500 ns-subject page-Blog_Statically_hosting_a_wiki_Fetcher rootpage-Blog_Statically_hosting_a_wiki skin-vector action-view"><div id="mw-page-base" class="noprint"></div>
+<div id="mw-head-base" class="noprint"></div>
+<div id="content" class="mw-body" role="main">
+	<a id="top" href=""></a>
+	<div id="siteNotice"></div>
+	<div class="mw-indicators">
+	</div>
+	<h1 id="firstHeading" class="firstHeading mw-first-heading"><span class="mw-page-title-namespace">Blog</span><span class="mw-page-title-separator">:</span><span class="mw-page-title-main">Statically hosting a wiki/Fetcher</span></h1>
+	<div id="bodyContent" class="vector-body">
+		<div id="siteSub" class="noprint">From the Aadenboy Wiki</div>
+		<div id="contentSub"><div id="mw-content-subtitle"><div class="subpages">&lt; <bdi dir="ltr"><a href="/wiki/Blog:Statically_hosting_a_wiki" title="Blog:Statically hosting a wiki">Blog:Statically hosting a wiki</a></bdi></div></div></div>
+		<div id="contentSub2"></div>
+		
+		<div id="jump-to-nav"></div>
+		<a class="mw-jump-link" href="#mw-head">Jump to navigation</a>
+		<a class="mw-jump-link" href="#searchInput">Jump to search</a>
+		<div id="mw-content-text" class="mw-body-content"><div class="mw-content-ltr mw-parser-output" lang="en" dir="ltr"><p>Note that unlike the prior version, I didn't provide any customization here. Everything relating to the wiki is hard-baked in. You will need to get <code>gumbo</code> from Luarocks and <code>json</code> from <a rel="nofollow" class="external free" href="https://github.com/rxi/json.lua">https://github.com/rxi/json.lua</a>. You'll also need to paste <a href="/wiki/MediaWiki:Common.js" title="MediaWiki:Common.js">MediaWiki:Common.js</a> to <code>common.js</code> manually.
+</p><p>By the way, make sure that you're using a file system which allows for case-sensitivity, otherwise you'll have issues.
+</p>
+<div class="mw-highlight mw-highlight-lang-lua mw-content-ltr" dir="ltr"><pre><span></span><span class="kd">local</span> <span class="n">gumbo</span> <span class="o">=</span> <span class="nb">require</span><span class="p">(</span><span class="s2">"gumbo"</span><span class="p">)</span>
+<span class="kd">local</span> <span class="n">json</span> <span class="o">=</span> <span class="nb">require</span><span class="p">(</span><span class="s2">"json"</span><span class="p">)</span>
+
+<span class="kr">function</span> <span class="nf">urlencode</span><span class="p">(</span><span class="n">str</span><span class="p">)</span>
+    <span class="kr">if</span> <span class="n">str</span> <span class="kr">then</span>
+        <span class="n">str</span> <span class="o">=</span> <span class="nb">string.gsub</span><span class="p">(</span><span class="n">str</span><span class="p">,</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="s2">"</span><span class="se">\r\n</span><span class="s2">"</span><span class="p">)</span>
+        <span class="n">str</span> <span class="o">=</span> <span class="nb">string.gsub</span><span class="p">(</span><span class="n">str</span><span class="p">,</span> <span class="s2">"([^%w%-_%.~])"</span><span class="p">,</span> <span class="kr">function</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+            <span class="kr">return</span> <span class="nb">string.format</span><span class="p">(</span><span class="s2">"%%%02X"</span><span class="p">,</span> <span class="nb">string.byte</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
+        <span class="kr">end</span><span class="p">)</span>
+        <span class="n">str</span> <span class="o">=</span> <span class="nb">string.gsub</span><span class="p">(</span><span class="n">str</span><span class="p">,</span> <span class="s2">" "</span><span class="p">,</span> <span class="s2">"+"</span><span class="p">)</span>
+    <span class="kr">end</span>
+    <span class="kr">return</span> <span class="n">str</span>
+<span class="kr">end</span>
+<span class="kr">function</span> <span class="nf">params</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="kd">local</span> <span class="n">raw</span> <span class="o">=</span> <span class="s2">""</span>
+    <span class="kr">for</span> <span class="n">i</span><span class="p">,</span><span class="n">v</span> <span class="kr">in</span> <span class="nb">pairs</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="kr">do</span>
+        <span class="n">raw</span> <span class="o">=</span> <span class="n">raw</span><span class="o">..</span><span class="n">urlencode</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">..</span><span class="p">(</span><span class="n">i</span><span class="o">%</span><span class="mi">2</span><span class="o">==</span><span class="mi">1</span> <span class="ow">and</span> <span class="s2">"="</span> <span class="ow">or</span> <span class="s2">"&amp;"</span><span class="p">)</span>
+    <span class="kr">end</span>
+    <span class="kr">return</span> <span class="n">raw</span><span class="p">:</span><span class="n">sub</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+<span class="kr">end</span>
+
+<span class="kd">local</span> <span class="n">nhbase</span> <span class="o">=</span> <span class="s">[[&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;</span>
+<span class="s">    &lt;meta charset="UTF-8"&gt;</span>
+<span class="s">    &lt;title&gt;{TITLE} - aadenboy wiki&lt;/title&gt;</span>
+<span class="s">    &lt;link rel="stylesheet" href="/wiki/main.css"&gt;</span>
+<span class="s">    &lt;script src="https://code.jquery.com/jquery-4.0.0.min.js"&gt;&lt;/script&gt;</span>
+<span class="s">    &lt;meta name="ResourceLoaderDynamicStyles" content=""&gt;</span>
+<span class="s">    &lt;link rel="stylesheet" href="/wiki/sitestyles.css"&gt;</span>
+<span class="s">    &lt;meta name="generator" content="MediaWiki 1.43.0"&gt;</span>
+<span class="s">    &lt;meta name="robots" content="max-image-preview:standard"&gt;</span>
+<span class="s">    &lt;meta name="format-detection" content="telephone=no"&gt;</span>
+<span class="s">    &lt;link rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/"&gt;</span>
+<span class="s">&lt;/head&gt;&lt;body&gt;&lt;/body&gt;&lt;/html&gt;]]</span>
+
+<span class="kr">function</span> <span class="nf">meta</span><span class="p">(</span><span class="n">document</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">property</span><span class="p">,</span> <span class="n">content</span><span class="p">)</span>
+    <span class="kd">local</span> <span class="n">m</span> <span class="o">=</span> <span class="n">document</span><span class="p">:</span><span class="n">createElement</span><span class="p">(</span><span class="s2">"meta"</span><span class="p">)</span>
+    <span class="kr">if</span> <span class="n">name</span> <span class="kr">then</span> <span class="n">m</span><span class="p">:</span><span class="n">setAttribute</span><span class="p">(</span><span class="s2">"name"</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span> <span class="kr">end</span>
+    <span class="n">m</span><span class="p">:</span><span class="n">setAttribute</span><span class="p">(</span><span class="s2">"property"</span><span class="p">,</span> <span class="n">property</span><span class="p">)</span>
+    <span class="n">m</span><span class="p">:</span><span class="n">setAttribute</span><span class="p">(</span><span class="s2">"content"</span><span class="p">,</span> <span class="n">content</span><span class="p">)</span>
+    <span class="n">document</span><span class="p">:</span><span class="n">getElementsByTagName</span><span class="p">(</span><span class="s2">"head"</span><span class="p">)[</span><span class="mi">1</span><span class="p">]:</span><span class="n">appendChild</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<span class="kr">end</span>
+<span class="kr">function</span> <span class="nf">text</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+    <span class="kr">if</span> <span class="n">node</span><span class="p">.</span><span class="n">nodeType</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">or</span> <span class="n">node</span><span class="p">.</span><span class="n">data</span> <span class="kr">then</span> <span class="kr">return</span> <span class="n">node</span><span class="p">.</span><span class="n">data</span> <span class="kr">end</span>
+    <span class="kd">local</span> <span class="n">t</span> <span class="o">=</span> <span class="s2">""</span>
+    <span class="kr">for</span> <span class="n">i</span><span class="p">,</span><span class="n">v</span> <span class="kr">in</span> <span class="nb">ipairs</span><span class="p">(</span><span class="n">node</span><span class="p">.</span><span class="n">childNodes</span><span class="p">)</span> <span class="kr">do</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">t</span><span class="o">..</span><span class="n">text</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+    <span class="kr">end</span>
+    <span class="kr">return</span> <span class="n">t</span>
+<span class="kr">end</span>
+
+<span class="kr">function</span> <span class="nf">fix</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
+    <span class="kd">local</span> <span class="n">file</span> <span class="o">=</span> <span class="nb">io.open</span><span class="p">(</span><span class="s2">"localhost:8888/mediawiki/index.php/"</span><span class="o">..</span><span class="n">title</span><span class="o">..</span><span class="p">(</span><span class="n">mode</span> <span class="ow">or</span> <span class="s2">""</span><span class="p">)</span><span class="o">..</span><span class="s2">".html"</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span>
+    <span class="kd">local</span> <span class="n">page</span> <span class="o">=</span> <span class="n">file</span><span class="p">:</span><span class="n">read</span><span class="p">(</span><span class="s2">"*a"</span><span class="p">)</span>
+    <span class="n">file</span><span class="p">:</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="cm">--[[</span>
+<span class="cm">        Changes:</span>
+<span class="cm">            * Replace the head</span>
+<span class="cm">                * Also the title</span>
+<span class="cm">                * But carry over any custom meta tags</span>
+<span class="cm">            * Change "/mediawiki/", "/mediawiki/index.php/", and "/mediawiki/index.php?title=" in URLs to "/wiki/"</span>
+<span class="cm">                * If the link contains "&amp;amp;action=history", replace it with the repository link</span>
+<span class="cm">            * Remove element with class "printfooter"</span>
+<span class="cm">            * Remove element with ID "p-personal"</span>
+<span class="cm">            * Remove element with ID "left-navigation"</span>
+<span class="cm">            * Change element with ID "right-navigation" to have the id "left-navigation" instead</span>
+<span class="cm">            * Change first child of element with ID "ca-viewsource" to have the title "View the source of this page for editing."</span>
+<span class="cm">            * Remove element with ID "p-cactions"</span>
+<span class="cm">            * Remove element with ID "p-search"</span>
+<span class="cm">            * Remove element with ID "p-tb"</span>
+<span class="cm">            * Replace the final script element with `&lt;script async="" src="/common.js"&gt;&lt;/script&gt;`</span>
+<span class="cm">            * Generate metadata</span>
+<span class="cm">    ]]</span>
+
+    <span class="kd">local</span> <span class="n">document</span> <span class="o">=</span> <span class="n">gumbo</span><span class="p">.</span><span class="n">parse</span><span class="p">(</span><span class="n">page</span><span class="p">)</span>
+    <span class="kd">local</span> <span class="n">oldhead</span> <span class="o">=</span> <span class="n">document</span><span class="p">:</span><span class="n">getElementsByTagName</span><span class="p">(</span><span class="s2">"head"</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="kd">local</span> <span class="n">newhead</span> <span class="o">=</span> <span class="n">gumbo</span><span class="p">.</span><span class="n">parse</span><span class="p">(</span><span class="n">nhbase</span><span class="p">):</span><span class="n">getElementsByTagName</span><span class="p">(</span><span class="s2">"head"</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">oldhead</span><span class="p">.</span><span class="n">parentNode</span><span class="p">:</span><span class="n">replaceChild</span><span class="p">(</span><span class="n">newhead</span><span class="p">,</span> <span class="n">oldhead</span><span class="p">)</span>
+    <span class="kd">local</span> <span class="n">telem</span> <span class="o">=</span> <span class="n">oldhead</span><span class="p">:</span><span class="n">getElementsByTagName</span><span class="p">(</span><span class="s2">"title"</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">newhead</span><span class="p">:</span><span class="n">replaceChild</span><span class="p">(</span><span class="n">telem</span><span class="p">,</span> <span class="n">newhead</span><span class="p">:</span><span class="n">getElementsByTagName</span><span class="p">(</span><span class="s2">"title"</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span> <span class="c1">-- lazy</span>
+    
+    <span class="kd">local</span> <span class="n">metas</span> <span class="o">=</span> <span class="n">document</span><span class="p">:</span><span class="n">getElementsByTagName</span><span class="p">(</span><span class="s2">"meta"</span><span class="p">)</span>
+    <span class="kr">for</span> <span class="n">i</span><span class="p">,</span><span class="n">v</span> <span class="kr">in</span> <span class="nb">ipairs</span><span class="p">(</span><span class="n">metas</span><span class="p">)</span> <span class="kr">do</span>
+        <span class="kr">if</span> <span class="n">v</span><span class="p">:</span><span class="n">getAttribute</span><span class="p">(</span><span class="s2">"name"</span><span class="p">)</span> <span class="o">==</span> <span class="s2">"page-no-include"</span> <span class="ow">and</span> <span class="n">v</span><span class="p">:</span><span class="n">getAttribute</span><span class="p">(</span><span class="s2">"content"</span><span class="p">)</span> <span class="o">==</span> <span class="s2">"yes"</span> <span class="kr">then</span>
+            <span class="kr">return</span> <span class="kc">false</span>
+        <span class="kr">end</span>
+    <span class="kr">end</span>
+
+    <span class="c1">-- no querySelector&nbsp;:(</span>
+    <span class="kd">local</span> <span class="n">anchors</span> <span class="o">=</span> <span class="n">document</span><span class="p">:</span><span class="n">getElementsByTagName</span><span class="p">(</span><span class="s2">"a"</span><span class="p">)</span>
+    <span class="kd">local</span> <span class="n">images</span> <span class="o">=</span> <span class="n">document</span><span class="p">:</span><span class="n">getElementsByTagName</span><span class="p">(</span><span class="s2">"img"</span><span class="p">)</span>
+    <span class="kr">for</span> <span class="n">i</span><span class="p">,</span><span class="n">v</span> <span class="kr">in</span> <span class="nb">ipairs</span><span class="p">(</span><span class="n">anchors</span><span class="p">)</span> <span class="kr">do</span>
+        <span class="n">v</span><span class="p">:</span><span class="n">setAttribute</span><span class="p">(</span><span class="s2">"href"</span><span class="p">,</span> <span class="p">(</span><span class="n">v</span><span class="p">:</span><span class="n">getAttribute</span><span class="p">(</span><span class="s2">"href"</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">""</span><span class="p">)</span>
+            <span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s2">"^/mediawiki/index%.php%?title="</span><span class="p">,</span> <span class="s2">"/wiki/"</span><span class="p">)</span>
+            <span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s2">"^/mediawiki/index%.php/"</span><span class="p">,</span> <span class="s2">"/wiki/"</span><span class="p">)</span>
+            <span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s2">"^/mediawiki/"</span><span class="p">,</span> <span class="s2">"/wiki/"</span><span class="p">)</span>
+            <span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s2">"&amp;action=edit"</span><span class="p">,</span> <span class="s2">"%%3Faction=edit"</span><span class="p">)</span>
+            <span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s2">"^.*&amp;action=history.*$"</span><span class="p">,</span> <span class="s2">"https://github.com/aadenboy/wiki/commits/main/"</span><span class="o">..</span><span class="n">title</span><span class="o">..</span><span class="s2">".html"</span><span class="p">)</span>
+        <span class="p">)</span>
+    <span class="kr">end</span>
+    <span class="kr">for</span> <span class="n">i</span><span class="p">,</span><span class="n">v</span> <span class="kr">in</span> <span class="nb">ipairs</span><span class="p">(</span><span class="n">images</span><span class="p">)</span> <span class="kr">do</span>
+        <span class="n">v</span><span class="p">:</span><span class="n">setAttribute</span><span class="p">(</span><span class="s2">"src"</span><span class="p">,</span> <span class="p">(</span><span class="n">v</span><span class="p">:</span><span class="n">getAttribute</span><span class="p">(</span><span class="s2">"src"</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">""</span><span class="p">)</span>
+            <span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s2">"^/mediawiki/index%.php%?title="</span><span class="p">,</span> <span class="s2">"/wiki/"</span><span class="p">)</span>
+            <span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s2">"^/mediawiki/index%.php/"</span><span class="p">,</span> <span class="s2">"/wiki/"</span><span class="p">)</span>
+            <span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s2">"^/mediawiki/"</span><span class="p">,</span> <span class="s2">"/wiki/"</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">v</span><span class="p">:</span><span class="n">setAttribute</span><span class="p">(</span><span class="s2">"srcset"</span><span class="p">,</span> <span class="p">(</span><span class="n">v</span><span class="p">:</span><span class="n">getAttribute</span><span class="p">(</span><span class="s2">"srcset"</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">""</span><span class="p">)</span>
+            <span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s2">"/mediawiki/index%.php%?title="</span><span class="p">,</span> <span class="s2">"/wiki/"</span><span class="p">)</span>
+            <span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s2">"/mediawiki/index%.php/"</span><span class="p">,</span> <span class="s2">"/wiki/"</span><span class="p">)</span>
+            <span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s2">"/mediawiki/"</span><span class="p">,</span> <span class="s2">"/wiki/"</span><span class="p">)</span>
+        <span class="p">)</span>
+    <span class="kr">end</span>
+
+    <span class="n">document</span><span class="p">:</span><span class="n">getElementsByClassName</span><span class="p">(</span><span class="s2">"printfooter"</span><span class="p">)[</span><span class="mi">1</span><span class="p">]:</span><span class="n">remove</span><span class="p">()</span>
+    <span class="n">document</span><span class="p">:</span><span class="n">getElementById</span><span class="p">(</span><span class="s2">"p-personal"</span><span class="p">):</span><span class="n">remove</span><span class="p">()</span>
+    <span class="n">document</span><span class="p">:</span><span class="n">getElementById</span><span class="p">(</span><span class="s2">"left-navigation"</span><span class="p">):</span><span class="n">remove</span><span class="p">()</span>
+    <span class="n">document</span><span class="p">:</span><span class="n">getElementById</span><span class="p">(</span><span class="s2">"right-navigation"</span><span class="p">):</span><span class="n">setAttribute</span><span class="p">(</span><span class="s2">"id"</span><span class="p">,</span> <span class="s2">"left-navigation"</span><span class="p">)</span>
+    <span class="n">document</span><span class="p">:</span><span class="n">getElementById</span><span class="p">(</span><span class="s2">"ca-viewsource"</span><span class="p">).</span><span class="n">childNodes</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span><span class="n">setAttribute</span><span class="p">(</span><span class="s2">"title"</span><span class="p">,</span> <span class="s2">"View the source of this page for editing."</span><span class="p">)</span>
+    <span class="n">document</span><span class="p">:</span><span class="n">getElementById</span><span class="p">(</span><span class="s2">"p-search"</span><span class="p">):</span><span class="n">remove</span><span class="p">()</span>
+    <span class="n">document</span><span class="p">:</span><span class="n">getElementById</span><span class="p">(</span><span class="s2">"p-cactions"</span><span class="p">):</span><span class="n">remove</span><span class="p">()</span>
+    <span class="n">document</span><span class="p">:</span><span class="n">getElementById</span><span class="p">(</span><span class="s2">"p-tb"</span><span class="p">):</span><span class="n">remove</span><span class="p">()</span>
+    
+    <span class="kd">local</span> <span class="n">scripts</span> <span class="o">=</span> <span class="n">document</span><span class="p">:</span><span class="n">getElementsByTagName</span><span class="p">(</span><span class="s2">"script"</span><span class="p">)</span>
+    <span class="kd">local</span> <span class="n">commonscript</span> <span class="o">=</span> <span class="n">document</span><span class="p">:</span><span class="n">createElement</span><span class="p">(</span><span class="s2">"script"</span><span class="p">)</span>
+    <span class="n">commonscript</span><span class="p">:</span><span class="n">setAttribute</span><span class="p">(</span><span class="s2">"async"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
+    <span class="n">commonscript</span><span class="p">:</span><span class="n">setAttribute</span><span class="p">(</span><span class="s2">"src"</span><span class="p">,</span> <span class="s2">"/wiki/common.js"</span><span class="p">)</span>
+    <span class="kr">if</span> <span class="n">scripts</span><span class="p">[</span><span class="o">#</span><span class="n">scripts</span><span class="p">].</span><span class="n">parentNode</span><span class="p">.</span><span class="n">tagName</span> <span class="o">==</span> <span class="s2">"BODY"</span> <span class="kr">then</span>
+        <span class="n">scripts</span><span class="p">[</span><span class="o">#</span><span class="n">scripts</span><span class="p">].</span><span class="n">parentNode</span><span class="p">:</span><span class="n">replaceChild</span><span class="p">(</span><span class="n">commonscript</span><span class="p">,</span> <span class="n">scripts</span><span class="p">[</span><span class="o">#</span><span class="n">scripts</span><span class="p">])</span>
+    <span class="kr">else</span>
+        <span class="n">document</span><span class="p">.</span><span class="n">body</span><span class="p">:</span><span class="n">appendChild</span><span class="p">(</span><span class="n">commonscript</span><span class="p">)</span>
+    <span class="kr">end</span>
+
+    <span class="cm">--[[</span>
+<span class="cm">        reference</span>
+<span class="cm">        &lt;meta property="og:site_name" content="Tecknar" /&gt;</span>
+<span class="cm">        &lt;meta property="og:url" content="https://aadenboy.github.io/tecknar/" /&gt;</span>
+<span class="cm">        &lt;meta property="og:type" content="website" /&gt;</span>
+<span class="cm">        &lt;meta name="title" property="og:title" content="Tecknar" /&gt;</span>
+<span class="cm">        &lt;meta name="image" property="og:image" content="https://aadenboy.github.io/tecknar/tecknar.png"/&gt;</span>
+<span class="cm">        &lt;meta property="og:image:type" content="image/png"&gt;</span>
+<span class="cm">        &lt;meta property="og:image:width" content="906"&gt;</span>
+<span class="cm">        &lt;meta property="og:image:height" content="413"&gt;</span>
+<span class="cm">        &lt;meta name="description" property="og:description" content="A lightweight, embeddable drawing pad for the web." /&gt;</span>
+<span class="cm">        &lt;meta name="twitter:card" content="summary_large_image" /&gt;</span>
+<span class="cm">        &lt;meta name="twitter:title" content="Tecknar" /&gt;</span>
+<span class="cm">        &lt;meta name="twitter:description" content="A lightweight, embeddable drawing pad for the web." /&gt;</span>
+<span class="cm">        &lt;meta name="twitter:image:src" content="https://aadenboy.github.io/tecknar/tecknar.png"&gt;</span>
+<span class="cm">        &lt;meta name="twitter:image" content="https://aadenboy.github.io/tecknar/tecknar.png"&gt;</span>
+<span class="cm">        &lt;meta name="twitter:domain" content="https://aadenboy.github.io/tecknar/"&gt;</span>
+<span class="cm">    ]]</span>
+    <span class="n">meta</span><span class="p">(</span><span class="n">document</span><span class="p">,</span> <span class="kc">nil</span><span class="p">,</span> <span class="s2">"og:site_name"</span><span class="p">,</span> <span class="s2">"Aadenboy Wiki"</span><span class="p">)</span>
+    <span class="n">meta</span><span class="p">(</span><span class="n">document</span><span class="p">,</span> <span class="kc">nil</span><span class="p">,</span> <span class="s2">"og:url"</span><span class="p">,</span> <span class="s2">"https://aadenboy.github.io/wiki/"</span><span class="o">..</span><span class="n">urlencode</span><span class="p">(</span><span class="n">title</span><span class="p">))</span>
+    <span class="n">meta</span><span class="p">(</span><span class="n">document</span><span class="p">,</span> <span class="kc">nil</span><span class="p">,</span> <span class="s2">"og:type"</span><span class="p">,</span> <span class="s2">"website"</span><span class="p">)</span>
+    <span class="n">meta</span><span class="p">(</span><span class="n">document</span><span class="p">,</span> <span class="s2">"title"</span><span class="p">,</span> <span class="s2">"og:title"</span><span class="p">,</span> <span class="n">telem</span><span class="p">.</span><span class="n">innerHTML</span><span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s2">"&nbsp;%- .+$"</span><span class="p">,</span> <span class="s2">""</span><span class="p">))</span>
+    <span class="kd">local</span> <span class="n">firstimage</span> <span class="o">=</span> <span class="n">document</span><span class="p">:</span><span class="n">getElementsByTagName</span><span class="p">(</span><span class="s2">"img"</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="kr">if</span> <span class="n">firstimage</span> <span class="kr">then</span> <span class="n">meta</span><span class="p">(</span><span class="n">document</span><span class="p">,</span> <span class="s2">"image"</span><span class="p">,</span> <span class="s2">"og:image"</span><span class="p">,</span> <span class="s2">"https://aadenboy.github.io"</span><span class="o">..</span><span class="n">firstimage</span><span class="p">:</span><span class="n">getAttribute</span><span class="p">(</span><span class="s2">"src"</span><span class="p">))</span> <span class="kr">end</span>
+
+    <span class="kd">local</span> <span class="n">paragraphs</span> <span class="o">=</span> <span class="n">document</span><span class="p">:</span><span class="n">getElementsByTagName</span><span class="p">(</span><span class="s2">"p"</span><span class="p">)</span>
+    <span class="kd">local</span> <span class="n">description</span> <span class="o">=</span> <span class="s2">""</span>
+    <span class="kr">for</span> <span class="n">i</span><span class="p">,</span><span class="n">v</span> <span class="kr">in</span> <span class="nb">pairs</span><span class="p">(</span><span class="n">paragraphs</span><span class="p">)</span> <span class="kr">do</span>
+        <span class="kr">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">==</span> <span class="s2">"table"</span> <span class="ow">and</span> <span class="ow">not</span> <span class="p">(</span><span class="n">v</span><span class="p">:</span><span class="n">getAttribute</span><span class="p">(</span><span class="s2">"class"</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">""</span><span class="p">):</span><span class="n">match</span><span class="p">(</span><span class="s2">"mw%-empty%-elt"</span><span class="p">)</span> <span class="ow">and</span> <span class="n">v</span><span class="p">.</span><span class="n">parentNode</span><span class="p">.</span><span class="n">parentNode</span><span class="p">:</span><span class="n">getAttribute</span><span class="p">(</span><span class="s2">"id"</span><span class="p">)</span> <span class="o">==</span> <span class="s2">"mw-content-text"</span> <span class="kr">then</span>
+            <span class="n">description</span> <span class="o">=</span> <span class="n">text</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="kr">break</span>
+        <span class="kr">end</span>
+    <span class="kr">end</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="n">description</span><span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s2">"%s*</span><span class="se">\n</span><span class="s2">%s*"</span><span class="p">,</span> <span class="s2">" "</span><span class="p">):</span><span class="n">gsub</span><span class="p">(</span><span class="s2">"^%s*(.-)%s*$"</span><span class="p">,</span> <span class="s2">"%1"</span><span class="p">)</span>
+
+    <span class="n">meta</span><span class="p">(</span><span class="n">document</span><span class="p">,</span> <span class="s2">"description"</span><span class="p">,</span> <span class="s2">"description"</span><span class="p">,</span> <span class="n">description</span><span class="p">)</span>
+    <span class="n">meta</span><span class="p">(</span><span class="n">document</span><span class="p">,</span> <span class="kc">nil</span><span class="p">,</span> <span class="s2">"twitter:card"</span><span class="p">,</span> <span class="s2">"summary_large_image"</span><span class="p">)</span>
+    <span class="n">meta</span><span class="p">(</span><span class="n">document</span><span class="p">,</span> <span class="kc">nil</span><span class="p">,</span> <span class="s2">"twitter:title"</span><span class="p">,</span> <span class="n">telem</span><span class="p">.</span><span class="n">innerHTML</span><span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s2">"&nbsp;%- .+$"</span><span class="p">,</span> <span class="s2">""</span><span class="p">))</span>
+    <span class="n">meta</span><span class="p">(</span><span class="n">document</span><span class="p">,</span> <span class="kc">nil</span><span class="p">,</span> <span class="s2">"twitter:description"</span><span class="p">,</span> <span class="n">description</span><span class="p">)</span>
+    <span class="kr">if</span> <span class="n">firstimage</span> <span class="kr">then</span>
+        <span class="n">meta</span><span class="p">(</span><span class="n">document</span><span class="p">,</span> <span class="kc">nil</span><span class="p">,</span> <span class="s2">"twitter:image:src"</span><span class="p">,</span> <span class="s2">"https://aadenboy.github.io"</span><span class="o">..</span><span class="n">firstimage</span><span class="p">:</span><span class="n">getAttribute</span><span class="p">(</span><span class="s2">"src"</span><span class="p">))</span>
+        <span class="n">meta</span><span class="p">(</span><span class="n">document</span><span class="p">,</span> <span class="kc">nil</span><span class="p">,</span> <span class="s2">"twitter:image"</span><span class="p">,</span> <span class="s2">"https://aadenboy.github.io"</span><span class="o">..</span><span class="n">firstimage</span><span class="p">:</span><span class="n">getAttribute</span><span class="p">(</span><span class="s2">"src"</span><span class="p">))</span>
+    <span class="kr">end</span>
+    <span class="n">meta</span><span class="p">(</span><span class="n">document</span><span class="p">,</span> <span class="kc">nil</span><span class="p">,</span> <span class="s2">"twitter:domain"</span><span class="p">,</span> <span class="s2">"https://aadenboy.github.io/wiki/"</span><span class="p">)</span>
+
+    <span class="kd">local</span> <span class="n">final</span> <span class="o">=</span> <span class="n">document</span><span class="p">:</span><span class="n">serialize</span><span class="p">():</span><span class="n">gsub</span><span class="p">(</span><span class="s2">"&lt;!%-%-.-%-%-&gt;"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span> <span class="c1">-- shrug</span>
+
+    <span class="kr">if</span> <span class="n">title</span><span class="p">:</span><span class="n">match</span><span class="p">(</span><span class="s2">"/"</span><span class="p">)</span> <span class="kr">then</span>
+        <span class="nb">os.execute</span><span class="p">(</span><span class="s2">"mkdir -p localhost:8888/mediawiki/"</span><span class="o">..</span><span class="n">title</span><span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s2">"/[^/]+$"</span><span class="p">,</span> <span class="s2">"/"</span><span class="p">))</span>
+    <span class="kr">end</span>
+    <span class="kd">local</span> <span class="n">outfile</span> <span class="o">=</span> <span class="nb">io.open</span><span class="p">(</span><span class="s2">"localhost:8888/mediawiki/"</span><span class="o">..</span><span class="n">title</span><span class="o">..</span><span class="s2">".html"</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span>
+    <span class="n">outfile</span><span class="p">:</span><span class="n">write</span><span class="p">(</span><span class="n">final</span><span class="p">)</span>
+    <span class="n">outfile</span><span class="p">:</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="kr">return</span> <span class="kc">true</span>
+<span class="kr">end</span>
+
+<span class="kr">function</span> <span class="nf">apijson</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+    <span class="kd">local</span> <span class="n">call</span> <span class="o">=</span> <span class="nb">io.popen</span><span class="p">(</span><span class="s1">'wget -q -o /dev/null --no-cache -O - "http://localhost:8888/mediawiki/api.php?'</span><span class="o">..</span><span class="n">params</span><span class="p">(</span><span class="n">action</span><span class="p">)</span><span class="o">..</span><span class="s1">'"'</span><span class="p">)</span>
+    <span class="kd">local</span> <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">decode</span><span class="p">(</span><span class="n">call</span><span class="p">:</span><span class="n">read</span><span class="p">(</span><span class="s2">"*a"</span><span class="p">))</span>
+    <span class="n">call</span><span class="p">:</span><span class="n">close</span><span class="p">()</span>
+    <span class="kr">return</span> <span class="n">data</span>
+<span class="kr">end</span>
+
+<span class="kd">local</span> <span class="n">nsdata</span> <span class="o">=</span> <span class="n">apijson</span><span class="p">{</span>
+    <span class="s2">"action"</span><span class="p">,</span><span class="s2">"query"</span><span class="p">;</span>
+    <span class="s2">"format"</span><span class="p">,</span><span class="s2">"json"</span><span class="p">;</span>
+    <span class="s2">"meta"</span><span class="p">,</span><span class="s2">"siteinfo"</span><span class="p">;</span>
+    <span class="s2">"siprop"</span><span class="p">,</span><span class="s2">"namespaces"</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">local</span> <span class="n">sorted</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="kr">for</span> <span class="n">i</span><span class="p">,</span><span class="n">v</span> <span class="kr">in</span> <span class="nb">pairs</span><span class="p">(</span><span class="n">nsdata</span><span class="p">.</span><span class="n">query</span><span class="p">.</span><span class="n">namespaces</span><span class="p">)</span> <span class="kr">do</span>
+    <span class="kr">if</span> <span class="n">i</span><span class="o">+</span><span class="mi">0</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span> <span class="ow">and</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">0</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="o">==</span><span class="mi">0</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">~=</span> <span class="s2">"2"</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">~=</span> <span class="s2">"3"</span> <span class="kr">then</span> <span class="nb">table.insert</span><span class="p">(</span><span class="n">sorted</span><span class="p">,</span> <span class="nb">tonumber</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="kr">end</span>
+<span class="kr">end</span>
+<span class="nb">table.sort</span><span class="p">(</span><span class="n">sorted</span><span class="p">)</span>
+<span class="kr">for</span> <span class="n">i</span><span class="p">,</span><span class="n">v</span> <span class="kr">in</span> <span class="nb">ipairs</span><span class="p">(</span><span class="n">sorted</span><span class="p">)</span> <span class="kr">do</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Starting namespace "</span><span class="o">..</span><span class="n">nsdata</span><span class="p">.</span><span class="n">query</span><span class="p">.</span><span class="n">namespaces</span><span class="p">[</span><span class="n">v</span><span class="o">..</span><span class="s2">""</span><span class="p">][</span><span class="s2">"*"</span><span class="p">]:</span><span class="n">gsub</span><span class="p">(</span><span class="s2">"^$"</span><span class="p">,</span> <span class="s2">"Main"</span><span class="p">)</span><span class="o">..</span><span class="s2">" ("</span><span class="o">..</span><span class="n">i</span><span class="o">..</span><span class="s2">" of "</span><span class="o">..#</span><span class="n">sorted</span><span class="o">..</span><span class="s2">")"</span><span class="p">)</span>
+
+    <span class="kd">local</span> <span class="n">pages</span> <span class="o">=</span> <span class="n">apijson</span><span class="p">{</span>
+        <span class="s2">"action"</span><span class="p">,</span><span class="s2">"query"</span><span class="p">;</span>
+        <span class="s2">"format"</span><span class="p">,</span><span class="s2">"json"</span><span class="p">;</span>
+        <span class="s2">"list"</span><span class="p">,</span><span class="s2">"allpages"</span><span class="p">,</span>
+        <span class="s2">"aplimit"</span><span class="p">,</span><span class="mi">500</span><span class="p">;</span>
+        <span class="s2">"apnamespace"</span><span class="p">,</span><span class="n">v</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\t</span><span class="s2">Queried "</span><span class="o">..#</span><span class="n">pages</span><span class="p">.</span><span class="n">query</span><span class="p">.</span><span class="n">allpages</span><span class="o">..</span><span class="s2">" pages"</span><span class="p">)</span>
+    <span class="kd">local</span> <span class="n">totalpages</span> <span class="o">=</span> <span class="n">pages</span><span class="p">.</span><span class="n">query</span><span class="p">.</span><span class="n">allpages</span>
+    <span class="kr">while</span> <span class="n">pages</span><span class="p">.</span><span class="n">continue</span> <span class="kr">do</span>
+        <span class="n">pages</span> <span class="o">=</span> <span class="n">apijson</span><span class="p">{</span>
+            <span class="s2">"action"</span><span class="p">,</span><span class="s2">"query"</span><span class="p">;</span>
+            <span class="s2">"format"</span><span class="p">,</span><span class="s2">"json"</span><span class="p">;</span>
+            <span class="s2">"list"</span><span class="p">,</span><span class="s2">"allpages"</span><span class="p">,</span>
+            <span class="s2">"aplimit"</span><span class="p">,</span><span class="mi">500</span><span class="p">;</span>
+            <span class="s2">"apnamespace"</span><span class="p">,</span><span class="n">v</span><span class="p">;</span>
+            <span class="s2">"apcontinue"</span><span class="p">,</span><span class="n">pages</span><span class="p">.</span><span class="n">continue</span><span class="p">.</span><span class="n">apcontinue</span><span class="p">;</span>
+            <span class="s2">"continue"</span><span class="p">,</span><span class="n">pages</span><span class="p">.</span><span class="n">continue</span><span class="p">.</span><span class="n">continue</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="kr">for</span> <span class="n">i</span><span class="p">,</span><span class="n">v</span> <span class="kr">in</span> <span class="nb">ipairs</span><span class="p">(</span><span class="n">pages</span><span class="p">.</span><span class="n">query</span><span class="p">.</span><span class="n">allpages</span><span class="p">)</span> <span class="kr">do</span>
+            <span class="n">totalpages</span><span class="p">[</span><span class="o">#</span><span class="n">totalpages</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+        <span class="kr">end</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\t</span><span class="s2">Queried "</span><span class="o">..#</span><span class="n">pages</span><span class="p">.</span><span class="n">query</span><span class="p">.</span><span class="n">allpages</span><span class="o">..</span><span class="s2">" additional pages (now "</span><span class="o">..#</span><span class="n">totalpages</span><span class="o">..</span><span class="s2">" total pages)"</span><span class="p">)</span>
+    <span class="kr">end</span>
+
+    <span class="kr">for</span> <span class="n">i</span><span class="p">,</span><span class="n">v</span> <span class="kr">in</span> <span class="nb">ipairs</span><span class="p">(</span><span class="n">totalpages</span><span class="p">)</span> <span class="kr">do</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\t</span><span class="s2">Generating page "</span><span class="o">..</span><span class="n">v</span><span class="p">.</span><span class="n">title</span><span class="p">)</span>
+        <span class="n">v</span><span class="p">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">v</span><span class="p">.</span><span class="n">title</span><span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s2">" "</span><span class="p">,</span> <span class="s2">"_"</span><span class="p">)</span>
+        <span class="kd">local</span> <span class="n">title</span> <span class="o">=</span> <span class="n">urlencode</span><span class="p">(</span><span class="n">v</span><span class="p">.</span><span class="n">title</span><span class="p">):</span><span class="n">gsub</span><span class="p">(</span><span class="s2">"%%2F"</span><span class="p">,</span> <span class="s2">"/"</span><span class="p">)</span>
+        <span class="kd">local</span> <span class="n">call</span> <span class="o">=</span> <span class="nb">io.popen</span><span class="p">(</span><span class="s1">'wget -E -H -p --no-cache --content-on-error -o - "http://localhost:8888/mediawiki/index.php/'</span><span class="o">..</span><span class="n">title</span><span class="o">..</span><span class="s1">'?redirect=no" | grep "Saving to"'</span><span class="p">)</span>
+        <span class="kr">for</span> <span class="n">f</span> <span class="kr">in</span> <span class="n">call</span><span class="p">:</span><span class="n">read</span><span class="p">(</span><span class="s2">"*a"</span><span class="p">):</span><span class="n">gmatch</span><span class="p">(</span><span class="s1">'‘([^</span><span class="se">\n</span><span class="s1">]+%?[0-9a-zA-Z]+)’'</span><span class="p">)</span> <span class="kr">do</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\t\t</span><span class="s2">Generated "</span><span class="o">..</span><span class="n">f</span><span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s2">"^.+/"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span><span class="o">..</span><span class="s2">", moving"</span><span class="p">)</span>
+            <span class="nb">os.execute</span><span class="p">(</span><span class="s2">"mv "</span><span class="o">..</span><span class="n">f</span><span class="o">..</span><span class="s2">" "</span><span class="o">..</span><span class="n">f</span><span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s2">"%?[0-9a-zA-Z]+$"</span><span class="p">,</span> <span class="s2">""</span><span class="p">))</span>
+        <span class="kr">end</span>
+        <span class="n">call</span><span class="p">:</span><span class="n">close</span><span class="p">()</span>
+        <span class="kd">local</span> <span class="n">included</span> <span class="o">=</span> <span class="n">fix</span><span class="p">(</span><span class="n">v</span><span class="p">.</span><span class="n">title</span><span class="p">,</span> <span class="s2">"?redirect=no"</span><span class="p">)</span>
+        <span class="kr">if</span> <span class="ow">not</span> <span class="n">included</span> <span class="kr">then</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\t\t</span><span class="s2">Page skipped, not included"</span><span class="p">)</span>
+        <span class="kr">else</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\t\t</span><span class="s2">Base article finished"</span><span class="p">)</span>
+            <span class="kd">local</span> <span class="n">call</span> <span class="o">=</span> <span class="nb">io.popen</span><span class="p">(</span><span class="s1">'wget -E -H -p --no-cache --content-on-error -o - "http://localhost:8888/mediawiki/index.php/'</span><span class="o">..</span><span class="n">title</span><span class="o">..</span><span class="s1">'?action=edit" | grep "Saving to"'</span><span class="p">)</span>
+            <span class="kr">for</span> <span class="n">f</span> <span class="kr">in</span> <span class="n">call</span><span class="p">:</span><span class="n">read</span><span class="p">(</span><span class="s2">"*a"</span><span class="p">):</span><span class="n">gmatch</span><span class="p">(</span><span class="s1">'‘([^</span><span class="se">\n</span><span class="s1">]+%?[0-9a-zA-Z]+)’'</span><span class="p">)</span> <span class="kr">do</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\t\t</span><span class="s2">Generated "</span><span class="o">..</span><span class="n">f</span><span class="o">..</span><span class="s2">", moving"</span><span class="p">)</span>
+                <span class="nb">os.execute</span><span class="p">(</span><span class="s2">"mv "</span><span class="o">..</span><span class="n">f</span><span class="o">..</span><span class="s2">" "</span><span class="o">..</span><span class="n">f</span><span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s2">"%?[0-9a-zA-Z]+$"</span><span class="p">))</span>
+            <span class="kr">end</span>
+            <span class="n">call</span><span class="p">:</span><span class="n">close</span><span class="p">()</span>
+            <span class="n">fix</span><span class="p">(</span><span class="n">v</span><span class="p">.</span><span class="n">title</span><span class="o">..</span><span class="s2">"?action=edit"</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\t\t</span><span class="s2">Edit page finished"</span><span class="p">)</span>
+        <span class="kr">end</span>
+    <span class="kr">end</span>
+<span class="kr">end</span>
+
+<span class="c1">-- http://localhost:8888/mediawiki/api.php?action=query&amp;format=json&amp;list=allpages&amp;aplimit=10&amp;apnamespace=6&amp;apcontinue=CatAlignmentChart.jpeg&amp;continue=-||</span>
+
+<span class="cm">--[[local pages = {}</span>
+<span class="cm">for page in pagesstr:gmatch("[^\n]+") do</span>
+<span class="cm">    local code = os.execute('wget -E -H -p --content-on-error "http://localhost:8888/mediawiki/index.php/'..urlencode(page)..'?redirect=no"')</span>
+<span class="cm">    fix(page, "?redirect=no")</span>
+<span class="cm">    local code = os.execute('wget -E -H -p --content-on-error "http://localhost:8888/mediawiki/index.php/'..urlencode(page)..'?action=edit"')</span>
+<span class="cm">    fix(page.."?action=edit")</span>
+<span class="cm">end]]</span>
+</pre></div>
+<p>I also use this Shell file, though your mileage may vary.
+</p>
+<div class="mw-highlight mw-highlight-lang-bash mw-content-ltr" dir="ltr"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">"/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"</span>
+
+<span class="nb">cd</span><span class="w"> </span>~/THE/FILE/PATH<span class="w"> </span><span class="c1"># Obviously not what it is called; this is just an example.</span>
+<span class="nb">printf</span><span class="w"> </span><span class="s2">"\n\n%s\n"</span><span class="w"> </span><span class="s2">"== Automatic update: </span><span class="k">$(</span>date<span class="w"> </span>-u<span class="w"> </span>+<span class="s1">'%H:%M:%S,&nbsp;%-d %B %Y (UTC)'</span><span class="k">)</span><span class="s2"> =="</span><span class="w"> </span>&gt;<span class="w"> </span>console.out
+lua<span class="w"> </span>fetcher.lua
+
+<span class="nb">cd</span><span class="w"> </span>~/THE/FILE/PATH/localhost:8888/mediawiki
+rm<span class="w"> </span>-rf<span class="w"> </span>index.php
+cp<span class="w"> </span>Main_Page.html<span class="w"> </span>index.html
+:<span class="w"> </span>&gt;<span class="w"> </span>main.css
+<span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span>load.php*.css<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">    </span>sed<span class="w"> </span>-E<span class="w"> </span><span class="s1">'s|/mediawiki/|/wiki/|g; s|\?[0-9a-zA-Z]+||g'</span><span class="w"> </span><span class="nv">$i</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>main.css
+<span class="k">done</span>
+
+<span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-n<span class="w"> </span><span class="k">$(</span>git<span class="w"> </span>status<span class="w"> </span>-s<span class="k">)</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Committing"</span>
+<span class="w">    </span>git<span class="w"> </span>add<span class="w"> </span>.
+<span class="w">    </span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"Automatic update: </span><span class="k">$(</span>date<span class="w"> </span>-u<span class="w"> </span>+<span class="s1">'%H:%M:%S,&nbsp;%-d %B %Y (UTC)'</span><span class="k">)</span><span class="s2">"</span>
+<span class="w">    </span>git<span class="w"> </span>push<span class="w"> </span>-u<span class="w"> </span>origin<span class="w"> </span>main
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Pushed"</span>
+<span class="k">fi</span>
+</pre></div>
+
+
+
+
+</div>
+</div>
+		<div id="catlinks" class="catlinks" data-mw="interface"><div id="mw-normal-catlinks" class="mw-normal-catlinks"><a href="/wiki/Special:Categories" title="Special:Categories">Category</a>: <ul><li><a href="/wiki/Category:Blogs" title="Category:Blogs">Blogs</a></li></ul></div></div>
+	</div>
+</div>
+
+<div id="mw-navigation">
+	<h2>Navigation menu</h2>
+	<div id="mw-head">
+		
+
+
+		
+		<div id="left-navigation">
+			
+<nav id="p-views" class="mw-portlet mw-portlet-views vector-menu-tabs vector-menu-tabs-legacy vector-menu" aria-labelledby="p-views-label">
+	<h3 id="p-views-label" class="vector-menu-heading ">
+		<span class="vector-menu-heading-label">Views</span>
+	</h3>
+	<div class="vector-menu-content">
+		
+		<ul class="vector-menu-content-list">
+			
+			<li id="ca-view" class="selected mw-list-item"><a href="/wiki/Blog:Statically_hosting_a_wiki/Fetcher"><span>Read</span></a></li><li id="ca-viewsource" class="mw-list-item"><a href="/wiki/Blog:Statically_hosting_a_wiki/Fetcher%3Faction=edit" title="View the source of this page for editing." accesskey="e"><span>View source</span></a></li><li id="ca-history" class="mw-list-item"><a href="https://github.com/aadenboy/wiki/commits/main/Blog:Statically_hosting_a_wiki/Fetcher.html" title="Past revisions of this page [h]" accesskey="h"><span>View history</span></a></li>
+		</ul>
+		
+	</div>
+</nav>
+
+			
+
+
+			
+
+
+		</div>
+	</div>
+	
+<div id="mw-panel" class="vector-legacy-sidebar">
+	<div id="p-logo" role="banner">
+		<a class="mw-wiki-logo" href="/wiki/Main_Page" title="Visit the main page"></a>
+	</div>
+	
+<nav id="p-navigation" class="mw-portlet mw-portlet-navigation vector-menu-portal portal vector-menu" aria-labelledby="p-navigation-label">
+	<h3 id="p-navigation-label" class="vector-menu-heading ">
+		<span class="vector-menu-heading-label">Navigation</span>
+	</h3>
+	<div class="vector-menu-content">
+		
+		<ul class="vector-menu-content-list">
+			
+			<li id="n-mainpage-description" class="mw-list-item"><a href="/wiki/Main_Page" title="Visit the main page [z]" accesskey="z"><span>Main page</span></a></li><li id="n-recentchanges" class="mw-list-item"><a href="https://github.com/aadenboy/wiki/commits/main/" rel="nofollow" title="A list of recent changes in the wiki [r]" accesskey="r"><span>Recent changes</span></a></li><li id="n-github" class="mw-list-item"><a href="https://github.com/aadenboy/wiki/" rel="nofollow"><span>View the GitHub</span></a></li><li id="n-donate" class="mw-list-item"><a href="https://github.com/sponsors/aadenboy" rel="nofollow"><span>Donate to me! ❤️</span></a></li>
+		</ul>
+		
+	</div>
+</nav>
+
+	
+<nav id="p-Lists" class="mw-portlet mw-portlet-Lists vector-menu-portal portal vector-menu" aria-labelledby="p-Lists-label">
+	<h3 id="p-Lists-label" class="vector-menu-heading ">
+		<span class="vector-menu-heading-label">Lists</span>
+	</h3>
+	<div class="vector-menu-content">
+		
+		<ul class="vector-menu-content-list">
+			
+			<li id="n-Characters" class="mw-list-item"><a href="/wiki/List_of_characters"><span>Characters</span></a></li><li id="n-Games" class="mw-list-item"><a href="/wiki/List_of_games"><span>Games</span></a></li><li id="n-Music" class="mw-list-item"><a href="/wiki/List_of_music"><span>Music</span></a></li>
+		</ul>
+		
+	</div>
+</nav>
+
+
+
+	
+</div>
+
+</div>
+
+<footer id="footer" class="mw-footer">
+	<ul id="footer-info">
+	<li id="footer-info-lastmod"> This page was last edited on 6 November 2026, at 04:41.</li>
+	<li id="footer-info-copyright">Content is available under <a class="external" rel="nofollow" href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike</a> unless otherwise noted.</li>
+</ul>
+
+	<ul id="footer-places">
+	<li id="footer-places-privacy"><a href="/wiki/Wiki:Privacy_policy">Privacy policy</a></li>
+	<li id="footer-places-about"><a href="/wiki/Wiki:About">About aadenboy wiki</a></li>
+	<li id="footer-places-test"><a href="https://github.com/aadenboy/wiki/" rel="noreferrer noopener">View the GitHub</a></li>
+</ul>
+
+	<ul id="footer-icons" class="noprint">
+	<li id="footer-copyrightico"><a href="https://creativecommons.org/licenses/by-sa/4.0/" class="cdx-button cdx-button--fake-button cdx-button--size-large cdx-button--fake-button--enabled"><img src="/wiki/resources/assets/licenses/cc-by-sa.png" alt="Creative Commons Attribution-ShareAlike" width="88" height="31" loading="lazy" srcset=""></a></li>
+	<li id="footer-poweredbyico"><a href="https://www.mediawiki.org/" class="cdx-button cdx-button--fake-button cdx-button--size-large cdx-button--fake-button--enabled"><img src="/wiki/resources/assets/poweredby_mediawiki.svg" alt="Powered by MediaWiki" width="88" height="31" loading="lazy" srcset=""></a></li>
+</ul>
+
+</footer>
+
+<script async="" src="/wiki/common.js"></script>
+
+</body></html>
