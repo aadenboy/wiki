@@ -276,10 +276,10 @@ for i,v in ipairs(sorted) do
         v.title = v.title:gsub(" ", "_")
         local title = urlencode(v.title):gsub("%%2F", "/")
         local call = io.popen('wget -E -H -p --no-cache --content-on-error -o - "http://localhost:8888/mediawiki/index.php/'..title..'?redirect=no" | grep "Saving to"')
-        for f in call:read("*a"):gmatch('‘([^\n]+%?[0-9a-zA-Z]+)’') do
+        --[[for f in call:read("*a"):gmatch('‘([^\n]+%?[0-9a-zA-Z]+)’') do
             print("\t\tGenerated "..f:gsub("^.+/", "")..", moving")
             os.execute("mv "..f.." "..f:gsub("%?[0-9a-zA-Z]+$", ""))
-        end
+        end]]
         call:close()
         local included = fix(v.title, "?redirect=no")
         if not included then
@@ -287,10 +287,10 @@ for i,v in ipairs(sorted) do
         else
             print("\t\tBase article finished")
             local call = io.popen('wget -E -H -p --no-cache --content-on-error -o - "http://localhost:8888/mediawiki/index.php/'..title..'?action=edit" | grep "Saving to"')
-            for f in call:read("*a"):gmatch('‘([^\n]+%?[0-9a-zA-Z]+)’') do
+            --[[for f in call:read("*a"):gmatch('‘([^\n]+%?[0-9a-zA-Z]+)’') do
                 print("\t\tGenerated "..f..", moving")
                 os.execute("mv "..f.." "..f:gsub("%?[0-9a-zA-Z]+$"))
-            end
+            end]]
             call:close()
             fix(v.title.."?action=edit")
             print("\t\tEdit page finished")
@@ -321,9 +321,14 @@ lua fetcher.lua
 cd ~/THE/FILE/PATH/localhost:8888/mediawiki
 rm -rf index.php
 cp Main_Page.html index.html
+shopt -s globstar
+for i in **/*/*.*\?*; do
+    mv "$i" "${i%%\?*}"
+    echo "Moved $i to ${i%%\?*}"
+end
 : &gt; main.css
 for i in load.php*.css; do
-    sed -E 's|/mediawiki/|/wiki/|g; s|\?[0-9a-zA-Z]+||g' $i &gt;&gt; main.css
+    sed -E 's|http://localhost:8888/mediawiki/|/wiki/|g; s|/mediawiki/|/wiki/|g; s|\?[0-9a-zA-Z]+||g' $i &gt;&gt; main.css
 done
 
 if [[ -n $(git status -s) ]]; then

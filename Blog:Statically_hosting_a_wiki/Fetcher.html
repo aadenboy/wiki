@@ -271,10 +271,10 @@
         <span class="n">v</span><span class="p">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">v</span><span class="p">.</span><span class="n">title</span><span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s2">" "</span><span class="p">,</span> <span class="s2">"_"</span><span class="p">)</span>
         <span class="kd">local</span> <span class="n">title</span> <span class="o">=</span> <span class="n">urlencode</span><span class="p">(</span><span class="n">v</span><span class="p">.</span><span class="n">title</span><span class="p">):</span><span class="n">gsub</span><span class="p">(</span><span class="s2">"%%2F"</span><span class="p">,</span> <span class="s2">"/"</span><span class="p">)</span>
         <span class="kd">local</span> <span class="n">call</span> <span class="o">=</span> <span class="nb">io.popen</span><span class="p">(</span><span class="s1">'wget -E -H -p --no-cache --content-on-error -o - "http://localhost:8888/mediawiki/index.php/'</span><span class="o">..</span><span class="n">title</span><span class="o">..</span><span class="s1">'?redirect=no" | grep "Saving to"'</span><span class="p">)</span>
-        <span class="kr">for</span> <span class="n">f</span> <span class="kr">in</span> <span class="n">call</span><span class="p">:</span><span class="n">read</span><span class="p">(</span><span class="s2">"*a"</span><span class="p">):</span><span class="n">gmatch</span><span class="p">(</span><span class="s1">'‘([^</span><span class="se">\n</span><span class="s1">]+%?[0-9a-zA-Z]+)’'</span><span class="p">)</span> <span class="kr">do</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\t\t</span><span class="s2">Generated "</span><span class="o">..</span><span class="n">f</span><span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s2">"^.+/"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span><span class="o">..</span><span class="s2">", moving"</span><span class="p">)</span>
-            <span class="nb">os.execute</span><span class="p">(</span><span class="s2">"mv "</span><span class="o">..</span><span class="n">f</span><span class="o">..</span><span class="s2">" "</span><span class="o">..</span><span class="n">f</span><span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s2">"%?[0-9a-zA-Z]+$"</span><span class="p">,</span> <span class="s2">""</span><span class="p">))</span>
-        <span class="kr">end</span>
+        <span class="cm">--[[for f in call:read("*a"):gmatch('‘([^\n]+%?[0-9a-zA-Z]+)’') do</span>
+<span class="cm">            print("\t\tGenerated "..f:gsub("^.+/", "")..", moving")</span>
+<span class="cm">            os.execute("mv "..f.." "..f:gsub("%?[0-9a-zA-Z]+$", ""))</span>
+<span class="cm">        end]]</span>
         <span class="n">call</span><span class="p">:</span><span class="n">close</span><span class="p">()</span>
         <span class="kd">local</span> <span class="n">included</span> <span class="o">=</span> <span class="n">fix</span><span class="p">(</span><span class="n">v</span><span class="p">.</span><span class="n">title</span><span class="p">,</span> <span class="s2">"?redirect=no"</span><span class="p">)</span>
         <span class="kr">if</span> <span class="ow">not</span> <span class="n">included</span> <span class="kr">then</span>
@@ -282,10 +282,10 @@
         <span class="kr">else</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\t\t</span><span class="s2">Base article finished"</span><span class="p">)</span>
             <span class="kd">local</span> <span class="n">call</span> <span class="o">=</span> <span class="nb">io.popen</span><span class="p">(</span><span class="s1">'wget -E -H -p --no-cache --content-on-error -o - "http://localhost:8888/mediawiki/index.php/'</span><span class="o">..</span><span class="n">title</span><span class="o">..</span><span class="s1">'?action=edit" | grep "Saving to"'</span><span class="p">)</span>
-            <span class="kr">for</span> <span class="n">f</span> <span class="kr">in</span> <span class="n">call</span><span class="p">:</span><span class="n">read</span><span class="p">(</span><span class="s2">"*a"</span><span class="p">):</span><span class="n">gmatch</span><span class="p">(</span><span class="s1">'‘([^</span><span class="se">\n</span><span class="s1">]+%?[0-9a-zA-Z]+)’'</span><span class="p">)</span> <span class="kr">do</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\t\t</span><span class="s2">Generated "</span><span class="o">..</span><span class="n">f</span><span class="o">..</span><span class="s2">", moving"</span><span class="p">)</span>
-                <span class="nb">os.execute</span><span class="p">(</span><span class="s2">"mv "</span><span class="o">..</span><span class="n">f</span><span class="o">..</span><span class="s2">" "</span><span class="o">..</span><span class="n">f</span><span class="p">:</span><span class="n">gsub</span><span class="p">(</span><span class="s2">"%?[0-9a-zA-Z]+$"</span><span class="p">))</span>
-            <span class="kr">end</span>
+            <span class="cm">--[[for f in call:read("*a"):gmatch('‘([^\n]+%?[0-9a-zA-Z]+)’') do</span>
+<span class="cm">                print("\t\tGenerated "..f..", moving")</span>
+<span class="cm">                os.execute("mv "..f.." "..f:gsub("%?[0-9a-zA-Z]+$"))</span>
+<span class="cm">            end]]</span>
             <span class="n">call</span><span class="p">:</span><span class="n">close</span><span class="p">()</span>
             <span class="n">fix</span><span class="p">(</span><span class="n">v</span><span class="p">.</span><span class="n">title</span><span class="o">..</span><span class="s2">"?action=edit"</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\t\t</span><span class="s2">Edit page finished"</span><span class="p">)</span>
@@ -315,9 +315,14 @@ lua<span class="w"> </span>fetcher.lua
 <span class="nb">cd</span><span class="w"> </span>~/THE/FILE/PATH/localhost:8888/mediawiki
 rm<span class="w"> </span>-rf<span class="w"> </span>index.php
 cp<span class="w"> </span>Main_Page.html<span class="w"> </span>index.html
+<span class="nb">shopt</span><span class="w"> </span>-s<span class="w"> </span>globstar
+<span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span>**/*/*.*<span class="se">\?</span>*<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">    </span>mv<span class="w"> </span><span class="s2">"</span><span class="nv">$i</span><span class="s2">"</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">i</span><span class="p">%%</span><span class="se">\?</span><span class="p">*</span><span class="si">}</span><span class="s2">"</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Moved </span><span class="nv">$i</span><span class="s2"> to </span><span class="si">${</span><span class="nv">i</span><span class="p">%%</span><span class="se">\?</span><span class="p">*</span><span class="si">}</span><span class="s2">"</span>
+end
 :<span class="w"> </span>&gt;<span class="w"> </span>main.css
 <span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span>load.php*.css<span class="p">;</span><span class="w"> </span><span class="k">do</span>
-<span class="w">    </span>sed<span class="w"> </span>-E<span class="w"> </span><span class="s1">'s|/mediawiki/|/wiki/|g; s|\?[0-9a-zA-Z]+||g'</span><span class="w"> </span><span class="nv">$i</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>main.css
+<span class="w">    </span>sed<span class="w"> </span>-E<span class="w"> </span><span class="s1">'s|http://localhost:8888/mediawiki/|/wiki/|g; s|/mediawiki/|/wiki/|g; s|\?[0-9a-zA-Z]+||g'</span><span class="w"> </span><span class="nv">$i</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>main.css
 <span class="k">done</span>
 
 <span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-n<span class="w"> </span><span class="k">$(</span>git<span class="w"> </span>status<span class="w"> </span>-s<span class="k">)</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
@@ -413,7 +418,7 @@ cp<span class="w"> </span>Main_Page.html<span class="w"> </span>index.html
 
 <footer id="footer" class="mw-footer">
 	<ul id="footer-info">
-	<li id="footer-info-lastmod"> This page was last edited on 6 November 2026, at 04:41.</li>
+	<li id="footer-info-lastmod"> This page was last edited on 8 November 2026, at 07:15.</li>
 	<li id="footer-info-copyright">Content is available under <a class="external" rel="nofollow" href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike</a> unless otherwise noted.</li>
 </ul>
 

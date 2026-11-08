@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html class="client-nojs" lang="en" dir="ltr"><head>
+    <meta charset="UTF-8">
+    <title>View source for Blog:Stop using "fancy fonts" - aadenboy wiki</title>
+    <link rel="stylesheet" href="/wiki/main.css">
+    <script src="https://code.jquery.com/jquery-4.0.0.min.js"></script>
+    <meta name="ResourceLoaderDynamicStyles" content="">
+    <link rel="stylesheet" href="/wiki/sitestyles.css">
+    <meta name="generator" content="MediaWiki 1.43.0">
+    <meta name="robots" content="max-image-preview:standard">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/">
+<meta property="og:site_name" content="Aadenboy Wiki"><meta property="og:url" content="https://aadenboy.github.io/wiki/Blog%3AStop_using_%22fancy_fonts%22%3Faction%3Dedit"><meta property="og:type" content="website"><meta name="title" property="og:title" content="View source for Blog:Stop using &quot;fancy fonts&quot;"><meta name="image" property="og:image" content="https://aadenboy.github.io/wiki/resources/assets/licenses/cc-by-sa.png"><meta name="description" property="description" content=""><meta property="twitter:card" content="summary_large_image"><meta property="twitter:title" content="View source for Blog:Stop using &quot;fancy fonts&quot;"><meta property="twitter:description" content=""><meta property="twitter:image:src" content="https://aadenboy.github.io/wiki/resources/assets/licenses/cc-by-sa.png"><meta property="twitter:image" content="https://aadenboy.github.io/wiki/resources/assets/licenses/cc-by-sa.png"><meta property="twitter:domain" content="https://aadenboy.github.io/wiki/"></head>
+<body class="skin-vector-legacy mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-3500 ns-subject page-Blog_Stop_using_fancy_fonts rootpage-Blog_Stop_using_fancy_fonts skin-vector action-edit"><div id="mw-page-base" class="noprint"></div>
+<div id="mw-head-base" class="noprint"></div>
+<div id="content" class="mw-body" role="main">
+	<a id="top" href=""></a>
+	<div id="siteNotice"></div>
+	<div class="mw-indicators">
+	</div>
+	<h1 id="firstHeading" class="firstHeading mw-first-heading">View source for Blog:Stop using "fancy fonts"</h1>
+	<div id="bodyContent" class="vector-body">
+		
+		<div id="contentSub"><div id="mw-content-subtitle">← <a href="/wiki/Blog:Stop_using_%22fancy_fonts%22" title="Blog:Stop using &quot;fancy fonts&quot;">Blog:Stop using "fancy fonts"</a></div></div>
+		<div id="contentSub2"></div>
+		
+		<div id="jump-to-nav"></div>
+		<a class="mw-jump-link" href="#mw-head">Jump to navigation</a>
+		<a class="mw-jump-link" href="#searchInput">Jump to search</a>
+		<div id="mw-content-text" class="mw-body-content"><p>You do not have permission to edit this page, for the following reason:
+</p>
+<div class="permissions-errors"><div class="mw-permissionerror-badaccess-groups">The action you have requested is limited to users in the group: <a href="/wiki/Wiki:Users%3Faction=edit&amp;redlink=1" class="new" title="Wiki:Users (page does not exist)">Users</a>.</div></div><hr>
+<div class="cdx-message cdx-message--block"><span class="cdx-message__icon"></span><div class="cdx-message__content"><div><b>Are you looking to help edit this wiki?</b> Please submit a GitHub Issue to this wiki's repository to suggest changes.</div></div></div><textarea readonly="" accesskey="," id="wpTextbox1" cols="80" rows="25" style="" class="mw-editfont-monospace" lang="en" dir="ltr" name="wpTextbox1">[[File:Fancyfontno.png|thumb|right|alt=A yells at the reader. Beside him is highly stylized text reading "fancy font" which has been crossed out.|Don't use them!]]
+I tend to hark on about accessibility a fair bit, and one of the things I always hate to see is the usage of "fancy fonts"—substitutions of regular text with characters that &lt;em&gt;look like&lt;/em&gt; regular text, but in a different style. It drives me a bit bonkers seeing it in the wild, especially en masse, even though I'm sure that the person who is using it is unaware that they're not actually fonts. This blog will be my dump of complaining about these things, mainly to get the word out about why these shouldn't be used at all.
+
+To summarize this article: "Fancy fonts" use Unicode characters that are visually similar to their Latin replacements, but are really often not letters at all. Such substitutions confuse anything which needs to rely on the exact data of its characters like screen readers and search results. Also, they take up more memory than regular Latin text and I believe can also have issues with dyslexia and fonts. Either go without the decoration or find a proper way to actually add fonts.
+
+== You're actually typing math ==
+Take this inconspicuous example: I want to make a string of text italicized, but, the website I'm using doesn't give me a way to do that. Rather than assume I just won't be able to do it, I look online for ways to achieve this anyways, and—either through a Google result, YouTube video, or ad advertising a keyboard—stumble upon a tool that lets me do exactly what I want. Great! A solution to my problems, and the website will let me do it! Better yet, it even seems to work everywhere!
+
+{| class="wikitable"
+! Regular text
+| Lorem ipsum dolor sit amet.
+|-
+! "Italicized" text
+| 𝘓𝘰𝘳𝘦𝘮 𝘪𝘱𝘴𝘶𝘮 𝘥𝘰𝘭𝘰𝘳 𝘴𝘪𝘵 𝘢𝘮𝘦𝘵.
+|}
+
+If I'm unaware of what is really going on, or am satisfied with the result, I'll take it at face value and assume what I just typed or pasted really is italicized text. Though, if you have anything of a keen eye, you'll notice the text doesn't seem to match the style of the regular text. To make this fact more obvious, I'll compare it alongside actual italicized text, then also try it in other typefaces as well.
+
+{| class="wikitable"
+! !! Verdana !! &lt;span style="font-family: Arial, sans-serif !important;"&gt;Arial&lt;/span&gt; !! &lt;span style="font-family: Times New Roman, serif !important;"&gt;Times New Roman&lt;/span&gt;
+|-
+! Regular text
+| Lorem ipsum dolor sit amet. || &lt;span style="font-family: Arial, sans-serif !important;"&gt;Lorem ipsum dolor sit amet.&lt;/span&gt; || &lt;span style="font-family: Times New Roman, serif !important;"&gt;Lorem ipsum dolor sit amet.&lt;/span&gt;
+|-
+! Italicized text
+| ''Lorem ipsum dolor sit amet.'' || &lt;i style="font-family: Arial, sans-serif !important;"&gt;Lorem ipsum dolor sit amet.&lt;/i&gt; || &lt;i style="font-family: Times New Roman, serif !important;"&gt;Lorem ipsum dolor sit amet.&lt;/i&gt;
+|-
+! "Fancy font" text
+| 𝘓𝘰𝘳𝘦𝘮 𝘪𝘱𝘴𝘶𝘮 𝘥𝘰𝘭𝘰𝘳 𝘴𝘪𝘵 𝘢𝘮𝘦𝘵. || &lt;span style="font-family: Arial, sans-serif !important;"&gt;𝘓𝘰𝘳𝘦𝘮 𝘪𝘱𝘴𝘶𝘮 𝘥𝘰𝘭𝘰𝘳 𝘴𝘪𝘵 𝘢𝘮𝘦𝘵.&lt;/span&gt; || &lt;span style="font-family: Times New Roman, serif !important;"&gt;𝘓𝘰𝘳𝘦𝘮 𝘪𝘱𝘴𝘶𝘮 𝘥𝘰𝘭𝘰𝘳 𝘴𝘪𝘵 𝘢𝘮𝘦𝘵.&lt;/span&gt;
+|}
+
+Are you starting to see the difference? The "fancy font" looks the exact same across all typefaces, and doesn't match the style of any of them! How come?
+
+The characters you're seeing in the "fancy font" are known as {{w|Mathematical Alphanumeric Symbols}}, which to put in simple terms, means that you're looking at a bunch of math letters. These characters are expressedly &lt;strong&gt;not&lt;/strong&gt; presentational, as they're specifically designed to be distinct from one another (that is, a character like "𝘢" is completely different from Latin "a"). This is made even more clear by the fact that Unicode does not even include regular serif letters in the set, as the typeface where these will be used should already be serif.
+
+== Those aren't even letters! ==
+Side tangent, but this also applies to other forms of "fancy font" as well.
+
+{| class="wikitable"
+! "Upside down"
+| ˙ʇǝɯɐ ʇıs ɹolop ɯnsdı ɯǝɹo˥
+|-
+! Whatever this is
+| ᄂӨЯΣM IPƧЦM DӨᄂӨЯ ƧIƬ ΛMΣƬ.
+|}
+
+At least a good portion of the characters in the first example come from the {{w|International Phonetic Alphabet}}. And, just for kicks, here's the name of every character in that last one:
+
+&lt;div style="columns: 4;"&gt;
+* HANGUL CHOSEONG NIEUN
+* CYRILLIC CAPITAL LETTER BARRED O
+* CYRILLIC CAPITAL LETTER YA
+* GREEK CAPITAL LETTER SIGMA
+* LATIN CAPITAL LETTER M
+* SPACE
+* LATIN CAPITAL LETTER I
+* LATIN CAPITAL LETTER P
+* LATIN CAPITAL LETTER TONE TWO
+* CYRILLIC CAPITAL LETTER TSE
+* LATIN CAPITAL LETTER M
+* SPACE
+* LATIN CAPITAL LETTER D
+* CYRILLIC CAPITAL LETTER BARRED O
+* HANGUL CHOSEONG NIEUN
+* CYRILLIC CAPITAL LETTER BARRED O
+* CYRILLIC CAPITAL LETTER YA
+* SPACE
+* LATIN CAPITAL LETTER TONE TWO
+* LATIN CAPITAL LETTER I
+* LATIN CAPITAL LETTER T WITH HOOK
+* SPACE
+* GREEK CAPITAL LETTER LAMDA
+* LATIN CAPITAL LETTER M
+* GREEK CAPITAL LETTER SIGMA
+* LATIN CAPITAL LETTER T WITH HOOK
+* FULL STOP
+&lt;/div&gt;
+
+== Okay, so what's the issue? ==
+The biggest problem is that this form of text is inaccessible in &lt;em&gt;so&lt;/em&gt; many ways, both to actual people and programs. For people, this sort of text can be hard or outright impossible to read, for example if one is using assistive technology like a screen reader or Braille output. It's no good for programs either, as there's no good way to interpret the context in which Unicode symbols are being used. Actually, [https://superuser.com/questions/1160295/why-shouldn-t-i-use-unicode-characters-to-simulate-typographic-styles-such-as-s this Stack Overflow page] has extremely good answers to why one shouldn't use these, and the accepted answer has two really good quotes:
+
+&lt;blockquote&gt;
+&lt;p&gt;As a '''first example''', consider what you would want a reasonable search to do with the character 𝒲 (mathematical script ''W''). Assume that the search has two modes, the ''default mode'' and the ''exact mode'' (usually called ''case-sensitive''). This character should be:&lt;/p&gt;
+* found when searching for ''w'' or ''W'' in default mode – for those who do not want to bother entering or copy-pasting the special character into the search field;
+* found when searching for 𝒲 in exact mode – for those who want to search where the corresponding variable is mentioned in a mathematical document³;
+* not found when searching for 𝓌, ''w'' or ''W'' in exact mode on account of breaking a search similar to the above.
+&lt;p&gt;However if you use this character to simulate regular text, it should be found when searching for ''W'' or 𝒲 in exact mode, which is in conflict with the above.&lt;/p&gt;
+&lt;p&gt;As a '''second example''' consider that Cyrillic characters should never be found when searching Latin characters and vice versa, as they completely different things. However if use Cyrillic characters to simulate Latin small caps, you need this to happen, if you do not want searchability to be broken. This would lead to people find a lot of useless stuff if they search for a rare Latin-alphabet word that just so happens to correspond the faux small caps of some popular Cyrillic-alphabet word (and vice versa).&lt;/p&gt;
+&lt;p&gt;An exact search option cannot solve this problem, as this is reserved for other purposes in those alphabets.&lt;/p&gt;
+&lt;p&gt;'''In general''', it is impossible to build a search (without an insane amount of options) that is not broken by using special characters to simulate styled Latin text.&lt;/p&gt;
+{{Hatnote|— [https://superuser.com/a/1160296 Answer] by Wrzlprmft on Stack Overflow}}
+&lt;/blockquote&gt;
+
+To further illustrate the issue, here's my Mac's built-in text-to-speech program attempting to read each of the examples:
+
+{| class="wikitable"
+! Text !! Audio !! Transcription
+|-
+| Lorem ipsum dolor sit amet. || [[Media:LoremIpsumRegular.wav]] || "Lorem ipsum dolor sit amet."
+|-
+| 𝘓𝘰𝘳𝘦𝘮 𝘪𝘱𝘴𝘶𝘮 𝘥𝘰𝘭𝘰𝘳 𝘴𝘪𝘵 𝘢𝘮𝘦𝘵. || [[Media:LoremIpsumFauxItalics.wav]] || "Dot."
+|-
+| ˙ʇǝɯɐ ʇıs ɹolop ɯnsdı ɯǝɹo˥ || [[Media:LoremIpsumFauxUpsideDown.wav]] || "Isolopdioh."
+|-
+| ᄂӨЯΣM IPƧЦM DӨᄂӨЯ ƧIƬ ΛMΣƬ. || [[Media:LoremIpsumFauxMadness.wav]] || "Mipmdim."
+|}
+
+== What should I use instead, then? ==
+If you're still insistent on using such fonts, don't be? If what you're using doesn't allow you to stylize your text, then deal with the limitation and don't stylize your text, or use Unicode characters that can more easily be interpreted as decorative without gumming up the actual text content. That being said, if you're using a site that &lt;em&gt;does&lt;/em&gt; allow you to stylize your text to a great degree, &lt;big&gt;&lt;strong&gt;PLEASE&lt;/strong&gt;&lt;/big&gt; use an ACTUAL font family instead of these characters! Examples of sites that allow this are Toyhouse, Art Fight, and any site which gives you an HTML/CSS or {{w|WYSIWYG}} editor that allows such a feature.
+
+{| class="wikitable"
+! Interface !! Method
+|-
+! WYSIWYG
+| Check for a "Font" option, or anything with a font name.
+|-
+! HTML
+| &lt;pre&gt;&lt;span style="font-family: Font Goes Here;"&gt;Example text&lt;/span&gt;&lt;/pre&gt;
+|-
+! HTML and CSS
+| &lt;pre&gt;
+&lt;span class="example-font"&gt;Example text&lt;/span&gt;
+&lt;/pre&gt;
+&lt;pre&gt;
+.example-font {
+    font-family: Font Goes Here;
+}
+&lt;/pre&gt;
+|}
+
+Also, spread the word, please!
+
+[[Category:Blogs]]
+</textarea><div class="templatesUsed"><div class="mw-templatesUsedExplanation"><p>Templates used on this page:
+</p></div><ul>
+<li><a href="/wiki/Template:Hatnote" title="Template:Hatnote">Template:Hatnote</a> (<a href="/wiki/Template:Hatnote%3Faction=edit" title="Template:Hatnote">view source</a>) </li><li><a href="/wiki/Template:W" title="Template:W">Template:W</a> (<a href="/wiki/Template:W%3Faction=edit" title="Template:W">view source</a>) </li></ul></div><p id="mw-returnto">Return to <a href="/wiki/Blog:Stop_using_%22fancy_fonts%22" title="Blog:Stop using &quot;fancy fonts&quot;">Blog:Stop using "fancy fonts"</a>.</p>
+
+</div>
+		<div id="catlinks" class="catlinks catlinks-allhidden" data-mw="interface"></div>
+	</div>
+</div>
+
+<div id="mw-navigation">
+	<h2>Navigation menu</h2>
+	<div id="mw-head">
+		
+
+
+		
+		<div id="left-navigation">
+			
+<nav id="p-views" class="mw-portlet mw-portlet-views vector-menu-tabs vector-menu-tabs-legacy vector-menu" aria-labelledby="p-views-label">
+	<h3 id="p-views-label" class="vector-menu-heading ">
+		<span class="vector-menu-heading-label">Views</span>
+	</h3>
+	<div class="vector-menu-content">
+		
+		<ul class="vector-menu-content-list">
+			
+			<li id="ca-view" class="mw-list-item"><a href="/wiki/Blog:Stop_using_%22fancy_fonts%22"><span>Read</span></a></li><li id="ca-viewsource" class="selected mw-list-item"><a href="/wiki/Blog:Stop_using_%22fancy_fonts%22%3Faction=edit" title="View the source of this page for editing." accesskey="e"><span>View source</span></a></li><li id="ca-history" class="mw-list-item"><a href="https://github.com/aadenboy/wiki/commits/main/Blog:Stop_using_&quot;fancy_fonts&quot;?action=edit.html" title="Past revisions of this page [h]" accesskey="h"><span>View history</span></a></li>
+		</ul>
+		
+	</div>
+</nav>
+
+			
+
+
+			
+
+
+		</div>
+	</div>
+	
+<div id="mw-panel" class="vector-legacy-sidebar">
+	<div id="p-logo" role="banner">
+		<a class="mw-wiki-logo" href="/wiki/Main_Page" title="Visit the main page"></a>
+	</div>
+	
+<nav id="p-navigation" class="mw-portlet mw-portlet-navigation vector-menu-portal portal vector-menu" aria-labelledby="p-navigation-label">
+	<h3 id="p-navigation-label" class="vector-menu-heading ">
+		<span class="vector-menu-heading-label">Navigation</span>
+	</h3>
+	<div class="vector-menu-content">
+		
+		<ul class="vector-menu-content-list">
+			
+			<li id="n-mainpage-description" class="mw-list-item"><a href="/wiki/Main_Page" title="Visit the main page [z]" accesskey="z"><span>Main page</span></a></li><li id="n-recentchanges" class="mw-list-item"><a href="https://github.com/aadenboy/wiki/commits/main/" rel="nofollow" title="A list of recent changes in the wiki [r]" accesskey="r"><span>Recent changes</span></a></li><li id="n-github" class="mw-list-item"><a href="https://github.com/aadenboy/wiki/" rel="nofollow"><span>View the GitHub</span></a></li><li id="n-donate" class="mw-list-item"><a href="https://github.com/sponsors/aadenboy" rel="nofollow"><span>Donate to me! ❤️</span></a></li>
+		</ul>
+		
+	</div>
+</nav>
+
+	
+<nav id="p-Lists" class="mw-portlet mw-portlet-Lists vector-menu-portal portal vector-menu" aria-labelledby="p-Lists-label">
+	<h3 id="p-Lists-label" class="vector-menu-heading ">
+		<span class="vector-menu-heading-label">Lists</span>
+	</h3>
+	<div class="vector-menu-content">
+		
+		<ul class="vector-menu-content-list">
+			
+			<li id="n-Characters" class="mw-list-item"><a href="/wiki/List_of_characters"><span>Characters</span></a></li><li id="n-Games" class="mw-list-item"><a href="/wiki/List_of_games"><span>Games</span></a></li><li id="n-Music" class="mw-list-item"><a href="/wiki/List_of_music"><span>Music</span></a></li>
+		</ul>
+		
+	</div>
+</nav>
+
+
+
+	
+</div>
+
+</div>
+
+<footer id="footer" class="mw-footer">
+	<ul id="footer-info">
+</ul>
+
+	<ul id="footer-places">
+	<li id="footer-places-privacy"><a href="/wiki/Wiki:Privacy_policy">Privacy policy</a></li>
+	<li id="footer-places-about"><a href="/wiki/Wiki:About">About aadenboy wiki</a></li>
+	<li id="footer-places-test"><a href="https://github.com/aadenboy/wiki/" rel="noreferrer noopener">View the GitHub</a></li>
+</ul>
+
+	<ul id="footer-icons" class="noprint">
+	<li id="footer-copyrightico"><a href="https://creativecommons.org/licenses/by-sa/4.0/" class="cdx-button cdx-button--fake-button cdx-button--size-large cdx-button--fake-button--enabled"><img src="/wiki/resources/assets/licenses/cc-by-sa.png" alt="Creative Commons Attribution-ShareAlike" width="88" height="31" loading="lazy" srcset=""></a></li>
+	<li id="footer-poweredbyico"><a href="https://www.mediawiki.org/" class="cdx-button cdx-button--fake-button cdx-button--size-large cdx-button--fake-button--enabled"><img src="/wiki/resources/assets/poweredby_mediawiki.svg" alt="Powered by MediaWiki" width="88" height="31" loading="lazy" srcset=""></a></li>
+</ul>
+
+</footer>
+
+<script async="" src="/wiki/common.js"></script>
+
+</body></html>
