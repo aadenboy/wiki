@@ -30,7 +30,9 @@
 		<div id="mw-content-text" class="mw-body-content"><p>You do not have permission to edit this page, for the following reason:
 </p>
 <div class="permissions-errors"><div class="mw-permissionerror-badaccess-groups">The action you have requested is limited to users in the group: <a href="/wiki/Wiki:Users%3Faction=edit&amp;redlink=1" class="new" title="Wiki:Users (page does not exist)">Users</a>.</div></div><hr>
-<div class="cdx-message cdx-message--block"><span class="cdx-message__icon"></span><div class="cdx-message__content"><div><b>Are you looking to help edit this wiki?</b> Please submit a GitHub Issue to this wiki's repository to suggest changes.</div></div></div><textarea readonly="" accesskey="," id="wpTextbox1" cols="80" rows="25" style="" class="mw-editfont-monospace" lang="en" dir="ltr" name="wpTextbox1">Note that unlike the prior version, I didn't provide any customization here. Everything relating to the wiki is hard-baked in. You will need to get &lt;code&gt;gumbo&lt;/code&gt; from Luarocks and &lt;code&gt;json&lt;/code&gt; from https://github.com/rxi/json.lua. You'll also need to inspect network requests to create &lt;code&gt;main.css&lt;/code&gt; and &lt;code&gt;sitestyles.css&lt;/code&gt;, then paste [[MediaWiki:Common.js]] to &lt;code&gt;common.js&lt;/code&gt;.
+<div class="cdx-message cdx-message--block"><span class="cdx-message__icon"></span><div class="cdx-message__content"><div><b>Are you looking to help edit this wiki?</b> Please submit a GitHub Issue to this wiki's repository to suggest changes.</div></div></div><textarea readonly="" accesskey="," id="wpTextbox1" cols="80" rows="25" style="" class="mw-editfont-monospace" lang="en" dir="ltr" name="wpTextbox1">Note that unlike the prior version, I didn't provide any customization here. Everything relating to the wiki is hard-baked in. You will need to get &lt;code&gt;gumbo&lt;/code&gt; from Luarocks and &lt;code&gt;json&lt;/code&gt; from https://github.com/rxi/json.lua. You'll also need to paste [[MediaWiki:Common.js]] to &lt;code&gt;common.js&lt;/code&gt; manually.
+
+By the way, make sure that you're using a file system which allows for case-sensitivity, otherwise you'll have issues.
 
 &lt;syntaxhighlight lang="lua"&gt;
 local gumbo = require("gumbo")
@@ -212,6 +214,9 @@ function fix(title, mode)
 
     local final = document:serialize():gsub("&lt;!%-%-.-%-%-&gt;", "") -- shrug
 
+    if title:match("/") then
+        os.execute("mkdir -p localhost:8888/mediawiki/"..title:gsub("/[^/]+$", "/"))
+    end
     local outfile = io.open("localhost:8888/mediawiki/"..title..".html", "w")
     outfile:write(final)
     outfile:close()
@@ -269,7 +274,8 @@ for i,v in ipairs(sorted) do
     for i,v in ipairs(totalpages) do
         print("\tGenerating page "..v.title)
         v.title = v.title:gsub(" ", "_")
-        local call = io.popen('wget -E -H -p --no-cache --content-on-error -o - "http://localhost:8888/mediawiki/index.php/'..urlencode(v.title)..'?redirect=no" | grep "Saving to"')
+        local title = urlencode(v.title):gsub("%%2F", "/")
+        local call = io.popen('wget -E -H -p --no-cache --content-on-error -o - "http://localhost:8888/mediawiki/index.php/'..title..'?redirect=no" | grep "Saving to"')
         for f in call:read("*a"):gmatch('‘([^\n]+%?[0-9a-zA-Z]+)’') do
             print("\t\tGenerated "..f:gsub("^.+/", "")..", moving")
             os.execute("mv "..f.." "..f:gsub("%?[0-9a-zA-Z]+$", ""))
@@ -280,7 +286,7 @@ for i,v in ipairs(sorted) do
             print("\t\tPage skipped, not included")
         else
             print("\t\tBase article finished")
-            local call = io.popen('wget -E -H -p --no-cache --content-on-error -o - "http://localhost:8888/mediawiki/index.php/'..urlencode(v.title)..'?action=edit" | grep "Saving to"')
+            local call = io.popen('wget -E -H -p --no-cache --content-on-error -o - "http://localhost:8888/mediawiki/index.php/'..title..'?action=edit" | grep "Saving to"')
             for f in call:read("*a"):gmatch('‘([^\n]+%?[0-9a-zA-Z]+)’') do
                 print("\t\tGenerated "..f..", moving")
                 os.execute("mv "..f.." "..f:gsub("%?[0-9a-zA-Z]+$"))
@@ -309,14 +315,15 @@ I also use this Shell file, though your mileage may vary.
 export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 
 cd ~/THE/FILE/PATH # Obviously not what it is called; this is just an example.
-: &gt; console.out
+printf "\n\n%s\n" "== Automatic update: $(date -u +'%H:%M:%S, %-d %B %Y (UTC)') ==" &gt; console.out
 lua fetcher.lua
 
 cd ~/THE/FILE/PATH/localhost:8888/mediawiki
 rm -rf index.php
-cat refmain.css &gt; main.css
+cp Main_Page.html index.html
+: &gt; main.css
 for i in load.php*.css; do
-    cat $i &gt;&gt; main.css
+    sed -E 's|/mediawiki/|/wiki/|g; s|\?[0-9a-zA-Z]+||g' $i &gt;&gt; main.css
 done
 
 if [[ -n $(git status -s) ]]; then
