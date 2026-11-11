@@ -129,8 +129,31 @@ $(function () {
         rs.innerHTML = subs[Math.floor(Math.random() * subs.length)];
     }
     
+    const url = window.location.href;
     const urlParams = new URLSearchParams(window.location.search);
-    if (document.querySelector('meta[name="page-is-redirect"][content="yes"]') && (urlParams.get("redirect") ?? "") != "no") {
+    if (!url.match("index.php") && urlParams.get("action") == "edit") {
+        document.location.replace(window.location.origin + window.location.pathname + "%3Faction=edit");
+    }
+    if (document.querySelector('meta[name="page-is-redirect"][content="yes"]') && urlParams.get("redirect") != "no") {
 	    document.location.replace(document.querySelector('.redirectText a').href);
 	}
+
+    const preconsent = localStorage.getItem("consentToVisitCount");
+    if (preconsent === null) localStorage.setItem("consentToVisitCount", "true");
+    const consentlabel = document.createElement("label");
+    const consentcheck = document.createElement("input");
+    consentcheck.type = "checkbox";
+    consentcheck.checked = localStorage.getItem("consentToVisitCount") == "true";
+    consentlabel.append(consentcheck, "Track visits");
+    consentcheck.addEventListener("input", () => {
+        localStorage.setItem("consentToVisitCount", consentcheck.checked);
+        window.location.reload();
+    });
+    document.getElementById("mw-panel").append(consentlabel);
+    if (consentcheck.checked) {
+        const pagepart = url.match(/\/wiki\/([^#\?]+)/) || url.match(/\/index.php\/([^#\?]+)/);
+        if (pagepart) {
+            document.documentElement.style.setProperty('--hits-url', `url(https://hits.dwyl.com/aadenboy/wiki-${pagepart[1].replace(/:/, "__3A").replace(/%/, "__")}.svg)`);
+        }
+    }
 });
