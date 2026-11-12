@@ -178,19 +178,8 @@ body.page-Main_Page.action-submit #siteSub {
     content: none;
 }
 
-#mw-panel::after {
-    content: '';
-    display: block;
-    background: var(--hits-url);
-    width: 80px;
-    height: 20px;
-    margin: auto;
-}
-#mw-panel label {
-    margin: 0 auto 0.5em auto;
-    display: flex;
-    justify-content: center;
-    gap: 0.5em;
+.visit-count {
+    text-align: center;
     color: #fff;
 }
 
@@ -209,6 +198,9 @@ body.page-Main_Page.action-submit #siteSub {
 }
 * {
     font-family: Verdana !important;
+}
+.ace_editor, .ace_content, .ace_editor *, .ace_content * {
+	font: 12px / normal 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'Source Code Pro', 'source-code-pro', monospace !important;
 }
 body {
     background: url("http://localhost:8888/mediawiki/images/3/3d/PerlinBG.png");

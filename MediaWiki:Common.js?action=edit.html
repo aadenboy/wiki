@@ -149,7 +149,17 @@ To add or change translations for all wikis, please use <a rel="nofollow" class=
 	"as seen on somewhere",
 	"thanks wget",
 	"IF THIS SUBTITLE ISN'T CHANGING EACH TIME PLEASE YELL AT ME",
-	"AHhhhhhHhhHHHhhhhHhhhhhhHHHhhhhhhhhhhhhhhhhhhhhhhh"
+	"AHhhhhhHhhHHHhhhhHhhhhhhHHHhhhhhhhhhhhhhhhhhhhhhhh",
+	"Support me on GitHub!",
+	"now tracking your every movement!",
+	"I had to press aa flat between two glass panes to make the website background",
+	"wait, who are you again?",
+	"Not tracking your data, I think!",
+	"[tentatively and begrudgingly] thanks google",
+	"Here to stay!",
+	"&lt;b&gt;Warning:&lt;/b&gt; You are editing a page that is used to provide interface text for the software. Changes to this page will affect the appearance of the user interface for other users on this wiki.",
+	"powered by google sheets...???",
+	"the best static export of a mediawiki wiki to date, probably"
 ];
 
 $(function () {
@@ -166,29 +176,54 @@ $(function () {
     const urlParams = new URLSearchParams(window.location.search);
     if (!url.match("index.php") &amp;&amp; urlParams.get("action") == "edit") {
         document.location.replace(window.location.origin + window.location.pathname + "%3Faction=edit");
+        return;
     }
-    if (document.querySelector('meta[name="page-is-redirect"][content="yes"]') &amp;&amp; urlParams.get("redirect") != "no") {
+    if (!url.match("index.php") &amp;&amp; document.querySelector('meta[name="page-is-redirect"][content="yes"]') &amp;&amp; urlParams.get("redirect") != "no") {
 	    document.location.replace(document.querySelector('.redirectText a').href);
+	    return;
+	}
+	if (url.match("index.php")) return;
+	
+	try {
+		const test = "__test";
+		localStorage.setItem(test, test);
+		localStorage.removeItem(test);
+	} catch (e) {
+		console.error("Local storage not available");
+		return;
 	}
 
-    const preconsent = localStorage.getItem("consentToVisitCount");
-    if (preconsent === null) localStorage.setItem("consentToVisitCount", "true");
-    const consentlabel = document.createElement("label");
-    const consentcheck = document.createElement("input");
-    consentcheck.type = "checkbox";
-    consentcheck.checked = localStorage.getItem("consentToVisitCount") == "true";
-    consentlabel.append(consentcheck, "Track visits");
-    consentcheck.addEventListener("input", () =&gt; {
-        localStorage.setItem("consentToVisitCount", consentcheck.checked);
-        window.location.reload();
-    });
-    document.getElementById("mw-panel").append(consentlabel);
-    if (consentcheck.checked) {
-        const pagepart = url.match(/\/wiki\/([^#\?]+)/) || url.match(/\/index.php\/([^#\?]+)/);
-        if (pagepart) {
-            document.documentElement.style.setProperty('--hits-url', `url(https://hits.dwyl.com/aadenboy/wiki-${pagepart[1].replace(/:/, "__3A").replace(/%/, "__")}.svg)`);
-        }
+	let api = "https://script.google.com/macros/s/AKfycbxI_yTp1bqmfI_tgbT6u4KbM-JuhQz66WeesIX6jcGg9OGMv6tY3MXz0mbTDivYJdvycw/exec";
+    const session = JSON.parse(localStorage.getItem("session") || '{"start":0,"pages":{}}');
+    const now = Math.floor(Date.now() / 1000);
+    if (now - session.start &gt; 5*60) { // 5 mins for visit count increase debounce
+    	session.start = now;
+    	session.pages = {};
+    	localStorage.setItem("session", JSON.stringify(session));
     }
+    const title = encodeURIComponent(document.getElementById("firstHeadingTitle").innerText.replace(" ", "_"));
+    if (title == "404") return;
+    
+    api += "?page=" + title;
+    if (session.pages[title]) api += "&amp;nocount=true";
+    session.pages[title] = true;
+    localStorage.setItem("session", JSON.stringify(session));
+    
+    fetch(api)
+	  .then((response) =&gt; {
+	    if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
+	    return response.json();
+	  })
+	  .then((data) =&gt; {
+	    console.log('Got visits:', data);
+	    const counter = document.createElement("nav");
+	    counter.classList.add("vector-menu-portal", "vector-menu", "visit-count");
+	    counter.innerText = "Visits: " + data.visits;
+	    document.getElementById("mw-panel").append(counter);
+	  })
+	  .catch((error) =&gt; {
+	    console.error('Could not fetch:', error);
+	  });
 });
 </textarea><div class="templatesUsed"><div class="mw-templatesUsedExplanation"><p>Template used on this page:
 </p></div><ul>
