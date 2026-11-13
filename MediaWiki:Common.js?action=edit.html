@@ -183,31 +183,33 @@ $(function () {
 	    return;
 	}
 	if (url.match("index.php")) return;
+	const title = encodeURIComponent(document.getElementById("firstHeading").innerText.replace(/ /g, "_"));
+    if (title == "404") return;
 	
+	let nols = false;
 	try {
 		const test = "__test";
 		localStorage.setItem(test, test);
 		localStorage.removeItem(test);
 	} catch (e) {
 		console.error("Local storage not available");
-		return;
+		nols = true;
 	}
 
 	let api = "https://script.google.com/macros/s/AKfycbxI_yTp1bqmfI_tgbT6u4KbM-JuhQz66WeesIX6jcGg9OGMv6tY3MXz0mbTDivYJdvycw/exec";
-    const session = JSON.parse(localStorage.getItem("session") || '{"start":0,"pages":{}}');
-    const now = Math.floor(Date.now() / 1000);
-    if (now - session.start &gt; 5*60) { // 5 mins for visit count increase debounce
-    	session.start = now;
-    	session.pages = {};
-    	localStorage.setItem("session", JSON.stringify(session));
-    }
-    const title = encodeURIComponent(document.getElementById("firstHeadingTitle").innerText.replace(" ", "_"));
-    if (title == "404") return;
-    
-    api += "?page=" + title;
-    if (session.pages[title]) api += "&amp;nocount=true";
-    session.pages[title] = true;
-    localStorage.setItem("session", JSON.stringify(session));
+	if (!nols) {
+	    const session = JSON.parse(localStorage.getItem("session") || '{"start":0,"pages":{}}');
+	    const now = Math.floor(Date.now() / 1000);
+	    if (now - session.start &gt; 30*60) { // 30 mins for visit count increase debounce
+	    	session.start = now;
+	    	session.pages = {};
+	    	localStorage.setItem("session", JSON.stringify(session));
+	    }
+	    api += "?page=" + title;
+	    if (nols || session.pages[title]) api += "&amp;nocount=true";
+	    session.pages[title] = true;
+	    localStorage.setItem("session", JSON.stringify(session));
+	}
     
     fetch(api)
 	  .then((response) =&gt; {
