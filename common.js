@@ -163,8 +163,9 @@ $(function () {
 		nols = true;
 	}
 
-	let api = "https://script.google.com/macros/s/AKfycbxI_yTp1bqmfI_tgbT6u4KbM-JuhQz66WeesIX6jcGg9OGMv6tY3MXz0mbTDivYJdvycw/exec";
-	if (!nols) {
+	let api = "https://script.google.com/macros/s/AKfycbxI_yTp1bqmfI_tgbT6u4KbM-JuhQz66WeesIX6jcGg9OGMv6tY3MXz0mbTDivYJdvycw/exec?page=" + title;
+	if (nols) api += "&nocount=true";
+	else {
 	    const session = JSON.parse(localStorage.getItem("session") || '{"start":0,"pages":{}}');
 	    const now = Math.floor(Date.now() / 1000);
 	    if (now - session.start > 30*60) { // 30 mins for visit count increase debounce
@@ -172,11 +173,11 @@ $(function () {
 	    	session.pages = {};
 	    	localStorage.setItem("session", JSON.stringify(session));
 	    }
-	    api += "?page=" + title;
-	    if (nols || session.pages[title]) api += "&nocount=true";
+	    if (session.pages[title]) api += "&nocount=true";
 	    session.pages[title] = true;
 	    localStorage.setItem("session", JSON.stringify(session));
 	}
+	if (document.referrer) api += "&referrer=" + encodeURIComponent(document.referrer);
     
     fetch(api)
 	  .then((response) => {
