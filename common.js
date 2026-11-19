@@ -139,21 +139,7 @@ $(function () {
         rs.innerHTML = subs[Math.floor(Math.random() * subs.length)];
     }
     
-    const url = window.location.href;
-    const urlParams = new URLSearchParams(window.location.search);
-    if (!url.match("index.php") && urlParams.get("action") == "edit") {
-        document.location.replace(window.location.origin + window.location.pathname + "%3Faction=edit");
-        return;
-    }
-    if (!url.match("index.php") && document.querySelector('meta[name="page-is-redirect"][content="yes"]') && urlParams.get("redirect") != "no") {
-	    document.location.replace(document.querySelector('.redirectText a').href);
-	    return;
-	}
-	if (url.match("index.php")) return;
-	const title = encodeURIComponent(document.getElementById("firstHeading").innerText.replace(/ /g, "_"));
-    if (title == "404") return;
-	
-	let nols = false;
+    let nols = false;
 	try {
 		const test = "__test";
 		localStorage.setItem(test, test);
@@ -162,6 +148,22 @@ $(function () {
 		console.error("Local storage not available");
 		nols = true;
 	}
+    
+    const url = window.location.href;
+    const urlParams = new URLSearchParams(window.location.search);
+    if (!url.match("index.php") && urlParams.get("action") == "edit") {
+    	if (!nols) localStorage.setItem("originalReferrer", localStorage.getItem("originalReferrer") || document.referrer);
+        document.location.replace(window.location.origin + window.location.pathname + "%3Faction=edit");
+        return;
+    }
+    if (!url.match("index.php") && document.querySelector('meta[name="page-is-redirect"][content="yes"]') && urlParams.get("redirect") != "no") {
+    	if (!nols) localStorage.setItem("originalReferrer", localStorage.getItem("originalReferrer") || document.referrer);
+	    document.location.replace(document.querySelector('.redirectText a').href);
+	    return;
+	}
+	if (url.match("index.php")) return;
+	const title = encodeURIComponent(document.getElementById("firstHeading").innerText.replace(/ /g, "_"));
+    if (title == "404") return;
 
 	let api = "https://script.google.com/macros/s/AKfycbxI_yTp1bqmfI_tgbT6u4KbM-JuhQz66WeesIX6jcGg9OGMv6tY3MXz0mbTDivYJdvycw/exec?page=" + title;
 	if (nols) api += "&nocount=true";
@@ -177,7 +179,9 @@ $(function () {
 	    session.pages[title] = true;
 	    localStorage.setItem("session", JSON.stringify(session));
 	}
-	if (document.referrer) api += "&referrer=" + encodeURIComponent(document.referrer);
+	const referrer = (nols ? "" : localStorage.getItem("originalReferrer")) || document.referrer;
+	if (referrer) api += "&referrer=" + encodeURIComponent(referrer);
+	if (!nols) localStorage.removeItem("originalReferrer");
     
     fetch(api)
 	  .then((response) => {
